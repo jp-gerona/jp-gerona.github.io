@@ -1,0 +1,48 @@
+/* Google Fonts' Poppins:700 and Robot:400 Import */
+@import url('https://fonts.googleapis.com/css?family=Poppins:700|Roboto:400');
+
+/* My Personal Website's Color Palette (DARK THEME) */
+:root {
+  --text: hsl(331, 81%, 94%);
+  --background: hsl(338, 73%, 3%);
+  --primary: hsl(326, 80%, 73%);
+  --secondary: hsl(339, 80%, 31%);
+  --accent: hsl(41, 80%, 55%);
+}
+
+/* Default margin and padding set to 0 using Universal Selector */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Font and Headings Set-up */
+body {
+  font-family: 'Roboto';
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins';
+  font-weight: 700;
+}
+
+html {font-size: 100%;}
+
+h1 {font-size: 5.652rem;}
+
+h2 {font-size: 3.997rem;}
+
+h3 {font-size: 2.827rem;}
+
+h4 {font-size: 1.999rem;}
+
+h5 {font-size: 1.414rem;}
+
+small {font-size: 0.707rem;}
+
+/* More General styling will be added here */
+body {
+  color: var(--text);
+  background-color: var(--background);
+}
