@@ -3,11 +3,12 @@
 
 /* My Personal Website's Color Palette (DARK THEME) */
 :root {
-  --text: hsl(331, 81%, 94%);
-  --background: hsl(338, 73%, 3%);
-  --primary: hsl(326, 80%, 73%);
-  --secondary: hsl(339, 80%, 31%);
-  --accent: hsl(41, 80%, 55%);
+  --text: hsl(10, 21%, 89%);
+  --background: hsl(291, 100%, 4%);
+  --primary: hsl(353, 76%, 70%);
+  --secondary: hsl(323, 88%, 16%);
+  --accent: hsl(41, 88%, 56%);
+  --border: rgba(255, 255, 255, 0.1);
 }
 
 /* Default margin and padding set to 0 using Universal Selector */
@@ -42,6 +43,10 @@ h5 {font-size: 1.414rem;}
 small {font-size: 0.707rem;}
 
 /* More General styling will be added here */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--text);
   background-color: var(--background);
