@@ -3,10 +3,11 @@
 
 /* My Personal Website's Color Palette (DARK THEME) */
 :root {
-  --text: hsl(10, 21%, 89%);
+  --text: hsl(0, 0%, 99%);
   --background: hsl(291, 100%, 4%);
   --primary: hsl(353, 76%, 70%);
   --secondary: hsl(323, 88%, 16%);
+  --tertiary: hsl(297, 43%, 9%);
   --accent: hsl(41, 88%, 56%);
   --border: rgba(255, 255, 255, 0.1);
 }

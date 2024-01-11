@@ -11,24 +11,49 @@
   <link rel="stylesheet" href="styles/general.css">
   <link rel="stylesheet" href="styles/header.css">
 </head>
+
+<body>
   <!-- Header Section -->
   <header>
-    <!-- Nav Menu (DESKTOP Version) -->
+    <!-- Nav Menu For Desktop Screen sizes -->
     <nav id="nav-desktop">
       <div class="logo">
-        <a class="logo-name" href="index.html">Julian Peter Gerona</a>
+        <img src="images/favicon.png">
+        <a href="index.html">Julian Peter Gerona</a>
       </div>
       <div>
-        <ul class="nav-links">
-          <li><a class="nav-item" href="#home">Home</a></li>
-          <li><a class="nav-item" href="#skills">Skills</a></li>
-          <li><a class="nav-item" href="#projects">Projects</a></li>
-          <li><a class="nav-item" href="#contact">Contact</a></li>
+        <ul class="nav-menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </nav>
+    <!-- Nav Menu for Mobile/Tablet Screen sizes -->
+    <nav id="nav-ham">
+      <div class="logo">
+        <img src="images/favicon.png">
+        <a class="logo-name" href="index.html">Julian Peter Gerona</a>
+      </div>
+      <div class="nav-ham-menu">
+          <div class="ham-icon" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+          <div class="menu-links">
+            <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+            <li><a href="#skills" onclick="toggleMenu()">Skills</a></li>
+            <li><a href="#achievements" onclick="toggleMenu()">Achievements</a></li>
+            <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+          </div>
+      </div>
+    </nav>
   </header>
-<body>
 
+  <!-- Javascript files are loaded here -->
+  <script src="script/script.js"></script>
 </body>
 </html>
