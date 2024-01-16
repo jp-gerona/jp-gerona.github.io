@@ -9,7 +9,8 @@
   --secondary: hsl(323, 88%, 16%);
   --tertiary: hsl(297, 43%, 9%);
   --accent: hsl(41, 88%, 56%);
-  --linearPrimaryAccent: linear-gradient(45deg, hsl(353, 76%, 70%), hsl(41, 92%, 65%), hsl(353, 76%, 70%));
+  --linearPrimaryAccent: linear-gradient(90deg, hsl(353, 76%, 70%), hsl(41, 92%, 65%));
+  --linearPrimaryAccentPrimary: linear-gradient(45deg, hsl(353, 76%, 70%), hsl(41, 92%, 65%), hsl(353, 76%, 70%));
   --border: rgba(255, 255, 255, 0.1);
 }
 
@@ -62,11 +63,46 @@ li {
   list-style: none;
 }
 
-/* Common Section Styles Set-up */
+/* Reusable Styles Set-up */
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.section {
+  width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5rem 8%;
+}
+
+.section-title {
+  position: relative;
+  margin-bottom: 50px;
+  padding-bottom: 3px;
+  background: var(--linearPrimaryAccent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-title:before {
+  content: '';
+  position: absolute;
+  width: 70px;
+  height: 4px;
+  bottom: 0;
+  right: 0;
+  background: var(--accent);
+
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 /* Button Styles*/
