@@ -16,7 +16,7 @@ nav,
 nav {
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem 10%;
+  padding: 1.2rem 8%;
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: var(--border);
@@ -34,20 +34,17 @@ nav {
 .logo a {
   color: var(--primary);
   white-space: nowrap;
-  text-decoration: none;
 }
 
 /* Navigation Links Styles */
 .nav-menu {
   gap: 4rem;
-  list-style: none;
 }
 
 .nav-menu a {
   font-size: var(--p);
   color: var(--text);
   text-decoration-color: var(--text);
-  text-decoration: none;
   white-space: nowrap;
   transition: opacity 0.3s ease;
 }
@@ -99,10 +96,9 @@ nav {
   text-align: left;
   color: var(--text);
   text-decoration-color: var(--text);
-  text-decoration: none;
   white-space: nowrap;
   display: block;
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   border-radius: 6px;
   margin: 5px;
   transition: all 0.2s ease;
@@ -113,12 +109,8 @@ nav {
   transition: all 0.2s ease;
 }
 
-.menu-links li {
-  list-style: none;
-}
-
 .menu-links.open {
-  max-height: 300px;
+  max-height: 520px;
   border-style: solid;
   border-width: 1px;
   border-color: var(--border);
@@ -149,7 +141,7 @@ nav {
 }
 
 /* Header Media Queries */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1023px) {
   #nav-desktop {
     display: none;
   }

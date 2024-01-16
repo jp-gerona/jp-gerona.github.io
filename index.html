@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <!-- Metadata of the HTML page -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <title>Julian Peter Gerona</title>
 
-  <!-- CSS Files are loaded here -->
+  <!-- CSS files/styles are loaded here -->
   <link rel="stylesheet" href="styles/general.css">
   <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Font Awesome cdn for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
+
 <body>
+
   <!-- Header Section -->
   <header>
+
     <!-- Nav Menu For Desktop Screen sizes -->
     <nav id="nav-desktop">
       <div class="logo">
-        <img src="images/favicon.png">
+        <img src="images/favicon.png" alt="Site Logo">
         <a href="index.html">Julian Peter Gerona</a>
       </div>
       <div>
         <ul class="nav-menu">
           <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#skills">Skills</a></li>
-          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </nav>
+
     <!-- Nav Menu for Mobile/Tablet Screen sizes -->
     <nav id="nav-ham">
       <div class="logo">
-        <img src="images/favicon.png">
+        <img src="images/favicon.png" alt="Site Logo">
         <a class="logo-name" href="index.html">Julian Peter Gerona</a>
       </div>
       <div class="nav-ham-menu">
@@ -45,15 +56,72 @@
         </div>
           <div class="menu-links">
             <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+            <li><a href="#about" onclick="toggleMenu()">About</a></li>
             <li><a href="#skills" onclick="toggleMenu()">Skills</a></li>
-            <li><a href="#achievements" onclick="toggleMenu()">Achievements</a></li>
+            <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
             <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
           </div>
       </div>
     </nav>
+
   </header>
 
-  <!-- Javascript files are loaded here -->
+  <!-- Main Content of the HTML page -->
+  <main>
+
+    <!-- Home/Hero Section -->
+    <section class="home flex-center" id="home">
+
+      <div class="home-container">
+        <div class="social-icons">
+          <a href="https://github.com/jp-gerona" target="_blank"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.facebook.com/jpgeronazxc/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.instagram.com/jp.gerona/" target="_blank"><i class="fa-brands fa-square-instagram"></i></a>
+        </div>
+        <div class="info">
+          <div class="randomize-container">
+            <h1>Julian Peter Gerona</h1>
+          </div>
+          <h4>Future Something &#10024;</h4>
+          <p>Greetings! I am a second year college student at <span>Mapúa Malayan Colleges Laguna</span>, currently pursuing a degree in Bachelor of Science in Information Technology.</p>
+          <a href="#contact" class="btn primary-btn">Contact Me</a>
+        </div>
+        <div class="home-img">      
+          <img src="images/character.png" alt="Home Section Character">
+        </div>
+      </div>
+      <a href="#about" class="scroll-down">More About Me <i class="fas fa-arrow-down"></i></a>
+
+    </section>
+
+    <!-- todo About Section -->
+    <section class="about" id="about">
+
+    </section>
+    
+    <!-- todo Skills Section -->
+    <section id="skills">
+
+    </section>
+
+    <!-- todo Projects Section -->
+    <section id="projects">
+
+      <div class="project-card">
+      </div>
+    </section>
+
+    <!-- todo Contact Section -->
+    <section id="contact">
+
+    </section>
+
+  </main>
+
+  <!-- todo Footer Section -->
+  <footer></footer>
+
+  <!-- Javascript files/scripts are loaded here -->
   <script src="script/script.js"></script>
 </body>
 </html>

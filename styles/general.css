@@ -1,49 +1,50 @@
-/* Google Fonts' Poppins:700 and Robot:400 Import */
-@import url('https://fonts.googleapis.com/css?family=Poppins:700|Roboto:400');
+/* Google Fonts' Poppins:700 and Roboto:400 Import */
+@import url('https://fonts.googleapis.com/css?family=Roboto:700|DM%20Sans:400');
 
-/* My Personal Website's Color Palette (DARK THEME) */
+/* My Personal Website's Color Palette Set-up (DARK THEME) */
 :root {
-  --text: hsl(0, 0%, 99%);
+  --text: hsl(331, 81%, 95%);
   --background: hsl(291, 100%, 4%);
   --primary: hsl(353, 76%, 70%);
   --secondary: hsl(323, 88%, 16%);
   --tertiary: hsl(297, 43%, 9%);
   --accent: hsl(41, 88%, 56%);
+  --linearPrimaryAccent: linear-gradient(45deg, hsl(353, 76%, 70%), hsl(41, 92%, 65%), hsl(353, 76%, 70%));
   --border: rgba(255, 255, 255, 0.1);
-}
-
-/* Default margin and padding set to 0 using Universal Selector */
-* {
-  margin: 0;
-  padding: 0;
 }
 
 /* Font and Headings Set-up */
 body {
-  font-family: 'Roboto';
+  font-family: 'DM Sans', sans-serif;
   font-weight: 400;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Poppins';
-  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
 }
 
 html {font-size: 100%;}
 
-h1 {font-size: 5.652rem;}
+h1 {font-size: 4.110rem;}
 
-h2 {font-size: 3.997rem;}
+h2 {font-size: 3.158rem;}
 
-h3 {font-size: 2.827rem;}
+h3 {font-size: 2.369rem;}
 
-h4 {font-size: 1.999rem;}
+h4 {font-size: 1.777rem;}
 
-h5 {font-size: 1.414rem;}
+h5 {font-size: 1.333rem;}
 
-small {font-size: 0.707rem;}
+small {font-size: 0.750rem;}
 
-/* More General styling will be added here */
+/* Normalization of default values of HTML elements */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -51,4 +52,63 @@ html {
 body {
   color: var(--text);
   background-color: var(--background);
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+/* Common Section Styles Set-up */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Button Styles*/
+.btn {
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 30px;
+  line-height: 2.25;
+}
+
+.primary-btn {
+  padding: 0.5em 2em;
+  background-color: var(--primary);
+  color: var(--background);
+  border-radius: 0.5rem;
+  transition: transform ease 0.2s, box-shadow ease 0.2s;
+  display: inline-block;
+  font-size: var(--p);
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.primary-btn:hover {
+  transform: translate(0, -3px);
+  box-shadow: 0 20px 80px -10px var(--primary);
+}
+
+.secondary-btn {
+  padding: 0.5em 2em;
+  background-color: var(--secondary);
+  color: var(--text);
+  border-radius: 0.5rem;
+  display: inline-block;
+  font-size: var(--p);
+  z-index: 1;
+  cursor: pointer;
+  transition: transform ease 0.2s;
+  white-space: nowrap;
+}
+
+.secondary-btn:hover {
+  transform: translate(0, -3px);
+  transition: transform ease 0.2s;
 }
