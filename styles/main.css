@@ -1,4 +1,4 @@
-/* Home Section Styles */
+/* *Home Section Styles */
 .home {
   position: relative;
   max-width: 1440px;
@@ -87,13 +87,15 @@
 }
 
 .home .scroll-down {
+  display: grid; 
+  grid-template-columns: auto 1fr;
+  gap: 10px;
   color: var(--primary);
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .home .scroll-down i {
   color: var(--accent);
-  margin-top: 20px;
   font-size: 1.2rem;
   animation: arrow-down ease 2s infinite;
 }
@@ -107,7 +109,7 @@
   }
 }
 
-/* About Section Styles */
+/* *About Section Styles */
 .about .container .content {
   column-gap: 40px;
   width: 100%;
@@ -121,10 +123,11 @@
   width: 500px;
   min-width: 400px;
   border-radius: 10px;
+  border: 1px solid var(--transparent1);
 }
 
 .about-info .description {
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .about-info .description h3 {
@@ -135,11 +138,96 @@
   margin-bottom: 20px;
 }
 
-.about-info .description h4 span {
+.about-info .description h4 .description-1 {
   margin-bottom: 10px;
-  color: var(--secondary);
+  color: var(--primary);
+}
+
+.about-info .description h4 .description-2 {
+  margin-bottom: 10px;
+  color: var(--accent);
 }
 
 .about-info .description p {
   line-height: 1.8;
+}
+
+/* *Skills Section */
+.skills .container .content {
+  width: 100%; 
+}
+
+.skills-description {
+  max-width: 800px;
+  margin-bottom: 50px;
+}
+
+.skills-description h4 {
+  font-size: 2em;
+  margin-bottom: 5px;
+}
+
+.skills-info {
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.skills-info h5 {
+  margin-bottom: 20px;
+}
+
+.skills-info h5 label {
+  background: var(--secondary30);
+  color: var(--text);
+  padding: 8px 18px;
+  border-radius: 5px;
+}
+
+.education-all {
+  margin-bottom: 80px;
+}
+
+.edu-list .item {
+  background: var(--secondary10);
+  border-top: 1px solid var(--transparent1);
+  border-left: 1px solid var(--transparent1);
+  border-right: 1px solid var(--transparent1);
+  border-bottom: 3px solid var(--secondary);
+  padding: 20px;
+  margin-top: 15px;
+  border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+.edu-list .item .year {
+  margin-bottom: 5px;
+}
+
+.edu-list .item span {
+  color: var(--accent);
+}
+
+.skills-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--secondary10);
+  border: 1px solid var(--transparent1);
+  margin-bottom: 10px;
+  padding: 20px;
+  border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+.skills-list .item i {
+  color: var(--accent);
+}
+
+.edu-list .item:hover, .skills-list .item:hover {
+  transform: scale(1.03);
+  border-color: var(--secondary);
+  transition: transform ease 0.3s;
 }

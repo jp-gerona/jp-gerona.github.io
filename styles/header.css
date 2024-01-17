@@ -19,7 +19,7 @@ nav {
   padding: 1.2rem 8%;
   border-bottom-style: solid;
   border-bottom-width: 1px;
-  border-bottom-color: var(--border);
+  border-bottom-color: var(--transparent1);
 }
 
 /* Logo and Name Styles */
@@ -113,7 +113,7 @@ nav {
   max-height: 520px;
   border-style: solid;
   border-width: 1px;
-  border-color: var(--border);
+  border-color: var(--transparent1);
 }
 
 .ham-icon.open span:first-child {

@@ -7,11 +7,16 @@
   --background: hsl(291, 100%, 4%);
   --primary: hsl(353, 76%, 70%);
   --secondary: hsl(323, 88%, 16%);
+  --secondary10: hsl(323, 88%, 16%, 10%);
+  --secondary20: hsl(323, 88%, 16%, 20%);
+  --secondary30: hsl(323, 88%, 16%, 30%);
   --tertiary: hsl(297, 43%, 9%);
   --accent: hsl(41, 88%, 56%);
   --linearPrimaryAccent: linear-gradient(90deg, hsl(353, 76%, 70%), hsl(41, 92%, 65%));
   --linearPrimaryAccentPrimary: linear-gradient(45deg, hsl(353, 76%, 70%), hsl(41, 92%, 65%), hsl(353, 76%, 70%));
-  --border: rgba(255, 255, 255, 0.1);
+  --transparent1: rgba(255, 255, 255, 0.1);
+  --transparent2: rgba(255, 255, 255, 0.5);
+  --rotation: 2.5rad;
 }
 
 /* Font and Headings Set-up */
@@ -63,7 +68,7 @@ li {
   list-style: none;
 }
 
-/* Reusable Styles Set-up */
+/* *Reusable Styles Set-up */
 .flex-center {
   display: flex;
   justify-content: center;
@@ -71,7 +76,7 @@ li {
 }
 
 .section {
-  width: 1440px;
+  width: 1340px;
   margin-left: auto;
   margin-right: auto;
   padding: 5rem 8%;
@@ -147,4 +152,19 @@ li {
 .secondary-btn:hover {
   transform: translate(0, -3px);
   transition: transform ease 0.2s;
+}
+
+/* Scroll Bar Styles */
+::-webkit-scrollbar {
+  width: 9px;
+  background: var(--transparent1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--transparent1);
+  border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--transparent2);
 }
