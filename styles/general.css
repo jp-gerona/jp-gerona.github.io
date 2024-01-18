@@ -41,7 +41,7 @@ h4 {font-size: 1.777rem;}
 
 h5 {font-size: 1.333rem;}
 
-small {font-size: 0.750rem;}
+small {font-size: 0.9rem;}
 
 /* Normalization of default values of HTML elements */
 * {
@@ -93,7 +93,7 @@ li {
 }
 
 .section-title:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 70px;
   height: 4px;
@@ -151,6 +151,15 @@ li {
 .secondary-btn:hover {
   transform: translate(0, -3px);
   transition: transform ease 0.2s;
+}
+
+.accent-pill {
+  display: inline-block;
+  color: var(--background);
+  margin-right: 0.3rem ;
+  padding: 0.45em 1.20em;
+  border-radius: 1.20em;
+  background-color: var(--accent);
 }
 
 /* Scroll Bar Styles */
