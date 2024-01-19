@@ -158,9 +158,13 @@
 }
 
 .about-info .description .btn-container {
-  width: 400px;
+  max-width: 400px;
   display: flex;
   justify-content: space-between;
+}
+
+.btn-container {
+  flex-wrap: wrap;
 }
 
 /* *Skills Section */
