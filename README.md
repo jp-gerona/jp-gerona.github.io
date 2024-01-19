@@ -1,4 +1,4 @@
-![Club Penguin Dance](https://static.wikia.nocookie.net/clubpenguin/images/c/cd/Penguin_Frames_dancing.gif/revision/latest/scale-to-width-down/1000?cb=20230403054040)
+![Club Penguin Dance](images/clubpenguin_dance.gif)
 
 #### Julian Peter B. Gerona <br /> jp-gerona.github.io
 
