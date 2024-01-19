@@ -510,3 +510,12 @@
 .footer-content p {
   line-height: 1.8;
 }
+
+.reveal {
+  opacity: 0;
+  transition: opacity 1s ease; 
+}
+
+.reveal.active {
+  opacity: 1;
+}
