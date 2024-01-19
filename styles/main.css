@@ -1,12 +1,15 @@
 /* *Home Section Styles */
 .home {
-  position: relative;
   max-width: 1440px;
   min-height: 100vh;
   margin-left: auto;
   margin-right: auto;
   padding: 5rem 8%;
   flex-direction: column;
+}
+
+.home-container h1 {
+  font-size: clamp(2rem, 5vw, 4rem); 
 }
 
 .home .home-container {
@@ -76,12 +79,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .home-container .home-img img {
   width: 100%;
-  min-width: 500px;
   height: auto;
   display: block; 
 }
@@ -110,28 +111,27 @@
 }
 
 /* *About Section Styles */
+
 .about .container .content {
   column-gap: 40px;
+  display: flex;
   width: 100%;
 }
 
-.education-all {
-  cursor: default;
-}
-
 .about-img {
-  position: relative;
+  width: 100%;
+  max-width: 500px;
 }
 
 .about-img img {
-  width: 500px;
-  min-width: 400px;
+  width: 100%;
   border-radius: 12px;
   border: 1px solid var(--transparent1);
 }
 
-.about-info .description {
-  max-width: 700px;
+.about-info {
+  width: 100%;
+  max-width: 600px;
 }
 
 .about-info .description h3 {
@@ -199,6 +199,7 @@
 
 .education-all {
   margin-bottom: 80px;
+  cursor: default;
 }
 
 .edu-list .item {
