@@ -169,7 +169,7 @@
 }
 
 .skills-description {
-  max-width: 800px;
+  max-width: 900px;
   margin-bottom: 50px;
 }
 
@@ -257,7 +257,6 @@
 }
 
 .project-portfolio .img-card {
-  background-image: url("../images/project-umak.png");
   background-size: cover;
   cursor: pointer;
   padding: 10rem 0 0;
@@ -267,6 +266,33 @@
   overflow: hidden;
   
   transition: transform 0.5s ease;
+}
+
+#project-1 {
+  background-image: url("../images/project-onemcl1.png");
+  background-position: center;
+}
+
+#project-2 {
+  background-image: url("../images/project-personalwebsite1.png");
+  background-position: center;
+}
+
+#project-3 {
+  background-image: url("../images/project-freddifatbear1.png");
+}
+
+#project-4 {
+  background-image: url("../images/project-umak.png");
+}
+
+#project-5 {
+  background-image: url("../images/project-python1.png");
+  background-position: center;
+}
+
+#project-6 {
+  background-image: url("../images/project-powerpoint1.png");
 }
 
 .project-portfolio .img-card:hover,
@@ -343,7 +369,7 @@
 }
 
 .img-card .info p {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   line-height: 1.5;
   opacity: 0.85;
 }
@@ -400,4 +426,8 @@
   width: 100%;
   margin: 20px 0;
   border-radius: 6px;
+}
+
+.project-modal-content a {
+  margin-right: 1rem;
 }

@@ -41,7 +41,7 @@ h4 {font-size: 1.777rem;}
 
 h5 {font-size: 1.333rem;}
 
-small {font-size: 0.9rem;}
+small {font-size: 0.770rem;}
 
 /* Normalization of default values of HTML elements */
 * {
@@ -100,7 +100,6 @@ li {
   bottom: 0;
   right: 0;
   background: var(--accent);
-
 }
 
 .container {
@@ -154,6 +153,7 @@ li {
 }
 
 .accent-pill {
+  font-size: small;
   display: inline-block;
   color: var(--background);
   margin-right: 0.3rem ;
