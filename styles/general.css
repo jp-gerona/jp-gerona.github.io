@@ -245,6 +245,12 @@ li {
     font-size: var(--media);
   }
 
+  /* *Contact Media Queries*/
+  .contact {
+    margin-left: 4%; 
+    margin-right: 4%;
+  }
+
   /* *Footer Media Queries */
   .footer footer-container {
     flex-direction: column;
