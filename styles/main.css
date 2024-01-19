@@ -431,3 +431,17 @@
 .project-modal-content a {
   margin-right: 1rem;
 }
+
+.contact .section-title-2  span {
+  position: relative;
+  background: var(--linearPrimaryAccent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.contact p {
+  line-height: 1.8rem;
+  text-align: center;
+}

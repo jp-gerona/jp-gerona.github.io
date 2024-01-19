@@ -81,7 +81,7 @@ li {
   padding: 5rem 8%;
 }
 
-.section-title {
+.section-title-1 {
   position: relative;
   margin-bottom: 50px;
   padding-bottom: 3px;
@@ -92,7 +92,7 @@ li {
   color: transparent;
 }
 
-.section-title:before {
+.section-title-1:before {
   content: "";
   position: absolute;
   width: 70px;
@@ -100,6 +100,18 @@ li {
   bottom: 0;
   right: 0;
   background: var(--accent);
+}
+
+.section-title-2 {
+  position: relative;
+  margin-bottom: 20px;
+  padding-bottom: 3px;
+  background: var(--text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  text-align: center;
 }
 
 .container {
