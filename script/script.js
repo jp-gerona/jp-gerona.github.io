@@ -2,13 +2,13 @@
  * Toggles the open class on the hamburger icon and menu links elements to open/close the menu using the onclick event.
  */
 function toggleMenu() {
-  // Targets the hamburger icon and menu links using the DOM
-  const icon = document.querySelector('.menu-links');
-  const menu = document.querySelector('.ham-icon');
+    // Targets the hamburger icon and menu links using the DOM
+    const icon = document.querySelector('.menu-links');
+    const menu = document.querySelector('.ham-icon');
 
-  // Toggles the "open" class on both elements
-  icon.classList.toggle('open');
-  menu.classList.toggle('open');
+    // Toggles the "open" class on both elements
+    icon.classList.toggle('open');
+    menu.classList.toggle('open');
 }
 
 /*
@@ -21,21 +21,40 @@ const projectCloseBtns = document.querySelectorAll('.project-close-btn');
 
 // Adds the open class to project modals
 var projectModal = function (modalclick) {
-  projectModals[modalclick].classList.add('open');
+    projectModals[modalclick].classList.add('open');
 }
 
 // Adds the event listener for adding the open class to project modals when the user clicks the img cards
 imgCards.forEach((imgCard, i) => {
-  imgCard.addEventListener("click", () => {
-    projectModal(i);
-  });
+    imgCard.addEventListener("click", () => {
+        projectModal(i);
+    });
 });
 
 // Removes the open class from project modals when the user clicks the close button
 projectCloseBtns.forEach((projectCloseBtn) => {
-  projectCloseBtn.addEventListener("click", () => {
-    projectModals.forEach((projectModalView) => {
-      projectModalView.classList.remove('open');
+    projectCloseBtn.addEventListener("click", () => {
+        projectModals.forEach((projectModalView) => {
+            projectModalView.classList.remove('open');
+        });
     });
-  });
+});
+
+
+window.addEventListener("scroll", () => {
+    const sections = document.querySelectorAll("section");
+    const scrollY = window.scrollY;
+
+    sections.forEach(current => {
+        let sectionHeight = current.offsetHeight;
+        let sectionTop = current.offsetTop - 50;
+        let id = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            document.querySelector(".nav-menu a[href*=" + id + "]").classList.add("active");
+        }
+        else {
+            document.querySelector(".nav-menu a[href*=" + id + "]").classList.remove("active");
+        }
+    });
 });

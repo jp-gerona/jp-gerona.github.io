@@ -374,6 +374,10 @@
   opacity: 0.85;
 }
 
+.projects h4 {
+  margin-top: 5rem;
+}
+
 /* *Project Model Pop-up Styles */
 .project-modal {
   z-index: 9999;
@@ -432,6 +436,8 @@
   margin-right: 1rem;
 }
 
+/* *Contact Section Styles */
+
 .contact .section-title-2  span {
   position: relative;
   background: var(--linearPrimaryAccent);
@@ -444,4 +450,62 @@
 .contact p {
   line-height: 1.8rem;
   text-align: center;
+} 
+
+/* *Footer Section Styles */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footer-container {
+  background-color: var(--secondary10);
+  width: 100%;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1340px;
+  margin-right: 100px;
+  margin-bottom: 75px;
+}
+
+.footer .info a,
+.footer .socials a {
+  color: var(--text);
+  transition: opacity 0.3s ease;
+}
+
+.footer .info a:hover,
+.footer .socials a:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.footer-content .about .logo {
+  margin-bottom: 20px;
+}
+
+.footer-content .about span {
+  color: var(--accent);
+}
+
+.footer-content .info h5,
+.footer-content .socials h5 {
+  color: var(--primary);
+  margin-bottom: 22px;
+}
+
+.footer-content .info li,
+.footer-content .socials li {
+  margin-bottom: 30px;
+}
+
+.footer-content p {
+  line-height: 1.8;
 }
