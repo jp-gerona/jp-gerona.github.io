@@ -78,7 +78,7 @@ window.addEventListener("scroll", () => {
       
       const scrollY = window.scrollY;
   
-      if(scrollY > sectionTop - 150 && scrollY <= sectionEnd) {
+      if(scrollY > sectionTop - 170 && scrollY <= sectionEnd) {
         section.classList.add("active");
       } else {
         section.classList.remove("active");

@@ -202,7 +202,6 @@
 }
 
 .education-all {
-  margin-bottom: 80px;
   cursor: default;
 }
 
@@ -415,10 +414,6 @@
   transition: transform 0.5s ease;
 }
 
-.project-modal-content label {
-  margin-top: 10px;
-}
-
 .project-modal.open .project-modal-content {
   transform: translateY(0);
 }
@@ -442,6 +437,9 @@
 }
 
 /* *Contact Section Styles */
+.contact .container {
+  padding-top: 60px;
+}
 
 .contact .section-title-2  span {
   position: relative;

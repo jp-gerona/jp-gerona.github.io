@@ -14,19 +14,19 @@
 
 - **Creativity:** Seeing the words "Personal Website", I just know that I had to get my creativity flowing. I took inspiration from sites at [Awwwards](https://www.awwwards.com/). Even though I was leaning to a minimalist design, I made extensive use of gradients to make my website pop.
 
-- **Deployment:** I deployed my website using GitHub Pages. This allowed me to easily host my site for free and have it accessible at my custom domain name. Additionally, I made extensive use of the Live Server Extension to view the changes I made to my website using localhost before committing/pushing any final changes.
+- **Deployment:** I deployed my website using GitHub Pages. This allowed me to easily host my site for free and have it accessible at my custom domain name. While I was working on the project, I made extensive use of the Live Server Extension to view the changes I made to my website using localhost before committing/pushing any final changes.
 
 ### 2. Insights that you have gathered while accomplishing LT0, LT1, and M1M2
 
-- While doing the tasks, I became more familiar with how HTML, CSS, and JavaScript are structured and work together to build creative and interactive websites. 
+- While doing the tasks, I became more familiar with how HTML, CSS, and JavaScript are structured and work together to build creative and interactive websites. Though I have prior knowledge with web development in general, there are lots of details that were discussed in the learning tasks that made me appreciate the elements, concepts, and fundamentals even more.
 
 ### 3. Struggles that you have encountered while accomplishing LT0, LT1, and M1M2
 
-- I struggled a bit with **Media Queries**, as I had to use the !important as a last resort to override some CSS styles that are not being cascaded. Another thing I struggled with is the **lay-out of the website**, I had to play around with properties and values to get what I want.
+- I struggled a bit with **Media Queries**, as I had to use the !important as a last resort to override some CSS styles that are not being cascaded. Another thing I struggled with is the **lay-out of the website**, I had to play around with properties and values to get what I want. I would not say that I am advanced in Web Design yet, as I still have to follow tutorials and documentation to understand what I want to achieve. However, I try as much as I can to be original and improve on what guide I am following, so that I can add my own character to it.
 
 ### 4. How you could improve your website in the future
 
-- To improve my website better, the introduction of **more JavaScript** would make the website more interactive. I also need to work more on its **responsiveness** if I do get the chance (such as hovers being only available to desktop and not for mobile), but I think everything seems to work fine in my end.
+- To improve my website better, the introduction of **more JavaScript** would make the website more interactive. There is alot of what JavaScript can do for my website and all websites in general, such as manipulating the DOM, light and dark preference mode, and generating HTML for my data (JSON and other back-end technologies). I also need to work more on its **responsiveness** if I do get the chance (such as hovers being only available to desktop and not for mobile), but I think everything seems to work fine in my end. Another thing is to optimize the website more for **speed and performance** by reducing file sizes and optimizing images.
 
 ### 5. Other thoughts that might be noteworthy
 

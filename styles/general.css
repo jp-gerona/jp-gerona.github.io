@@ -170,6 +170,7 @@ li {
   font-size: small;
   display: inline-block;
   color: var(--background);
+  margin-top: 10px;
   margin-right: 0.3rem ;
   padding: 0.45em 1.20em;
   border-radius: 1.20em;
@@ -246,10 +247,6 @@ li {
   }
 
   /* *Contact Media Queries*/
-  .contact {
-    margin-left: 4%; 
-    margin-right: 4%;
-  }
 
   /* *Footer Media Queries */
   .footer footer-container {
