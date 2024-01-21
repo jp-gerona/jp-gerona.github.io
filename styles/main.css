@@ -121,6 +121,7 @@
 }
 
 .stars img {
+  position: absolute;
   z-index: 99;
   width: 2.3rem;
 }
@@ -298,6 +299,8 @@
 }
 
 .project-portfolio .img-card {
+  display: flex;
+  flex-direction: column;
   background-size: cover;
   cursor: pointer;
   padding: 10rem 0 0;
@@ -343,6 +346,7 @@
 }
 
 .img-card .overlay {
+  margin-top: auto;
   --padding: 20px;
   padding: var(--padding);
   background: linear-gradient(
@@ -442,7 +446,7 @@
 .project-modal-content {
   position: relative;
   background: var(--background);
-  max-width: 600px;
+  width: clamp(300px, 50%, 600px);
   margin: 20px;
   padding: 40px;
   border-radius: 12px;
