@@ -6,6 +6,7 @@
   margin-right: auto;
   padding: 5rem 8%;
   flex-direction: column;
+  position: relative;
 }
 
 .home-container h1 {
@@ -109,6 +110,42 @@
     transform: translateY(10px);
   }
 }
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  width: 100%;
+  height: 100vh;
+}
+
+.stars img {
+  z-index: 99;
+  width: 2.3rem;
+}
+
+.stars img:nth-child(1) {
+  top: 1% !important;
+  left: 95% !important;
+}
+.stars img:nth-child(2) {
+  top: 68% !important;
+  left: 64% !important;
+}
+.stars img:nth-child(3) {
+  top: 75% !important;
+  left: 8% !important;
+}
+.stars img:nth-child(4) {
+  top: 19% !important;
+  left: 57% !important;
+}
+.stars img:nth-child(5) {
+  top: 74% !important;
+  left: 87% !important;
+}
+
 
 /* *About Section Styles */
 

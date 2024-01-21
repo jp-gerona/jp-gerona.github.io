@@ -295,4 +295,8 @@ li {
   .section-title-1 {
     font-size: 3em;
   }
+
+  .stars {
+    display: none;
+  }
 }

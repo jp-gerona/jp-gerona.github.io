@@ -86,8 +86,14 @@ window.addEventListener("scroll", () => {
   
     });
   
-  });
-  
-  
-  
+});
+
+/*
+ * Parallax.js External library. Adds a parallax effect for the character and star image. It needs data-depth (between 0 and 1) as a parameter. The movement will be multiplied by its depth value.
+ * Thanks to https://github.com/wagerfield/parallax
+ */
+var homeScene = document.getElementById('home-scene');
+var parallaxInstance = new Parallax(homeScene);
+var starsScene = document.getElementById('stars-scene');
+var parallaxInstance = new Parallax(starsScene);
   
