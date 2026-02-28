@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "astro": "^5.17.1"
@@ -21,6 +22,13 @@
     "eslint": "^9.39.3",
     "eslint-plugin-astro": "^1.6.0",
     "eslint-plugin-format": "^2.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.0",
     "unocss": "^66.6.2"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,astro,json,yaml,md}": [
+      "eslint --fix"
+    ]
   }
 }
