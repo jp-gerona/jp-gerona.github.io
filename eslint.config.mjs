@@ -1,21 +1,18 @@
-import antfu from '@antfu/eslint-config';
+import antfu from "@antfu/eslint-config";
 
 export default antfu(
   {
     astro: true,
     unocss: true,
-    formatters: true,
+
+    formatters: {
+      astro: "prettier",
+    },
 
     stylistic: {
       indent: 2,
       semi: true,
-      quotes: 'single',
+      quotes: "double",
     },
-
-    ignores: [
-      '**/dist/**',
-      '**/.astro/**',
-      '**/node_modules/**',
-    ],
   },
 );
