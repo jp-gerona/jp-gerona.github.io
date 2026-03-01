@@ -18,6 +18,7 @@
     "@antfu/eslint-config": "^7.6.1",
     "@unocss/astro": "^66.6.2",
     "@unocss/eslint-plugin": "^66.6.2",
+    "@unocss/preset-web-fonts": "^66.6.2",
     "@unocss/reset": "^66.6.2",
     "eslint": "^9.39.3",
     "eslint-plugin-astro": "^1.6.0",
