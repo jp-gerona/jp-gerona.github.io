@@ -1,0 +1,42 @@
+---
+// todo: theme colors if will implement light/dark
+// todo: assign/generate ogImage
+
+import { siteConfig } from "@src/site.config";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const siteName = new URL(siteConfig.site).hostname;
+
+const pageTitle = title;
+
+const pageDescription = description || siteConfig.description;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary Metadata -->
+<meta name="author" content={siteConfig.author} />
+<title>{title}</title>
+<meta name="description" content={description} />
+
+<!-- Umami Stats -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="2f03f3d4-a6a6-4544-b56f-a7c32cf5ec7a"></script>
+
+<!-- Open Graph Metadata -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content={siteConfig.ogLocale} />
