@@ -1,5 +1,5 @@
 import { createLocalFontProcessor } from "@unocss/preset-web-fonts/local";
-import  { defineConfig, presetAttributify, presetWebFonts, presetWind4 } from "unocss";
+import { defineConfig, presetAttributify, presetIcons, presetWebFonts, presetWind4 } from "unocss";
 
 export default defineConfig({
   presets: [
@@ -14,5 +14,13 @@ export default defineConfig({
       },
       processors: createLocalFontProcessor(),
     }),
-  ]
-})
+    presetIcons({
+      extraProperties: {
+        "display": "inline-block",
+        "height": "1.2em",
+        "width": "1.2em",
+        "vertical-align": "text-bottom",
+      },
+    }),
+  ],
+});
