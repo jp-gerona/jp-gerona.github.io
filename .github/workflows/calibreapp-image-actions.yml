@@ -1,0 +1,30 @@
+name: Compress Images
+on:
+  pull_request:
+    paths:
+      - "**.jpg"
+      - "**.jpeg"
+      - "**.png"
+      - "**.webp"
+      - "**.avif"
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    name: calibreapp/image-actions
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Compress PR Images
+        uses: calibreapp/image-actions@1.4.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ignorePaths: "node_modules/**,dist/**,build/**,.astro/**"
+          jpegQuality: "85"
+          pngQuality: "85"
+          webpQuality: "85"
+          avifQuality: "85"
