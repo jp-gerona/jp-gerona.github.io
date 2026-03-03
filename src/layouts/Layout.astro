@@ -1,13 +1,16 @@
 ---
 import Head from "@components/base/Head.astro";
+import Footer from "@src/components/base/Footer.astro";
+import { siteConfig } from "@src/site.config";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={siteConfig.lang}>
   <head>
     <Head />
   </head>
   <body>
     <slot />
   </body>
+  <Footer />
 </html>
