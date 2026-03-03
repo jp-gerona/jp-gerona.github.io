@@ -1,0 +1,88 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  href?: string;
+  title?: string;
+  rel?: string;
+  external?: boolean;
+  umami?: string;
+}
+
+// todo: probably add bool enableNewTabWarning and add as additional flag to showCursor and showIcon
+const {
+  href,
+  title,
+  rel,
+  external = false,
+  class: className,
+  umami,
+  ...rest
+} = Astro.props as Props;
+
+// todo: put to site.config.ts as global object
+const externalLink = {
+  newTab: false,
+  cursorType: "",
+  showNewTabIcon: false,
+};
+
+const openInNewTab = external || (external && externalLink.newTab);
+const targetAttr = openInNewTab ? "_blank" : undefined;
+const relAttr
+  = rel || openInNewTab
+  ? `${openInNewTab ? "noopener noreferrer" : ""} ${rel || ""}`.trim()
+  : undefined;
+const ariaLabel = title || (openInNewTab ? "Open in new tab" : undefined);
+
+const showCursor
+  = openInNewTab
+    && externalLink.cursorType
+    && externalLink.cursorType !== "pointer";
+
+const showIcon = openInNewTab || externalLink.showNewTabIcon;
+
+const umamiEvent = umami || (openInNewTab ? `Outbound click` : undefined);
+const umamiURL = openInNewTab ? href : undefined;
+---
+
+<a
+  class:list={[
+    "op60 no-underline hover:op100",
+    { "external-link-cursor": showCursor },
+    className,
+  ]}
+  {href}
+  {title}
+  aria-label={ariaLabel}
+  rel={relAttr}
+  target={targetAttr}
+  data-umami-event={umamiEvent}
+  data-umami-event-url={umamiURL}
+  {...rest}
+>
+  {
+    Astro.slots.has("default") && (
+      <>
+        <slot />{showIcon && (
+          <span
+            i-ph-arrow-up-right
+            aria-hidden="true"
+          />
+        )}
+      </>
+    )
+  }{
+    Astro.slots.has("title") && (
+      <span class="text-lg leading-1.3em align-middle">
+        <slot name="title" />
+        {showIcon && (
+          <span
+            i-ph-arrow-up-right
+            aria-hidden="true"
+          />
+        )}
+      </span>
+    )
+  }<slot name="end" /></a
+>
