@@ -6,10 +6,6 @@ export default antfu(
     svelte: true,
     unocss: true,
 
-    formatters: {
-      astro: "prettier",
-    },
-
     stylistic: {
       indent: 2,
       semi: true,
