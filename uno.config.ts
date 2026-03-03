@@ -1,9 +1,10 @@
 import { createLocalFontProcessor } from "@unocss/preset-web-fonts/local";
-import { defineConfig, presetAttributify, presetIcons, presetWebFonts, presetWind4 } from "unocss";
+import { defineConfig, presetAttributify, presetIcons, presetTypography, presetWebFonts, presetWind4 } from "unocss";
 
 export default defineConfig({
   presets: [
     presetAttributify(),
+    presetTypography(),
     presetWind4(),
     presetWebFonts({
       provider: "fontshare",
