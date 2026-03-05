@@ -2,12 +2,19 @@
 import Head from "@components/base/Head.astro";
 import Footer from "@src/components/base/Footer.astro";
 import { siteConfig } from "@src/site.config";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={siteConfig.lang}>
   <head>
-    <Head />
+    <Head {title} {description} />
   </head>
   <body>
     <slot />
