@@ -3,6 +3,7 @@
 // todo: assign/generate ogImage
 
 import { siteConfig } from "@src/site.config";
+import { env } from "@utils/env";
 
 interface Props {
   title?: string;
@@ -30,8 +31,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <title>{pageTitle}</title>
 <meta name="description" content={pageDescription} />
 
-<!-- Umami Stats -->
-<script defer src="https://cloud.umami.is/script.js" data-website-id="2f03f3d4-a6a6-4544-b56f-a7c32cf5ec7a"></script>
+<!-- Portfolio Stats -->
+{
+  env.isProd && (
+    <script defer src="https://portfolio-analytics.jp-gerona.workers.dev/portfolio.js" data-website-id="2f03f3d4-a6a6-4544-b56f-a7c32cf5ec7a"></script>
+  )
+}
 
 <!-- Open Graph Metadata -->
 <meta property="og:type" content="website" />
