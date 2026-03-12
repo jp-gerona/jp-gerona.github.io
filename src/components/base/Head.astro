@@ -45,3 +45,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta property="og:description" content={pageDescription} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content={siteConfig.ogLocale} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Sitemap -->
+ <link rel="sitemap" href="/sitemap-index.xml" />
