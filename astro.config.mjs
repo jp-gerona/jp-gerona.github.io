@@ -1,5 +1,6 @@
 import svelte from "@astrojs/svelte";
 import robotsTxt from "astro-robots-txt";
+import sitemap from "astro-sitemap/astro";
 
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -15,6 +16,7 @@ export default defineConfig({
     UnoCSS({
       injectReset: true,
     }),
+    sitemap(),
     // todo: remove policy when portfolio is ready
     robotsTxt({
       policy: [
