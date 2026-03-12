@@ -1,0 +1,21 @@
+{
+  "name": "Julian Peter Gerona's Portfolio",
+  "short_name": "Julian Peter Gerona",
+  "description": "My website portfolio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
