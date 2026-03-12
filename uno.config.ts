@@ -8,7 +8,6 @@ export default defineConfig({
     presetWind4(),
     presetWebFonts({
       provider: "fontshare",
-      themeKey: "font",
       fonts: {
         sans: "Satoshi",
         mono: "Satoshi Mono",
