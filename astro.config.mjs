@@ -1,6 +1,6 @@
+import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import robotsTxt from "astro-robots-txt";
-import sitemap from "astro-sitemap/astro";
 
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -11,6 +11,16 @@ import { siteConfig } from "./src/site.config";
 // https://astro.build/config
 export default defineConfig({
   site: siteConfig.site,
+  vite: {
+    plugins: [
+      {
+        name: "max-listeners-config",
+        configureServer(server) {
+          server.watcher.setMaxListeners(20);
+        },
+      },
+    ],
+  },
   integrations: [
     svelte(),
     UnoCSS({
