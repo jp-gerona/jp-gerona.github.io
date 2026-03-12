@@ -6,6 +6,7 @@ interface Props extends HTMLAttributes<"a"> {
   title?: string;
   rel?: string;
   external?: boolean;
+  class?: string;
   umami?: string;
 }
 
@@ -29,11 +30,17 @@ const externalLink = {
 
 const openInNewTab = external || (external && externalLink.newTab);
 const targetAttr = openInNewTab ? "_blank" : undefined;
-const relAttr
-  = rel || openInNewTab
-  ? `${openInNewTab ? "noopener noreferrer" : ""} ${rel || ""}`.trim()
-  : undefined;
-const ariaLabel = title || (openInNewTab ? "Open in new tab" : undefined);
+
+const relParts = [openInNewTab && "noopener noreferrer", rel]
+  .filter(Boolean)
+  .join(" ");
+const relAttr = relParts || undefined;
+
+const ariaLabel = openInNewTab
+  ? title
+    ? `${title}, opens in new tab`
+    : undefined
+  : title || undefined;
 
 const showCursor
   = openInNewTab
@@ -42,8 +49,19 @@ const showCursor
 
 const showIcon = openInNewTab || externalLink.showNewTabIcon;
 
-const umamiEvent = umami || (openInNewTab ? `Outbound click` : undefined);
-const umamiURL = openInNewTab ? href : undefined;
+let umamiEventName: string | undefined;
+if (umami) {
+  umamiEventName = umami;
+}
+else if (openInNewTab && href) {
+  try {
+    umamiEventName = `External: ${new URL(href).hostname.replace(/^www\./, "")}`;
+  }
+  catch {
+    umamiEventName = "External link click";
+  }
+}
+const umamiEventURL = openInNewTab ? href : undefined;
 ---
 
 <a
@@ -57,18 +75,20 @@ const umamiURL = openInNewTab ? href : undefined;
   aria-label={ariaLabel}
   rel={relAttr}
   target={targetAttr}
-  data-umami-event={umamiEvent}
-  data-umami-event-url={umamiURL}
+  data-umami-event={umamiEventName}
+  data-umami-event-url={umamiEventURL}
   {...rest}
 >
   {
     Astro.slots.has("default") && (
       <>
         <slot />{showIcon && (
-          <span
-            i-ph-arrow-up-right
-            aria-hidden="true"
-          />
+          <>
+            <span
+              i-ph-arrow-up-right
+              aria-hidden="true"
+            />{!title && <span class="sr-only">, opens in new tab</span>}
+          </>
         )}
       </>
     )
@@ -77,10 +97,12 @@ const umamiURL = openInNewTab ? href : undefined;
       <span class="text-lg leading-1.3em align-middle">
         <slot name="title" />
         {showIcon && (
-          <span
-            i-ph-arrow-up-right
-            aria-hidden="true"
-          />
+          <>
+            <span
+              i-ph-arrow-up-right
+              aria-hidden="true"
+            />{!title && <span class="sr-only">, opens in new tab</span>}
+          </>
         )}
       </span>
     )
