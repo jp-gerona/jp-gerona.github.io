@@ -34,7 +34,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <!-- Portfolio Stats -->
 {
   env.isProd && (
-    <script defer src="https://portfolio-analytics.jp-gerona.workers.dev/portfolio.js" data-website-id="2f03f3d4-a6a6-4544-b56f-a7c32cf5ec7a"></script>
+    <script is:inline defer src="https://portfolio-analytics.jp-gerona.workers.dev/portfolio.js" data-website-id="2f03f3d4-a6a6-4544-b56f-a7c32cf5ec7a"></script>
   )
 }
 
