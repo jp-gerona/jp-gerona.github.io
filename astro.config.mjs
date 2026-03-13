@@ -27,15 +27,7 @@ export default defineConfig({
       injectReset: true,
     }),
     sitemap(),
-    // todo: remove policy when portfolio is ready
-    robotsTxt({
-      policy: [
-        {
-          userAgent: "*",
-          disallow: ["/"],
-        },
-      ],
-    }),
+    robotsTxt(),
   ],
   image: {
     domains: siteConfig.imageDomains,
