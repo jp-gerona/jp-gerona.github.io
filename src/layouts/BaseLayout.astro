@@ -2,6 +2,7 @@
 import Head from "@components/base/Head.astro";
 import Footer from "@src/components/base/Footer.astro";
 import { siteConfig } from "@src/site.config";
+import "@styles/main.css";
 
 interface Props {
   title?: string;
@@ -20,6 +21,17 @@ const { title, description } = Astro.props;
     <main>
       <slot />
     </main>
+    <Footer />
+    <script>
+      import nprogress from "nprogress";
+
+      document.addEventListener("astro:before-preparation", () => {
+        nprogress.start();
+      });
+
+      document.addEventListener("astro:page-load", () => {
+        nprogress.done();
+      });
+    </script>
   </body>
-  <Footer />
 </html>
