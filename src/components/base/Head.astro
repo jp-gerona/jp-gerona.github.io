@@ -4,6 +4,7 @@
 
 import { siteConfig } from "@src/site.config";
 import { env } from "@utils/env";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title?: string;
@@ -55,7 +56,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
 <!-- Manifest -->
- <link rel="manifest" href="/app.webmanifest" />
+<link rel="manifest" href="/app.webmanifest" />
 
 <!-- Sitemap -->
- <link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<ClientRouter />
