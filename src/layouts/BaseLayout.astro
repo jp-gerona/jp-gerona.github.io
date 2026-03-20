@@ -7,15 +7,16 @@ import "@/styles/main.css";
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string | boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={siteConfig.lang}>
   <head>
-    <Head {title} {description} />
+    <Head {title} {description} {ogImage} />
   </head>
   <body>
     <main>

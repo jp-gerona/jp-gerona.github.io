@@ -1,17 +1,17 @@
 ---
-// todo: theme colors if will implement light/dark
-// todo: assign/generate ogImage
-
+import { basename } from "node:path";
 import { ClientRouter } from "astro:transitions";
 import { siteConfig } from "@/site.config";
 import { env } from "@/utils/env";
+import { checkFileExistsInDir } from "../../../plugins/remark-generate-og-image";
 
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string | boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 
 const siteName = new URL(siteConfig.site).hostname;
 
@@ -20,6 +20,22 @@ const pageTitle = title && title !== siteConfig.title ? `${title} - ${siteConfig
 const pageDescription = description || siteConfig.description;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const generatedName = basename(Astro.url.pathname);
+const generatedOgImage
+  = generatedName && checkFileExistsInDir("public/og-images", `${generatedName}.png`)
+    ? `/og-images/${generatedName}.png`
+    : undefined;
+
+const assignedOgImage
+  = typeof ogImage === "string" && checkFileExistsInDir("public/og-images", basename(ogImage))
+    ? `/og-images/${basename(ogImage)}`
+    : undefined;
+
+const ogImageURL = new URL(
+  assignedOgImage || generatedOgImage || "/og-images/og-image.png",
+  Astro.url,
+).href;
 ---
 
 <!-- Global Metadata -->
@@ -44,8 +60,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={ogImageURL} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content={siteConfig.ogLocale} />
+
+<!-- Twitter Metadata -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={pageTitle} />
+<meta property="twitter:description" content={pageDescription} />
+<meta property="twitter:image" content={ogImageURL} />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

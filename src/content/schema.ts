@@ -7,6 +7,7 @@ export const baseEntrySchema = z.object({
   updatedDate: z.coerce.date().optional(),
   draft: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
+  ogImage: z.union([z.boolean(), z.string()]).optional(),
 });
 
 export const indexSchema = baseEntrySchema;
