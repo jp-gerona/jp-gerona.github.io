@@ -7,10 +7,10 @@ export default defineConfig({
     presetTypography(),
     presetWind4(),
     presetWebFonts({
-      provider: "fontshare",
+      provider: "google",
       fonts: {
-        sans: "Satoshi",
-        mono: "Satoshi Mono",
+        sans: "Geist",
+        mono: "Geist Mono",
       },
       processors: createLocalFontProcessor(),
     }),
