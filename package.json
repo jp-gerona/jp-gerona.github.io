@@ -34,6 +34,7 @@
     "eslint": "^10.0.3",
     "eslint-plugin-astro": "^1.6.0",
     "eslint-plugin-format": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-svelte": "^3.15.2",
     "html-entities": "^2.6.0",
     "husky": "^9.1.7",
