@@ -1,0 +1,69 @@
+---
+import type { SiteNavItem } from "@/types";
+import NavLink from "@/components/nav/NavLink.astro";
+
+interface Props {
+  items: SiteNavItem[];
+  currentPathname: string;
+}
+
+const { items, currentPathname } = Astro.props as Props;
+const panelId = "primary-navigation-mobile";
+const buttonId = "primary-navigation-mobile-toggle";
+---
+
+<div class="md:hidden">
+  <button
+    id={buttonId}
+    type="button"
+    aria-label="Toggle navigation menu"
+    aria-expanded="false"
+    aria-controls={panelId}
+  >
+    Menu
+  </button>
+
+  <ul id={panelId} hidden>
+    {
+      items.map(item => (
+        <NavLink item={item} currentPathname={currentPathname} />
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  function setupNavSwitch() {
+    const buttonId = "primary-navigation-mobile-toggle";
+    const panelId = "primary-navigation-mobile";
+
+    const toggleButton = document.getElementById(buttonId);
+    const panel = document.getElementById(panelId);
+
+    if (!toggleButton || !panel || toggleButton.dataset.ready === "true") {
+      return;
+    }
+
+    const closePanel = () => {
+      panel.hidden = true;
+      toggleButton.setAttribute("aria-expanded", "false");
+    };
+
+    const togglePanel = () => {
+      const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+      panel.hidden = isExpanded;
+      toggleButton.setAttribute("aria-expanded", String(!isExpanded));
+    };
+
+    toggleButton.addEventListener("click", togglePanel);
+
+    panel.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closePanel);
+    });
+
+    toggleButton.dataset.ready = "true";
+  }
+
+  document.addEventListener("astro:page-load", setupNavSwitch);
+  setupNavSwitch();
+</script>

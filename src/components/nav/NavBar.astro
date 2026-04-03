@@ -1,0 +1,27 @@
+---
+import Link from "@/components/base/Link.astro";
+import NavLink from "@/components/nav/NavLink.astro";
+import NavSwitch from "@/components/nav/NavSwitch.astro";
+import { siteConfig } from "@/site.config";
+
+const currentPathname = Astro.url.pathname;
+const navItems = siteConfig.navigation.main;
+---
+
+<header class="top-0 sticky z-40">
+  <nav aria-label="Primary" class="px-4 py-3 flex gap-4 w-full items-center justify-between">
+    <Link href="/" aria-label="Go to home page">
+      <span>{siteConfig.title}</span>
+    </Link>
+
+    <ul class="gap-4 hidden items-center md:flex">
+      {
+        navItems.map(item => (
+          <NavLink item={item} currentPathname={currentPathname} />
+        ))
+      }
+    </ul>
+
+    <NavSwitch items={navItems} currentPathname={currentPathname} />
+  </nav>
+</header>
