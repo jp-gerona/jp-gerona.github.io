@@ -8,4 +8,12 @@ export const siteConfig: Site = {
   lang: "en",
   ogLocale: "en_PH",
   imageDomains: ["jp-gerona.github.io"],
+  navigation: {
+    main: [
+      { label: "Home", href: "/" },
+      { label: "Projects", href: "/projects/" },
+      { label: "Credentials", href: "/credentials/" },
+      { label: "Practicum", href: "/practicum/" },
+    ],
+  },
 };

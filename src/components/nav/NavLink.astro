@@ -1,0 +1,27 @@
+---
+import type { SiteNavItem } from "@/types";
+import Link from "@/components/base/Link.astro";
+
+interface Props {
+  item: SiteNavItem;
+  currentPathname: string;
+}
+
+const { item, currentPathname } = Astro.props as Props;
+
+function normalizePath(pathname: string): string {
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+  return pathname;
+}
+
+const isCurrent = !item.external && normalizePath(currentPathname) === normalizePath(item.href);
+const ariaCurrent = isCurrent ? "page" : undefined;
+---
+
+<li>
+  <Link href={item.href} external={item.external} aria-current={ariaCurrent}>
+    <span>{item.label}</span>
+  </Link>
+</li>
