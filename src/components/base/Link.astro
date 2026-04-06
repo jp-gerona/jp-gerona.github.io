@@ -6,6 +6,7 @@ interface Props extends HTMLAttributes<"a"> {
   title?: string;
   rel?: string;
   external?: boolean;
+  enableNewTabWarning?: boolean;
   class?: string;
   umami?: string;
 }
@@ -16,6 +17,7 @@ const {
   title,
   rel,
   external = false,
+  enableNewTabWarning = false,
   class: className,
   umami,
   ...rest
@@ -28,7 +30,7 @@ const externalLink = {
   showNewTabIcon: false,
 };
 
-const openInNewTab = external || (external && externalLink.newTab);
+const openInNewTab = external && externalLink.newTab;
 const targetAttr = openInNewTab ? "_blank" : undefined;
 
 const relParts = [openInNewTab && "noopener noreferrer", rel]
@@ -36,18 +38,15 @@ const relParts = [openInNewTab && "noopener noreferrer", rel]
   .join(" ");
 const relAttr = relParts || undefined;
 
-const ariaLabel = openInNewTab
-  ? title
-    ? `${title}, opens in new tab`
-    : undefined
-  : title || undefined;
+const ariaLabel = title || (openInNewTab ? "Open in new tab" : undefined);
 
 const showCursor
   = openInNewTab
+    && enableNewTabWarning
     && externalLink.cursorType
     && externalLink.cursorType !== "pointer";
 
-const showIcon = openInNewTab || externalLink.showNewTabIcon;
+const showIcon = openInNewTab && enableNewTabWarning && externalLink.showNewTabIcon;
 
 let umamiEventName: string | undefined;
 if (umami) {
@@ -66,7 +65,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
 
 <a
   class:list={[
-    "op60 no-underline hover:op100",
+    "op-60 no-underline hover:op-100",
     { "external-link-cursor": showCursor },
     className,
   ]}

@@ -1,26 +1,45 @@
 ---
 import Link from "@/components/base/Link.astro";
-import NavLink from "@/components/nav/NavLink.astro";
+import NavItem from "@/components/nav/NavItem.astro";
 import NavSwitch from "@/components/nav/NavSwitch.astro";
 import { siteConfig } from "@/site.config";
 
 const currentPathname = Astro.url.pathname;
 const navItems = siteConfig.navigation.main;
+const textItems = navItems.filter(item => item.kind !== "icon");
+const iconItems = navItems.filter(item => item.kind === "icon");
 ---
 
-<header class="top-0 sticky z-40">
-  <nav aria-label="Primary" class="px-4 py-3 flex gap-4 w-full items-center justify-between">
-    <Link href="/" aria-label="Go to home page">
-      <span>{siteConfig.title}</span>
-    </Link>
+<header class="px-4 py-3 flex gap-4 items-center top-0 sticky z-40 md:px-8 md:py-6 md:gap-6">
+  <Link
+    href="/"
+    title="Julian Peter Gerona @ jp-gerona.github.io"
+    aria-label="Go to home page"
+    class="text-base leading-none op-60 op-transition md:text-lg hover:op-100"
+  >
+    <span class="whitespace-nowrap">{siteConfig.title}</span>
+  </Link>
 
-    <ul class="gap-4 hidden items-center md:flex">
+  <nav aria-label="Primary" class="flex gap-4 w-full items-center justify-end md:gap-5">
+    <div class="gap-4 grid-flow-col hidden items-center print:op-0 md:gap-5 md:grid">
       {
-        navItems.map(item => (
-          <NavLink item={item} currentPathname={currentPathname} />
+        textItems.map(item => (
+          <NavItem item={item} currentPathname={currentPathname} />
         ))
       }
-    </ul>
+
+      {
+        iconItems.length > 0 && (
+          <span class="bg-zinc-300/60 h-4 w-px dark:bg-zinc-700/60" aria-hidden="true" />
+        )
+      }
+
+      {
+        iconItems.map(item => (
+          <NavItem item={item} currentPathname={currentPathname} />
+        ))
+      }
+    </div>
 
     <NavSwitch items={navItems} currentPathname={currentPathname} />
   </nav>

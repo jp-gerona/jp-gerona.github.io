@@ -1,0 +1,57 @@
+---
+import type { SiteNavItem } from "@/types";
+import Link from "@/components/base/Link.astro";
+
+interface Props {
+  item: SiteNavItem;
+  currentPathname: string;
+  mobileText?: boolean;
+}
+
+const { item, currentPathname, mobileText = false } = Astro.props as Props;
+
+function normalizePath(pathname: string): string {
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+  return pathname;
+}
+
+const title = item.title ?? item.label;
+
+const href = item.href;
+const external = item.external;
+const rel = item.rel;
+const isIconItem = item.kind === "icon";
+
+const isCurrent = !external && normalizePath(currentPathname) === normalizePath(href);
+const ariaCurrent = isCurrent ? "page" : undefined;
+
+const listClass = mobileText
+  ? "block py-3 border-b b-zinc-200/70 dark:b-zinc-700/70 leading-6"
+  : undefined;
+
+const sharedClass = `inline-flex items-center gap-1.5 text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100 ${mobileText ? "block op-50! op-transition" : "op-transition"}`;
+---
+
+<li class={listClass}>
+  <Link
+    href={href}
+    external={external}
+    rel={rel}
+    title={title}
+    aria-current={ariaCurrent}
+    class={sharedClass}
+  >
+    {
+      mobileText || !isIconItem
+        ? <span>{item.label}</span>
+        : (
+            <>
+              <span class:list={[item.icon, item.iconClass, "op-80 hover:op-100"]} aria-hidden="true" />
+              <span class="sr-only">{item.label}</span>
+            </>
+          )
+    }
+  </Link>
+</li>
