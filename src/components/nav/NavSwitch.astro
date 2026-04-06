@@ -1,6 +1,6 @@
 ---
 import type { SiteNavItem } from "@/types";
-import NavLink from "@/components/nav/NavLink.astro";
+import NavItem from "@/components/nav/NavItem.astro";
 
 interface Props {
   items: SiteNavItem[];
@@ -16,20 +16,27 @@ const buttonId = "primary-navigation-mobile-toggle";
   <button
     id={buttonId}
     type="button"
-    aria-label="Toggle navigation menu"
+    class="op-60 op-transition hover:op-100"
+    title="Navigation"
+    aria-label="Navigation"
     aria-expanded="false"
     aria-controls={panelId}
   >
-    Menu
+    <span class="i-ri-menu-line" aria-hidden="true" />
   </button>
 
-  <ul id={panelId} hidden>
-    {
-      items.map(item => (
-        <NavLink item={item} currentPathname={currentPathname} />
-      ))
-    }
-  </ul>
+  <div
+    id={panelId}
+    class="px-6 py-4 border border-zinc-200/70 rounded-lg bg-white max-h-[80vh] max-w-sm w-[90%] hidden left-1/2 top-[10%] fixed z-200 overflow-y-auto dark:border-zinc-700/70 dark:bg-zinc-900 -translate-x-1/2"
+  >
+    <ul>
+      {
+        items.map(item => (
+          <NavItem item={item} currentPathname={currentPathname} mobileText />
+        ))
+      }
+    </ul>
+  </div>
 </div>
 
 <script>
@@ -45,17 +52,36 @@ const buttonId = "primary-navigation-mobile-toggle";
     }
 
     const closePanel = () => {
-      panel.hidden = true;
+      panel.classList.add("hidden");
       toggleButton.setAttribute("aria-expanded", "false");
     };
 
     const togglePanel = () => {
       const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
-      panel.hidden = isExpanded;
+      panel.classList.toggle("hidden", isExpanded);
       toggleButton.setAttribute("aria-expanded", String(!isExpanded));
     };
 
     toggleButton.addEventListener("click", togglePanel);
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      const clickedInsidePanel = panel.contains(target);
+      const clickedToggle = toggleButton.contains(target);
+      if (!clickedInsidePanel && !clickedToggle) {
+        closePanel();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closePanel();
+      }
+    });
 
     panel.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", closePanel);
