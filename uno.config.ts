@@ -23,6 +23,11 @@ const navIconClasses = siteConfig.navigation.main
   .filter(Boolean);
 
 export default defineConfig({
+  theme: {
+    colors: {
+      accent: "#5b553b",
+    },
+  },
   shortcuts: [
     [
       TRANSITION_SHORTCUT_REGEX,
@@ -45,13 +50,6 @@ export default defineConfig({
       },
       processors: createLocalFontProcessor(),
     }),
-    presetIcons({
-      extraProperties: {
-        "display": "inline-block",
-        "height": "1.2em",
-        "width": "1.2em",
-        "vertical-align": "text-bottom",
-      },
-    }),
+    presetIcons(),
   ],
 });
