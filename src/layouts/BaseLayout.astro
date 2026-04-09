@@ -1,6 +1,7 @@
 ---
 import Footer from "@/components/base/Footer.astro";
 import Head from "@/components/base/Head.astro";
+import PageProgress from "@/components/base/PageProgress.astro";
 import NavBar from "@/components/nav/NavBar.astro";
 import { siteConfig } from "@/site.config";
 import "@/styles/main.css";
@@ -20,22 +21,12 @@ const { title, description, ogImage } = Astro.props;
     <Head {title} {description} {ogImage} />
   </head>
   <body>
+    <PageProgress />
     <a class="sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
     <NavBar />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
-    <script>
-      import nprogress from "nprogress";
-
-      document.addEventListener("astro:before-preparation", () => {
-        nprogress.start();
-      });
-
-      document.addEventListener("astro:page-load", () => {
-        nprogress.done();
-      });
-    </script>
   </body>
 </html>
