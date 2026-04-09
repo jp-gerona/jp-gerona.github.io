@@ -1,28 +1,49 @@
+---
+import phFlag from "@/assets/ph-flag.svg";
+---
+
 <div
   data-preloader
-  class="preloader text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] [will-change:clip-path] inset-0 fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center"
+  class="preloader text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] [will-change:clip-path] inset-0 justify-between fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center lg:justify-start"
 >
-  <div class="preloader-revealer bg-accent w-[300%] aspect-square pointer-events-none scale-0 [will-change:transform] left-1/2 top-1/2 absolute z-50 lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="preloader-revealer bg-accent w-[300%] aspect-square pointer-events-none scale-0 [will-change:transform] left-1/2 top-1/2 absolute z-[60] lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
 
-  <div class="preloader-copy flex flex-1 flex-col relative z-[60] lg:flex-row">
-    <div class="preloader-copy-col flex flex-1 items-center">
-      <p class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
-        Julian Peter Gerona
-        <br />
-        Full-stack Development
+  <div class="preloader-copy flex flex-col gap-4 w-full items-start justify-start relative z-[50] lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
+    <div class="preloader-copy-col flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
+      <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+        Julian Peter B. Gerona
+      </p>
+      <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+        Aspiring Software Engineer
       </p>
     </div>
-    <div class="preloader-copy-col flex flex-1 items-center">
-      <p class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
-        Calamba, Philippines
-        <br />
+
+    <div class="preloader-copy-col flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
+      <div class="flex gap-2 w-full items-center lg:w-[75%]">
+        <span class="preloader-flag-wrap inline-flex h-[0.8rem] items-center overflow-hidden">
+          <img
+            src={phFlag.src}
+            alt="Philippines flag"
+            class="preloader-flag shrink-0 h-[0.8rem] w-auto"
+            loading="eager"
+            decoding="async"
+          />
+        </span>
+        <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono inline-block uppercase">
+          Calamba, Laguna
+        </p>
+      </div>
+
+      <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
         &gt; Open for work
       </p>
     </div>
   </div>
 
-  <div class="preloader-counter flex flex-1 items-center justify-start relative z-[60] lg:justify-end">
-    <p class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono inline-block uppercase">00</p>
+  <div class="preloader-counter text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 uppercase items-center justify-end relative z-[50]">
+    <span class="inline-flex min-w-[4ch] justify-end">
+      <p class="counter-value">0%</p>
+    </span>
   </div>
 </div>
 
@@ -35,6 +56,9 @@
 
   const STORAGE_KEY = "preloader-seen";
   const PRELOADER_SELECTOR = "[data-preloader]";
+  const COPY_LINE_SELECTOR = ".preloader-copy-line";
+  const SCALE_MILESTONES = [25, 50, 75, 100] as const;
+  const EXIT_START_MILESTONE = 92;
 
   function hidePreloader(preloader: HTMLElement) {
     preloader.classList.add("hidden");
@@ -55,8 +79,11 @@
 
   function runPreloader() {
     const preloader = document.querySelector<HTMLElement>(PRELOADER_SELECTOR);
+    const revealer = preloader?.querySelector<HTMLElement>(".preloader-revealer");
+    const counterValue = preloader?.querySelector<HTMLElement>(".counter-value");
+    const flag = preloader?.querySelector<HTMLElement>(".preloader-flag");
 
-    if (!preloader) {
+    if (!preloader || !revealer || !counterValue) {
       return;
     }
 
@@ -69,51 +96,116 @@
     preloader.classList.remove("hidden");
     preloader.removeAttribute("aria-hidden");
 
-    const copyTargets = preloader.querySelectorAll(".preloader-copy p");
-    const counterTarget = preloader.querySelector(".preloader-counter p");
-    const textTargets = [...copyTargets];
+    const copyTargets = preloader.querySelectorAll(COPY_LINE_SELECTOR);
+    const copySplit = splitTextIntoLines(copyTargets);
+    gsap.set(revealer, { opacity: 0, scale: 0.025 });
 
-    if (counterTarget) {
-      textTargets.push(counterTarget);
-    }
+    let isFinalizing = false;
+    let activeMilestone = 0;
 
-    splitTextIntoLines(textTargets);
-    animateCounter(".preloader-counter p", 4.5, 2);
+    const finalizePreloader = () => {
+      sessionStorage.setItem(STORAGE_KEY, "true");
+      hidePreloader(preloader);
+      dispatchPreloaderComplete();
+    };
+
+    const updateRevealerScale = (currentValue: number) => {
+      if (isFinalizing) {
+        return;
+      }
+
+      if (currentValue >= EXIT_START_MILESTONE) {
+        isFinalizing = true;
+
+        const exitTimeline = gsap.timeline({ onComplete: finalizePreloader });
+
+        exitTimeline
+          .to(revealer, {
+            scale: 1,
+            opacity: 1,
+            overwrite: "auto",
+            duration: 1.00,
+            ease: "expo.out",
+          })
+          .to(
+            preloader,
+            {
+              clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+              duration: 1.25,
+              ease: "power3.out",
+            },
+            "-=1",
+          );
+
+        return;
+      }
+
+      let reachedMilestone: (typeof SCALE_MILESTONES)[number] | undefined;
+
+      for (let index = SCALE_MILESTONES.length - 1; index >= 0; index -= 1) {
+        const milestone = SCALE_MILESTONES[index];
+
+        if (currentValue >= milestone) {
+          reachedMilestone = milestone;
+          break;
+        }
+      }
+
+      if (!reachedMilestone || reachedMilestone === activeMilestone) {
+        return;
+      }
+
+      activeMilestone = reachedMilestone;
+
+      gsap.to(revealer, {
+        scale: reachedMilestone / 100,
+        opacity: 1,
+        overwrite: "auto",
+        duration: 0.45,
+        ease: "power3.out",
+      });
+    };
 
     const timeline = gsap.timeline({
       onComplete: () => {
-        sessionStorage.setItem(STORAGE_KEY, "true");
-        hidePreloader(preloader);
-        dispatchPreloaderComplete();
+        gsap.fromTo(
+          revealer,
+          { opacity: 0, scale: 0.025 },
+          {
+            opacity: 1,
+            scale: 0.025,
+            duration: 0.45,
+            ease: "power2.out",
+            overwrite: "auto",
+            onComplete: () => {
+              const counterTimeline = animateCounter(counterValue, 1.35, 0, updateRevealerScale);
+
+              counterTimeline?.eventCallback("onComplete", () => {
+                if (!isFinalizing) {
+                  updateRevealerScale(100);
+                }
+              });
+            },
+          },
+        );
       },
     });
 
-    timeline
-      .fromTo(
-        [".preloader-copy p .line", ".preloader-counter p .line"],
-        { y: "100%" },
-        {
-          y: "0%",
-          duration: 1,
-          stagger: 0.075,
-          ease: "power3.out",
-          delay: 1,
-        },
-      )
-      .to(".preloader-revealer", { scale: 0.1, duration: 0.75, ease: "power2.out" }, "<")
-      .to(".preloader-revealer", { scale: 0.25, duration: 1, ease: "power3.out" })
-      .to(".preloader-revealer", { scale: 0.5, duration: 0.75, ease: "power3.out" })
-      .to(".preloader-revealer", { scale: 0.75, duration: 1, ease: "power2.out" })
-      .to(".preloader-revealer", { scale: 1, duration: 1, ease: "power3.out" })
-      .to(
-        preloader,
-        {
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-          duration: 1.25,
-          ease: "power3.out",
-        },
-        "-=1",
-      );
+    const revealTargets = flag
+      ? [...copySplit.lines, flag]
+      : copySplit.lines;
+
+    timeline.fromTo(
+      revealTargets,
+      { y: "100%" },
+      {
+        y: "0%",
+        duration: 1,
+        stagger: 0.075,
+        ease: "power3.out",
+        delay: 1,
+      },
+    );
   }
 
   document.addEventListener("astro:page-load", runPreloader);

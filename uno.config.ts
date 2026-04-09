@@ -25,7 +25,7 @@ const navIconClasses = siteConfig.navigation.main
 export default defineConfig({
   theme: {
     colors: {
-      accent: "#5b553b",
+      accent: "#fb460d",
     },
   },
   shortcuts: [
