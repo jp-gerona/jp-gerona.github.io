@@ -1,0 +1,127 @@
+<div
+  data-preloader
+  class="preloader text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] [will-change:clip-path] inset-0 fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center"
+>
+  <div class="preloader-revealer bg-accent w-[300%] aspect-square pointer-events-none scale-0 [will-change:transform] left-1/2 top-1/2 absolute z-50 lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
+
+  <div class="preloader-copy flex flex-1 flex-col relative z-[60] lg:flex-row">
+    <div class="preloader-copy-col flex flex-1 items-center">
+      <p class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+        Julian Peter Gerona
+        <br />
+        Full-stack Development
+      </p>
+    </div>
+    <div class="preloader-copy-col flex flex-1 items-center">
+      <p class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+        Calamba, Philippines
+        <br />
+        &gt; Open for work
+      </p>
+    </div>
+  </div>
+
+  <div class="preloader-counter flex flex-1 items-center justify-start relative z-[60] lg:justify-end">
+    <p class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono inline-block uppercase">00</p>
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+  import { SplitText } from "gsap/SplitText";
+  import { animateCounter, splitTextIntoLines } from "@/utils/gsapHelpers";
+
+  gsap.registerPlugin(SplitText);
+
+  const STORAGE_KEY = "preloader-seen";
+  const PRELOADER_SELECTOR = "[data-preloader]";
+
+  function hidePreloader(preloader: HTMLElement) {
+    preloader.classList.add("hidden");
+    preloader.setAttribute("aria-hidden", "true");
+  }
+
+  function dispatchPreloaderComplete() {
+    window.dispatchEvent(new CustomEvent("preloaderComplete"));
+  }
+
+  function shouldRunPreloader() {
+    const hasSeenPreloader = sessionStorage.getItem(STORAGE_KEY) === "true";
+    const navigationEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+    const isHardReload = navigationEntry?.type === "reload";
+
+    return isHardReload || !hasSeenPreloader;
+  }
+
+  function runPreloader() {
+    const preloader = document.querySelector<HTMLElement>(PRELOADER_SELECTOR);
+
+    if (!preloader) {
+      return;
+    }
+
+    if (!shouldRunPreloader()) {
+      hidePreloader(preloader);
+      dispatchPreloaderComplete();
+      return;
+    }
+
+    preloader.classList.remove("hidden");
+    preloader.removeAttribute("aria-hidden");
+
+    const copyTargets = preloader.querySelectorAll(".preloader-copy p");
+    const counterTarget = preloader.querySelector(".preloader-counter p");
+    const textTargets = [...copyTargets];
+
+    if (counterTarget) {
+      textTargets.push(counterTarget);
+    }
+
+    splitTextIntoLines(textTargets);
+    animateCounter(".preloader-counter p", 4.5, 2);
+
+    const timeline = gsap.timeline({
+      onComplete: () => {
+        sessionStorage.setItem(STORAGE_KEY, "true");
+        hidePreloader(preloader);
+        dispatchPreloaderComplete();
+      },
+    });
+
+    timeline
+      .fromTo(
+        [".preloader-copy p .line", ".preloader-counter p .line"],
+        { y: "100%" },
+        {
+          y: "0%",
+          duration: 1,
+          stagger: 0.075,
+          ease: "power3.out",
+          delay: 1,
+        },
+      )
+      .to(".preloader-revealer", { scale: 0.1, duration: 0.75, ease: "power2.out" }, "<")
+      .to(".preloader-revealer", { scale: 0.25, duration: 1, ease: "power3.out" })
+      .to(".preloader-revealer", { scale: 0.5, duration: 0.75, ease: "power3.out" })
+      .to(".preloader-revealer", { scale: 0.75, duration: 1, ease: "power2.out" })
+      .to(".preloader-revealer", { scale: 1, duration: 1, ease: "power3.out" })
+      .to(
+        preloader,
+        {
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+          duration: 1.25,
+          ease: "power3.out",
+        },
+        "-=1",
+      );
+  }
+
+  document.addEventListener("astro:page-load", runPreloader);
+</script>
+
+<style is:global>
+  .line {
+    will-change: transform;
+    transform: translateY(100%);
+  }
+</style>

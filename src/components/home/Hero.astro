@@ -1,0 +1,38 @@
+<script>
+  import gsap from "gsap";
+
+  const HERO_TARGETS = ["nav", ".hero-img", ".hero-content"];
+
+  let heroTimeline: gsap.core.Timeline | null = null;
+
+  function setupHeroTimeline() {
+    heroTimeline?.kill();
+
+    gsap.set(HERO_TARGETS, {
+      y: "35svh",
+    });
+
+    heroTimeline = gsap.timeline({ paused: true });
+    heroTimeline.to(HERO_TARGETS, {
+      y: "0%",
+      duration: 1.25,
+      ease: "power3.out",
+    });
+  }
+
+  function playHeroTimeline() {
+    if (!heroTimeline) {
+      setupHeroTimeline();
+    }
+
+    heroTimeline?.play(0);
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    setupHeroTimeline();
+  });
+
+  window.addEventListener("preloaderComplete", () => {
+    playHeroTimeline();
+  });
+</script>
