@@ -8,7 +8,7 @@ import phFlag from "@/assets/ph-flag.svg";
 >
   <div class="preloader-revealer bg-accent w-[300%] aspect-square pointer-events-none scale-0 [will-change:transform] left-1/2 top-1/2 absolute z-[60] lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
 
-  <div class="preloader-copy flex flex-col gap-4 w-full items-start justify-start relative z-[50] lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
+  <div class="preloader-copy flex flex-col gap-4 w-full invisible items-start justify-start relative z-[50] lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
     <div class="preloader-copy-col flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
       <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
         Julian Peter B. Gerona
@@ -24,7 +24,7 @@ import phFlag from "@/assets/ph-flag.svg";
           <img
             src={phFlag.src}
             alt="Philippines flag"
-            class="preloader-flag shrink-0 h-[0.8rem] w-auto"
+            class="preloader-flag border-rd-[0.125rem] shrink-0 h-[0.8rem] w-auto"
             loading="eager"
             decoding="async"
           />
@@ -40,7 +40,7 @@ import phFlag from "@/assets/ph-flag.svg";
     </div>
   </div>
 
-  <div class="preloader-counter text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 uppercase items-center justify-end relative z-[50]">
+  <div class="preloader-counter text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 invisible uppercase items-center justify-end relative z-[50]">
     <span class="inline-flex min-w-[4ch] justify-end">
       <p class="counter-value">0%</p>
     </span>
@@ -81,9 +81,11 @@ import phFlag from "@/assets/ph-flag.svg";
     const preloader = document.querySelector<HTMLElement>(PRELOADER_SELECTOR);
     const revealer = preloader?.querySelector<HTMLElement>(".preloader-revealer");
     const counterValue = preloader?.querySelector<HTMLElement>(".counter-value");
+    const copyContainer = preloader?.querySelector<HTMLElement>(".preloader-copy");
+    const counterContainer = preloader?.querySelector<HTMLElement>(".preloader-counter");
     const flag = preloader?.querySelector<HTMLElement>(".preloader-flag");
 
-    if (!preloader || !revealer || !counterValue) {
+    if (!preloader || !revealer || !counterValue || !copyContainer || !counterContainer) {
       return;
     }
 
@@ -99,6 +101,10 @@ import phFlag from "@/assets/ph-flag.svg";
     const copyTargets = preloader.querySelectorAll(COPY_LINE_SELECTOR);
     const copySplit = splitTextIntoLines(copyTargets);
     gsap.set(revealer, { opacity: 0, scale: 0.025 });
+
+    // Unhide content only after SplitText has wrapped lines to avoid first-paint flash.
+    copyContainer.classList.remove("invisible");
+    counterContainer.classList.remove("invisible");
 
     let isFinalizing = false;
     let activeMilestone = 0;
