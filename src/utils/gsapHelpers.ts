@@ -1,9 +1,10 @@
-// eslint-disable-next-line unused-imports/no-unused-imports
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 
 type SplitTarget = string | Element | Element[] | NodeListOf<Element>;
 type CounterTarget = string | Element;
+
+export const COUNTER_MILESTONES = [9, 17, 25, 34, 42, 50, 59, 67, 75, 84, 92, 96, 100] as const;
 
 export type SplitTextOptions = Partial<SplitText.Vars>;
 
@@ -18,38 +19,77 @@ export function splitTextIntoLines(selector: SplitTarget, options: SplitTextOpti
   return SplitText.create(selector, defaults);
 }
 
-export function animateCounter(selector: CounterTarget, duration = 5, delay = 0) {
+export function animateCounter(
+  selector: CounterTarget,
+  duration = 1,
+  delay = 0,
+  onUpdate?: (progress: number) => void,
+) {
   const counterElement = typeof selector === "string"
-    ? document.querySelector(selector)
+    ? document.querySelector<HTMLElement>(selector)
     : selector;
 
-  if (!counterElement) {
-    return;
+  if (!(counterElement instanceof HTMLElement)) {
+    return null;
   }
 
-  let currentValue = 0;
-  const updateInterval = 200;
-  const maxDuration = duration * 1000;
-  const startTime = Date.now();
+  counterElement.textContent = "";
+  counterElement.style.overflow = "hidden";
+  counterElement.style.display = "inline-flex";
+  counterElement.style.height = "1em";
+  counterElement.style.lineHeight = "1em";
+  counterElement.style.justifyContent = "flex-end";
+  counterElement.style.minWidth = "4ch";
+  counterElement.style.textAlign = "right";
 
-  setTimeout(() => {
-    const updateCounter = () => {
-      const elapsedTime = Date.now() - startTime;
-      const progress = elapsedTime / maxDuration;
+  const strip = document.createElement("div");
+  strip.style.display = "flex";
+  strip.style.flexDirection = "column";
+  strip.style.alignItems = "flex-end";
+  strip.style.width = "100%";
+  strip.style.willChange = "transform";
 
-      if (currentValue < 100 && elapsedTime < maxDuration) {
-        const target = Math.floor(progress * 100);
-        const jump = Math.floor(Math.random() * 25) + 5;
-        currentValue = Math.min(currentValue + jump, target, 100);
+  for (let value = 0; value <= 100; value += 1) {
+    const item = document.createElement("div");
+    item.textContent = `${value}%`;
+    item.style.height = "1em";
+    item.style.lineHeight = "1em";
+    item.style.display = "flex";
+    item.style.alignItems = "center";
+    item.style.justifyContent = "flex-end";
+    item.style.width = "100%";
+    item.style.minWidth = "4ch";
+    strip.append(item);
+  }
 
-        counterElement.textContent = currentValue.toString().padStart(2, "0");
-        setTimeout(updateCounter, updateInterval + Math.random() * 100);
-      }
-      else {
-        counterElement.textContent = "100";
-      }
-    };
+  counterElement.append(strip);
 
-    updateCounter();
-  }, delay * 1000);
+  const firstItem = strip.firstElementChild as HTMLDivElement | null;
+  const itemHeight = firstItem?.getBoundingClientRect().height
+    || counterElement.getBoundingClientRect().height
+    || 16;
+
+  const counterTimeline = gsap.timeline({ delay });
+  const rampEase = gsap.parseEase("power3.in");
+  let previousRampedProgress = 0;
+
+  for (const milestone of COUNTER_MILESTONES) {
+    const currentProgress = milestone / 100;
+    const currentRampedProgress = rampEase(currentProgress);
+    const stepDuration = Math.max((currentRampedProgress - previousRampedProgress) * duration, 0.02);
+
+    counterTimeline.to(strip, {
+      y: -(milestone * itemHeight),
+      duration: stepDuration,
+      ease: "expo.out",
+      overwrite: "auto",
+      onStart: () => {
+        onUpdate?.(milestone);
+      },
+    });
+
+    previousRampedProgress = currentRampedProgress;
+  }
+
+  return counterTimeline;
 }
