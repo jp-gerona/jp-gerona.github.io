@@ -18,7 +18,7 @@ export const siteConfig: Site = {
         kind: "icon",
         label: "Curriculum Vitae",
         title: "Curriculum Vitae",
-        href: "https://drive.proton.me/urls/D2MYMMHANM#Lcgv3SA5hZeD",
+        href: "/docs/cv.pdf",
         icon: "i-la-file-alt",
         external: true,
       },
