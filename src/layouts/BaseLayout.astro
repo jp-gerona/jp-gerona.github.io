@@ -32,6 +32,22 @@ const { title, description, ogImage } = Astro.props;
     <script>
       import { initSmoothScroll } from "@/utils/smoothScroll";
 
+      type WindowWithNavigationState = Window & {
+        hasClientNavigation?: boolean;
+        preloaderActive?: boolean;
+      };
+
+      document.addEventListener("astro:before-preparation", () => {
+        const windowState = window as WindowWithNavigationState;
+
+        windowState.hasClientNavigation = true;
+
+        if (windowState.preloaderActive) {
+          windowState.preloaderActive = false;
+          window.dispatchEvent(new CustomEvent("preloaderComplete"));
+        }
+      });
+
       document.addEventListener("astro:page-load", initSmoothScroll);
     </script>
   </body>
