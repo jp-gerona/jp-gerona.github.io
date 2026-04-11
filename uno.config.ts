@@ -33,6 +33,10 @@ export default defineConfig({
       TRANSITION_SHORTCUT_REGEX,
       match => `transition-${match[1] === "op" ? "opacity" : match[1]} duration-${match[2] ? match[2] : "300"} ease-in-out`,
     ],
+    [
+      "preloader-text",
+      "text-[0.8rem] text-white leading-snug tracking-[-0.0125rem] font-500 font-mono uppercase",
+    ],
   ],
   safelist: [
     ...navIcons,
