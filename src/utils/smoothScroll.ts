@@ -8,7 +8,7 @@ let lenisInstance: Lenis | null = null;
 let tickerCallback: ((time: number) => void) | null = null;
 let removeScrollListener: (() => void) | null = null;
 let hasBoundPreloaderEvents = false;
-let isMobileOrTablet = false;
+let shouldDisableLenisForDevice = false;
 let isScrollLocked = false;
 let previousHtmlOverflow = "";
 let previousBodyOverflow = "";
@@ -33,6 +33,22 @@ function isMobileOrTabletBrowser() {
   const isTabletViewport = window.matchMedia(MOBILE_TABLET_VIEWPORT_QUERY).matches;
 
   return isKnownMobileOrTabletUserAgent || isIpadDesktopMode || (hasCoarsePointer && isTabletViewport);
+}
+
+function canUseLenisOnDevice() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return !ScrollTrigger.isTouch && !isMobileOrTabletBrowser();
+}
+
+function disableScrollNormalization() {
+  const scrollTriggerWithNormalize = ScrollTrigger as unknown as {
+    normalizeScroll?: (normalize?: boolean) => unknown;
+  };
+
+  scrollTriggerWithNormalize.normalizeScroll?.(false);
 }
 
 function isPreloaderActive() {
@@ -94,7 +110,7 @@ function bindPreloaderEvents() {
   window.addEventListener("preloaderComplete", () => {
     unlockNativeScroll();
 
-    if (lenisInstance && !isMobileOrTablet) {
+    if (lenisInstance && !shouldDisableLenisForDevice) {
       lenisInstance.start();
       ScrollTrigger.refresh();
     }
@@ -122,9 +138,10 @@ export function initSmoothScroll() {
   }
 
   bindPreloaderEvents();
-  isMobileOrTablet = isMobileOrTabletBrowser();
+  disableScrollNormalization();
+  shouldDisableLenisForDevice = !canUseLenisOnDevice();
 
-  if (isMobileOrTablet) {
+  if (shouldDisableLenisForDevice) {
     destroySmoothScroll();
 
     if (isPreloaderActive()) {
