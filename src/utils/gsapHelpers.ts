@@ -13,6 +13,7 @@ export function splitTextIntoLines(selector: SplitTarget, options: SplitTextOpti
     ...options,
     type: options.type ?? "lines",
     mask: options.mask ?? "lines",
+    aria: options.aria ?? "none",
     linesClass: options.linesClass ?? "line",
   } satisfies SplitText.Vars;
 
