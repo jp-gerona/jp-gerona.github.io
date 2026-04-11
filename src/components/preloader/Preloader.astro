@@ -4,11 +4,11 @@ import phFlag from "@/assets/ph-flag.svg";
 
 <div
   data-preloader
-  class="preloader text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] [will-change:clip-path] inset-0 justify-between fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center lg:justify-start"
+  class="preloader will-change:clip-path text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] inset-0 justify-between fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center lg:justify-start"
 >
-  <div class="preloader-revealer bg-accent w-[300%] aspect-square pointer-events-none scale-0 [will-change:transform] left-1/2 top-1/2 absolute z-[60] lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="preloader-revealer will-change:transform bg-accent w-[300%] aspect-square pointer-events-none scale-0 left-1/2 top-1/2 absolute z-60 lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
 
-  <div class="preloader-copy flex flex-col gap-4 w-full invisible items-start justify-start relative z-[50] lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
+  <div class="preloader-copy flex flex-col gap-4 w-full invisible items-start justify-start relative z-50 lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
     <div class="preloader-copy-col flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
       <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
         Julian Peter B. Gerona
@@ -40,7 +40,7 @@ import phFlag from "@/assets/ph-flag.svg";
     </div>
   </div>
 
-  <div class="preloader-counter text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 invisible uppercase items-center justify-end relative z-[50]">
+  <div class="preloader-counter text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 invisible uppercase items-center justify-end relative z-50">
     <span class="inline-flex min-w-[4ch] justify-end">
       <p class="counter-value">0%</p>
     </span>
@@ -60,10 +60,18 @@ import phFlag from "@/assets/ph-flag.svg";
   const SCALE_MILESTONES = [25, 50, 75, 100] as const;
   const EXIT_START_MILESTONE = 92;
 
-  type WindowWithPreloader = Window & { __jpPreloaderDone?: boolean };
+  type WindowWithPreloader = Window & {
+    hasClientNavigation?: boolean;
+    preloaderActive?: boolean;
+    preloaderDone?: boolean;
+  };
 
   function setPreloaderDone(done: boolean) {
-    (window as WindowWithPreloader).__jpPreloaderDone = done;
+    (window as WindowWithPreloader).preloaderDone = done;
+  }
+
+  function setPreloaderActive(isActive: boolean) {
+    (window as WindowWithPreloader).preloaderActive = isActive;
   }
 
   function hidePreloader(preloader: HTMLElement) {
@@ -71,7 +79,12 @@ import phFlag from "@/assets/ph-flag.svg";
     preloader.setAttribute("aria-hidden", "true");
   }
 
+  function dispatchPreloaderStart() {
+    window.dispatchEvent(new CustomEvent("preloaderStart"));
+  }
+
   function dispatchPreloaderComplete() {
+    setPreloaderActive(false);
     setPreloaderDone(true);
     window.dispatchEvent(new CustomEvent("preloaderComplete"));
   }
@@ -82,8 +95,13 @@ import phFlag from "@/assets/ph-flag.svg";
 
   function shouldRunPreloader() {
     const hasSeenPreloader = sessionStorage.getItem(STORAGE_KEY) === "true";
+    const hasClientNavigation = Boolean((window as WindowWithPreloader).hasClientNavigation);
     const navigationEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
     const isHardReload = navigationEntry?.type === "reload";
+
+    if (hasClientNavigation) {
+      return false;
+    }
 
     return isHardReload || !hasSeenPreloader;
   }
@@ -101,6 +119,7 @@ import phFlag from "@/assets/ph-flag.svg";
     }
 
     setPreloaderDone(false);
+    setPreloaderActive(false);
 
     if (!shouldRunPreloader()) {
       dispatchPreloaderExitStart();
@@ -111,6 +130,8 @@ import phFlag from "@/assets/ph-flag.svg";
 
     preloader.classList.remove("hidden");
     preloader.removeAttribute("aria-hidden");
+    setPreloaderActive(true);
+    dispatchPreloaderStart();
 
     const copyTargets = preloader.querySelectorAll(COPY_LINE_SELECTOR);
     const copySplit = splitTextIntoLines(copyTargets);

@@ -2,7 +2,7 @@
 
 ---
 <section
-  class="section-container px-6 py-20 flex min-h-[100svh] items-center justify-center relative overflow-hidden md:px-10"
+  class="section-container px-6 py-20 flex items-center justify-center relative overflow-hidden min-h-svh md:px-10"
 >
   <div class="hero-content mx-auto text-center flex flex-col gap-5 max-w-3xl items-center">
     <p class="text-[0.75rem] tracking-[0.2em] op-70 uppercase md:text-[0.85rem]">
@@ -57,7 +57,7 @@
   document.addEventListener("astro:page-load", () => {
     setupHeroTimeline();
 
-    if ((window as Window & { __jpPreloaderDone?: boolean }).__jpPreloaderDone) {
+    if ((window as Window & { preloaderDone?: boolean }).preloaderDone) {
       playHeroTimeline();
     }
   });
