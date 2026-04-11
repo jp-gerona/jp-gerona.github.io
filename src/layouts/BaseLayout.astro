@@ -28,5 +28,11 @@ const { title, description, ogImage } = Astro.props;
       <slot />
     </main>
     <Footer />
+
+    <script>
+      import { initSmoothScroll } from "@/utils/smoothScroll";
+
+      document.addEventListener("astro:page-load", initSmoothScroll);
+    </script>
   </body>
 </html>

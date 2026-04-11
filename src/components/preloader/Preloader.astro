@@ -60,13 +60,24 @@ import phFlag from "@/assets/ph-flag.svg";
   const SCALE_MILESTONES = [25, 50, 75, 100] as const;
   const EXIT_START_MILESTONE = 92;
 
+  type WindowWithPreloader = Window & { __jpPreloaderDone?: boolean };
+
+  function setPreloaderDone(done: boolean) {
+    (window as WindowWithPreloader).__jpPreloaderDone = done;
+  }
+
   function hidePreloader(preloader: HTMLElement) {
     preloader.classList.add("hidden");
     preloader.setAttribute("aria-hidden", "true");
   }
 
   function dispatchPreloaderComplete() {
+    setPreloaderDone(true);
     window.dispatchEvent(new CustomEvent("preloaderComplete"));
+  }
+
+  function dispatchPreloaderExitStart() {
+    window.dispatchEvent(new CustomEvent("preloaderExitStart"));
   }
 
   function shouldRunPreloader() {
@@ -89,7 +100,10 @@ import phFlag from "@/assets/ph-flag.svg";
       return;
     }
 
+    setPreloaderDone(false);
+
     if (!shouldRunPreloader()) {
+      dispatchPreloaderExitStart();
       hidePreloader(preloader);
       dispatchPreloaderComplete();
       return;
@@ -122,6 +136,7 @@ import phFlag from "@/assets/ph-flag.svg";
 
       if (currentValue >= EXIT_START_MILESTONE) {
         isFinalizing = true;
+        dispatchPreloaderExitStart();
 
         const exitTimeline = gsap.timeline({ onComplete: finalizePreloader });
 
