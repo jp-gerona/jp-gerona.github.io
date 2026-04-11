@@ -1,254 +1,278 @@
 ---
-import phFlag from "@/assets/ph-flag.svg";
+import phFlag from "@/assets/ph-flag.svg?raw";
 ---
 
 <div
   data-preloader
-  class="preloader will-change:clip-path text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] inset-0 justify-between fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center lg:justify-start"
+  class="will-change:clip-path text-white p-8 bg-black flex flex-col w-full [clip-path:polygon(0%_0%,100%_0%,100%_100%,0%_100%)] inset-0 justify-between fixed z-50 overflow-hidden h-svh lg:flex-row lg:items-center lg:justify-start"
 >
-  <div class="preloader-revealer will-change:transform bg-accent w-[300%] aspect-square pointer-events-none scale-0 left-1/2 top-1/2 absolute z-60 lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
+  <div data-preloader-revealer class="will-change:transform bg-accent w-[300%] aspect-square pointer-events-none scale-0 left-1/2 top-1/2 absolute z-60 lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
 
-  <div class="preloader-copy flex flex-col gap-4 w-full invisible items-start justify-start relative z-50 lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
-    <div class="preloader-copy-col flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
-      <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+  <div data-preloader-copy class="flex flex-col gap-4 w-full invisible items-start justify-start relative z-50 lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
+    <div data-preloader-copy-col class="flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
+      <p
+        data-preloader-copy-line
+        class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
+        aria-hidden="true"
+      >
         Julian Peter B. Gerona
       </p>
-      <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+      <span class="sr-only">Julian Peter B. Gerona</span>
+      <p
+        data-preloader-copy-line
+        class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
+        aria-hidden="true"
+      >
         Aspiring Software Engineer
       </p>
+      <span class="sr-only">Aspiring Software Engineer</span>
     </div>
 
-    <div class="preloader-copy-col flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
+    <div data-preloader-copy-col class="flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
       <div class="flex gap-2 w-full items-center lg:w-[75%]">
-        <span class="preloader-flag-wrap inline-flex h-[0.8rem] items-center overflow-hidden">
-          <img
-            src={phFlag.src}
-            alt="Philippines flag"
-            class="preloader-flag border-rd-[0.125rem] shrink-0 h-[0.8rem] w-auto"
-            loading="eager"
-            decoding="async"
-          />
+        <span
+          data-preloader-flag
+          class="inline-flex h-[0.8rem] items-center overflow-hidden [&_svg]:h-[0.8rem] [&_svg]:w-auto"
+        >
+          <Fragment set:html={phFlag} />
         </span>
-        <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono inline-block uppercase">
+        <p
+          data-preloader-copy-line
+          class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono inline-block uppercase"
+          aria-hidden="true"
+        >
           Calamba, Laguna
         </p>
+        <span class="sr-only">Calamba, Laguna</span>
       </div>
-
-      <p class="preloader-copy-line text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]">
+      <p
+        data-preloader-copy-line
+        class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
+        aria-hidden="true"
+      >
         &gt; Open for work
       </p>
+      <span class="sr-only">&gt; Open for work</span>
     </div>
   </div>
 
-  <div class="preloader-counter text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 invisible uppercase items-center justify-end relative z-50">
+  <div data-preloader-counter class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 invisible uppercase items-center justify-end relative z-50">
     <span class="inline-flex min-w-[4ch] justify-end">
-      <p class="counter-value">0%</p>
+      <p class="counter-value" aria-hidden="true">0%</p>
     </span>
+    <span class="sr-only">Load Progress</span>
   </div>
 </div>
 
 <script>
-  import gsap from "gsap";
-  import { SplitText } from "gsap/SplitText";
-  import { animateCounter, splitTextIntoLines } from "@/utils/gsapHelpers";
+import gsap from "gsap";
+import { SplitText } from "gsap/SplitText";
+import { animateCounter, splitTextIntoLines } from "@/utils/gsapHelpers";
 
-  gsap.registerPlugin(SplitText);
+gsap.registerPlugin(SplitText);
 
-  const STORAGE_KEY = "preloader-seen";
-  const PRELOADER_SELECTOR = "[data-preloader]";
-  const COPY_LINE_SELECTOR = ".preloader-copy-line";
-  const SCALE_MILESTONES = [25, 50, 75, 100] as const;
-  const EXIT_START_MILESTONE = 92;
+const STORAGE_KEY = "preloader-seen";
+const COPY_LINE_SELECTOR = "[data-preloader-copy-line]";
+const SCALE_MILESTONES = [25, 50, 75, 100] as const;
+const EXIT_START_MILESTONE = 92;
 
-  type WindowWithPreloader = Window & {
-    hasClientNavigation?: boolean;
-    preloaderActive?: boolean;
-    preloaderDone?: boolean;
+type WindowWithPreloader = Window & {
+  hasClientNavigation?: boolean;
+  preloaderActive?: boolean;
+  preloaderDone?: boolean;
+};
+
+function setPreloaderDone(done: boolean) {
+  (window as WindowWithPreloader).preloaderDone = done;
+}
+
+function setPreloaderActive(isActive: boolean) {
+  (window as WindowWithPreloader).preloaderActive = isActive;
+}
+
+function hidePreloader(preloader: HTMLElement) {
+  preloader.classList.add("hidden");
+  preloader.setAttribute("aria-hidden", "true");
+}
+
+function dispatchPreloaderStart() {
+  window.dispatchEvent(new CustomEvent("preloaderStart"));
+}
+
+function dispatchPreloaderComplete() {
+  setPreloaderActive(false);
+  setPreloaderDone(true);
+  window.dispatchEvent(new CustomEvent("preloaderComplete"));
+}
+
+function dispatchPreloaderExitStart() {
+  window.dispatchEvent(new CustomEvent("preloaderExitStart"));
+}
+
+function shouldRunPreloader() {
+  const hasSeenPreloader = sessionStorage.getItem(STORAGE_KEY) === "true";
+  const hasClientNavigation = Boolean((window as WindowWithPreloader).hasClientNavigation);
+  const navigationEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+  const isHardReload = navigationEntry?.type === "reload";
+
+  if (hasClientNavigation) {
+    return false;
+  }
+
+  return isHardReload || !hasSeenPreloader;
+}
+
+function runPreloader() {
+  const preloader = document.querySelector<HTMLElement>("[data-preloader]");
+  const revealer = preloader?.querySelector<HTMLElement>("[data-preloader-revealer]");
+  const counterValue = preloader?.querySelector<HTMLElement>("[data-preloader-counter] .counter-value");
+  const copyContainer = preloader?.querySelector<HTMLElement>("[data-preloader-copy]");
+  const counterContainer = preloader?.querySelector<HTMLElement>("[data-preloader-counter]");
+  const flag = preloader?.querySelector<HTMLElement>("[data-preloader-flag] svg");
+
+  if (!preloader || !revealer || !counterValue || !copyContainer || !counterContainer) {
+    return;
+  }
+
+  setPreloaderDone(false);
+  setPreloaderActive(false);
+
+  if (!shouldRunPreloader()) {
+    dispatchPreloaderExitStart();
+    hidePreloader(preloader);
+    dispatchPreloaderComplete();
+    return;
+  }
+
+  preloader.classList.remove("hidden");
+  preloader.removeAttribute("aria-hidden");
+  setPreloaderActive(true);
+  dispatchPreloaderStart();
+
+  const copyTargets = preloader.querySelectorAll(COPY_LINE_SELECTOR);
+  const copySplit = splitTextIntoLines(copyTargets);
+
+  copyTargets.forEach((target) => {
+    if (target instanceof HTMLParagraphElement) {
+      target.removeAttribute("aria-label");
+    }
+  });
+
+  gsap.set(revealer, { opacity: 0, scale: 0.025 });
+  if (flag)
+    gsap.set(flag, { y: "100%" });
+
+  copyContainer.classList.remove("invisible");
+  counterContainer.classList.remove("invisible");
+
+  let isFinalizing = false;
+  let activeMilestone = 0;
+
+  const finalizePreloader = () => {
+    sessionStorage.setItem(STORAGE_KEY, "true");
+    hidePreloader(preloader);
+    dispatchPreloaderComplete();
   };
 
-  function setPreloaderDone(done: boolean) {
-    (window as WindowWithPreloader).preloaderDone = done;
-  }
-
-  function setPreloaderActive(isActive: boolean) {
-    (window as WindowWithPreloader).preloaderActive = isActive;
-  }
-
-  function hidePreloader(preloader: HTMLElement) {
-    preloader.classList.add("hidden");
-    preloader.setAttribute("aria-hidden", "true");
-  }
-
-  function dispatchPreloaderStart() {
-    window.dispatchEvent(new CustomEvent("preloaderStart"));
-  }
-
-  function dispatchPreloaderComplete() {
-    setPreloaderActive(false);
-    setPreloaderDone(true);
-    window.dispatchEvent(new CustomEvent("preloaderComplete"));
-  }
-
-  function dispatchPreloaderExitStart() {
-    window.dispatchEvent(new CustomEvent("preloaderExitStart"));
-  }
-
-  function shouldRunPreloader() {
-    const hasSeenPreloader = sessionStorage.getItem(STORAGE_KEY) === "true";
-    const hasClientNavigation = Boolean((window as WindowWithPreloader).hasClientNavigation);
-    const navigationEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
-    const isHardReload = navigationEntry?.type === "reload";
-
-    if (hasClientNavigation) {
-      return false;
-    }
-
-    return isHardReload || !hasSeenPreloader;
-  }
-
-  function runPreloader() {
-    const preloader = document.querySelector<HTMLElement>(PRELOADER_SELECTOR);
-    const revealer = preloader?.querySelector<HTMLElement>(".preloader-revealer");
-    const counterValue = preloader?.querySelector<HTMLElement>(".counter-value");
-    const copyContainer = preloader?.querySelector<HTMLElement>(".preloader-copy");
-    const counterContainer = preloader?.querySelector<HTMLElement>(".preloader-counter");
-    const flag = preloader?.querySelector<HTMLElement>(".preloader-flag");
-
-    if (!preloader || !revealer || !counterValue || !copyContainer || !counterContainer) {
+  const updateRevealerScale = (currentValue: number) => {
+    if (isFinalizing) {
       return;
     }
 
-    setPreloaderDone(false);
-    setPreloaderActive(false);
-
-    if (!shouldRunPreloader()) {
+    if (currentValue >= EXIT_START_MILESTONE) {
+      isFinalizing = true;
       dispatchPreloaderExitStart();
-      hidePreloader(preloader);
-      dispatchPreloaderComplete();
+
+      const exitTimeline = gsap.timeline({ onComplete: finalizePreloader });
+
+      exitTimeline
+        .to(revealer, {
+          scale: 1,
+          opacity: 1,
+          overwrite: "auto",
+          duration: 1.00,
+          ease: "expo.out",
+        })
+        .to(
+          preloader,
+          {
+            clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+            duration: 1.25,
+            ease: "power3.out",
+          },
+          "-=1",
+        );
+
       return;
     }
 
-    preloader.classList.remove("hidden");
-    preloader.removeAttribute("aria-hidden");
-    setPreloaderActive(true);
-    dispatchPreloaderStart();
+    let reachedMilestone: (typeof SCALE_MILESTONES)[number] | undefined;
 
-    const copyTargets = preloader.querySelectorAll(COPY_LINE_SELECTOR);
-    const copySplit = splitTextIntoLines(copyTargets);
-    gsap.set(revealer, { opacity: 0, scale: 0.025 });
+    for (let index = SCALE_MILESTONES.length - 1; index >= 0; index -= 1) {
+      const milestone = SCALE_MILESTONES[index];
 
-    // Unhide content only after SplitText has wrapped lines to avoid first-paint flash.
-    copyContainer.classList.remove("invisible");
-    counterContainer.classList.remove("invisible");
-
-    let isFinalizing = false;
-    let activeMilestone = 0;
-
-    const finalizePreloader = () => {
-      sessionStorage.setItem(STORAGE_KEY, "true");
-      hidePreloader(preloader);
-      dispatchPreloaderComplete();
-    };
-
-    const updateRevealerScale = (currentValue: number) => {
-      if (isFinalizing) {
-        return;
+      if (currentValue >= milestone) {
+        reachedMilestone = milestone;
+        break;
       }
+    }
 
-      if (currentValue >= EXIT_START_MILESTONE) {
-        isFinalizing = true;
-        dispatchPreloaderExitStart();
+    if (!reachedMilestone || reachedMilestone === activeMilestone) {
+      return;
+    }
 
-        const exitTimeline = gsap.timeline({ onComplete: finalizePreloader });
+    activeMilestone = reachedMilestone;
 
-        exitTimeline
-          .to(revealer, {
-            scale: 1,
-            opacity: 1,
-            overwrite: "auto",
-            duration: 1.00,
-            ease: "expo.out",
-          })
-          .to(
-            preloader,
-            {
-              clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-              duration: 1.25,
-              ease: "power3.out",
-            },
-            "-=1",
-          );
-
-        return;
-      }
-
-      let reachedMilestone: (typeof SCALE_MILESTONES)[number] | undefined;
-
-      for (let index = SCALE_MILESTONES.length - 1; index >= 0; index -= 1) {
-        const milestone = SCALE_MILESTONES[index];
-
-        if (currentValue >= milestone) {
-          reachedMilestone = milestone;
-          break;
-        }
-      }
-
-      if (!reachedMilestone || reachedMilestone === activeMilestone) {
-        return;
-      }
-
-      activeMilestone = reachedMilestone;
-
-      gsap.to(revealer, {
-        scale: reachedMilestone / 100,
-        opacity: 1,
-        overwrite: "auto",
-        duration: 0.45,
-        ease: "power3.out",
-      });
-    };
-
-    const timeline = gsap.timeline({
-      onComplete: () => {
-        gsap.fromTo(
-          revealer,
-          { opacity: 0, scale: 0.025 },
-          {
-            opacity: 1,
-            scale: 0.025,
-            duration: 0.45,
-            ease: "power2.out",
-            overwrite: "auto",
-            onComplete: () => {
-              const counterTimeline = animateCounter(counterValue, 1.35, 0, updateRevealerScale);
-
-              counterTimeline?.eventCallback("onComplete", () => {
-                if (!isFinalizing) {
-                  updateRevealerScale(100);
-                }
-              });
-            },
-          },
-        );
-      },
+    gsap.to(revealer, {
+      scale: reachedMilestone / 100,
+      opacity: 1,
+      overwrite: "auto",
+      duration: 0.45,
+      ease: "power3.out",
     });
+  };
 
-    const revealTargets = flag
-      ? [...copySplit.lines, flag]
-      : copySplit.lines;
+  const timeline = gsap.timeline({
+    onComplete: () => {
+      gsap.fromTo(
+        revealer,
+        { opacity: 0, scale: 0.025 },
+        {
+          opacity: 1,
+          scale: 0.025,
+          duration: 0.45,
+          ease: "power2.out",
+          overwrite: "auto",
+          onComplete: () => {
+            const counterTimeline = animateCounter(counterValue, 1.35, 0, updateRevealerScale);
 
-    timeline.fromTo(
-      revealTargets,
-      { y: "100%" },
-      {
-        y: "0%",
-        duration: 1,
-        stagger: 0.075,
-        ease: "power3.out",
-        delay: 1,
-      },
-    );
-  }
+            counterTimeline?.eventCallback("onComplete", () => {
+              if (!isFinalizing) {
+                updateRevealerScale(100);
+              }
+            });
+          },
+        },
+      );
+    },
+  });
 
-  document.addEventListener("astro:page-load", runPreloader);
+  const revealTargets = flag
+    ? [...copySplit.lines, flag]
+    : copySplit.lines;
+
+  timeline.fromTo(
+    revealTargets,
+    { y: "100%" },
+    {
+      y: "0%",
+      duration: 1,
+      stagger: 0.075,
+      ease: "power3.out",
+      delay: 1,
+    },
+  );
+}
+
+document.addEventListener("astro:page-load", runPreloader);
 </script>
