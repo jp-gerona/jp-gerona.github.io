@@ -9,10 +9,10 @@ import phFlag from "@/assets/ph-flag.svg?raw";
   <div data-preloader-revealer class="will-change:transform bg-accent w-[300%] aspect-square pointer-events-none scale-0 left-1/2 top-1/2 absolute z-60 lg:w-full -translate-x-1/2 -translate-y-1/2"></div>
 
   <div data-preloader-copy class="flex flex-col gap-4 w-full invisible items-start justify-start relative z-50 lg:flex-1 lg:flex-row lg:gap-0 lg:items-stretch">
-    <div data-preloader-copy-col class="flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
+    <div data-preloader-copy-col class="flex flex-col w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
       <p
         data-preloader-copy-line
-        class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
+        class="preloader-text w-full inline-block lg:w-[75%]"
         aria-hidden="true"
       >
         Julian Peter B. Gerona
@@ -20,7 +20,7 @@ import phFlag from "@/assets/ph-flag.svg?raw";
       <span class="sr-only">Julian Peter B. Gerona</span>
       <p
         data-preloader-copy-line
-        class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
+        class="preloader-text font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
         aria-hidden="true"
       >
         Aspiring Software Engineer
@@ -28,17 +28,17 @@ import phFlag from "@/assets/ph-flag.svg?raw";
       <span class="sr-only">Aspiring Software Engineer</span>
     </div>
 
-    <div data-preloader-copy-col class="flex flex-col gap-2 w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-center">
-      <div class="flex gap-2 w-full items-center lg:w-[75%]">
+    <div data-preloader-copy-col class="flex flex-col w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-start">
+      <div class="flex gap-2 w-full items-baseline lg:w-[75%]">
         <span
           data-preloader-flag
-          class="inline-flex h-[0.8rem] items-center overflow-hidden [&_svg]:h-[0.8rem] [&_svg]:w-auto"
+          class="inline-flex h-[0.6rem] items-center overflow-hidden [&_svg]:h-[0.6rem] [&_svg]:w-auto"
         >
           <Fragment set:html={phFlag} />
         </span>
         <p
           data-preloader-copy-line
-          class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono inline-block uppercase"
+          class="preloader-text inline-block"
           aria-hidden="true"
         >
           Calamba, Laguna
@@ -47,7 +47,7 @@ import phFlag from "@/assets/ph-flag.svg?raw";
       </div>
       <p
         data-preloader-copy-line
-        class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
+        class="preloader-text w-full inline-block uppercase lg:w-[75%]"
         aria-hidden="true"
       >
         &gt; Open for work
@@ -56,7 +56,7 @@ import phFlag from "@/assets/ph-flag.svg?raw";
     </div>
   </div>
 
-  <div data-preloader-counter class="text-[0.8rem] text-white leading-none tracking-[-0.0125rem] font-500 font-mono flex flex-1 invisible uppercase items-center justify-end relative z-50">
+  <div data-preloader-counter data-preloader-copy-line class="preloader-text flex flex-1 invisible uppercase items-center justify-end relative z-50">
     <span class="inline-flex min-w-[4ch] justify-end">
       <p class="counter-value" aria-hidden="true">0%</p>
     </span>
