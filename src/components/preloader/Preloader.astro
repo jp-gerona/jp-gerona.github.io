@@ -13,19 +13,17 @@ import phFlag from "@/assets/ph-flag.svg?raw";
       <p
         data-preloader-copy-line
         class="preloader-text w-full inline-block lg:w-[75%]"
-        aria-hidden="true"
+        aria-label="Julian Peter B. Gerona"
       >
         Julian Peter B. Gerona
       </p>
-      <span class="sr-only">Julian Peter B. Gerona</span>
       <p
         data-preloader-copy-line
         class="preloader-text font-500 font-mono w-full inline-block uppercase lg:w-[75%]"
-        aria-hidden="true"
+        aria-label="Aspiring Software Engineer"
       >
         Aspiring Software Engineer
       </p>
-      <span class="sr-only">Aspiring Software Engineer</span>
     </div>
 
     <div data-preloader-copy-col class="flex flex-col w-full items-start justify-start lg:flex-1 lg:items-center lg:justify-start">
@@ -33,34 +31,32 @@ import phFlag from "@/assets/ph-flag.svg?raw";
         <span
           data-preloader-flag
           class="inline-flex h-[0.6rem] items-center overflow-hidden [&_svg]:h-[0.6rem] [&_svg]:w-auto"
+          aria-label="Philippine Flag"
         >
           <Fragment set:html={phFlag} />
         </span>
         <p
           data-preloader-copy-line
           class="preloader-text inline-block"
-          aria-hidden="true"
+          aria-label="Calamba, Laguna"
         >
           Calamba, Laguna
         </p>
-        <span class="sr-only">Calamba, Laguna</span>
       </div>
       <p
         data-preloader-copy-line
         class="preloader-text w-full inline-block uppercase lg:w-[75%]"
-        aria-hidden="true"
+        aria-label="Open for work"
       >
-        &gt; Open for work
+        &gt;&gt; Open for work
       </p>
-      <span class="sr-only">&gt; Open for work</span>
     </div>
   </div>
 
   <div data-preloader-counter data-preloader-copy-line class="preloader-text flex flex-1 invisible uppercase items-center justify-end relative z-50">
     <span class="inline-flex min-w-[4ch] justify-end">
-      <p class="counter-value" aria-hidden="true">0%</p>
+      <p class="counter-value" aria-label="Load Progress">0%</p>
     </span>
-    <span class="sr-only">Load Progress</span>
   </div>
 </div>
 
