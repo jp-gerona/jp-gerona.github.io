@@ -132,6 +132,22 @@ export function destroySmoothScroll() {
   lenisInstance = null;
 }
 
+export function scrollToTop() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  if (lenisInstance && !shouldDisableLenisForDevice) {
+    lenisInstance.scrollTo(0, {
+      duration: 0.9,
+      easing: (value: number) => 1 - (1 - value) ** 3,
+    });
+    return;
+  }
+
+  window.scrollTo({ behavior: "smooth", top: 0 });
+}
+
 export function initSmoothScroll() {
   if (typeof window === "undefined") {
     return null;
