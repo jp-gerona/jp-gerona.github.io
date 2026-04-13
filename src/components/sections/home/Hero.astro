@@ -2,6 +2,7 @@
 
 ---
 <section
+  data-home-hero
   class="section-container px-6 py-20 flex items-center justify-center relative overflow-hidden min-h-svh md:px-10"
 >
   <div class="hero-content mx-auto text-center flex flex-col gap-5 max-w-3xl items-center">
@@ -27,22 +28,45 @@
 <script>
   import gsap from "gsap";
 
-  const HERO_TARGETS = ["nav", ".hero-img", ".hero-content"];
+  const HERO_SECTION_SELECTOR = "[data-home-hero]";
+  const HERO_TARGETS = [
+    "[data-preloader-transition-nav]",
+    "[data-preloader-transition-dirbar]",
+    ".hero-img",
+    ".hero-content",
+  ];
+
+  type WindowWithHeroTransition = Window & {
+    heroPreloaderExitHandlerBound?: boolean;
+  };
 
   let heroTimeline: gsap.core.Timeline | null = null;
 
   function setupHeroTimeline() {
     heroTimeline?.kill();
 
-    gsap.set(HERO_TARGETS, {
+    if (!document.querySelector(HERO_SECTION_SELECTOR)) {
+      heroTimeline = null;
+      return;
+    }
+
+    const targets = gsap.utils.toArray<HTMLElement>(HERO_TARGETS.join(","));
+
+    if (!targets.length) {
+      heroTimeline = null;
+      return;
+    }
+
+    gsap.set(targets, {
       y: "35svh",
     });
 
     heroTimeline = gsap.timeline({ paused: true });
-    heroTimeline.to(HERO_TARGETS, {
+    heroTimeline.to(targets, {
       y: "0%",
       duration: 1.25,
       ease: "power3.out",
+      overwrite: "auto",
     });
   }
 
@@ -54,15 +78,14 @@
     heroTimeline?.play(0);
   }
 
-  document.addEventListener("astro:page-load", () => {
-    setupHeroTimeline();
-
-    if ((window as Window & { preloaderDone?: boolean }).preloaderDone) {
-      playHeroTimeline();
-    }
-  });
-
-  window.addEventListener("preloaderExitStart", () => {
+  function handlePreloaderExitStart() {
     playHeroTimeline();
-  });
+  }
+
+  const windowWithHeroTransition = window as WindowWithHeroTransition;
+
+  if (!windowWithHeroTransition.heroPreloaderExitHandlerBound) {
+    window.addEventListener("preloaderExitStart", handlePreloaderExitStart);
+    windowWithHeroTransition.heroPreloaderExitHandlerBound = true;
+  }
 </script>
