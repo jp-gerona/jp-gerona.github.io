@@ -134,7 +134,6 @@ function runPreloader() {
   setPreloaderActive(false);
 
   if (!shouldRunPreloader()) {
-    dispatchPreloaderExitStart();
     hidePreloader(preloader);
     dispatchPreloaderComplete();
     return;

@@ -14,7 +14,7 @@ const currentPathname = normalizePath(Astro.url.pathname);
 const navItems = siteConfig.navigation.main;
 ---
 
-<header class="p-4 flex items-center top-0 justify-between sticky z-40">
+<header data-preloader-transition-nav class="p-4 flex w-full items-center top-0 justify-between fixed z-40">
   <Link class="text-[0.8rem] font-500 font-mono uppercase" href="/" title="Julian Peter Gerona @ jp-gerona.github.io">{siteConfig.title}</Link>
   <nav aria-label="Primary">
     <ul class="text-[0.6rem] text-white font-500 font-mono p-0.75 list-none rounded-md bg-black/80 flex uppercase items-center justify-center backdrop-blur-md">
