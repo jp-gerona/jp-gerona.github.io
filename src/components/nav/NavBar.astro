@@ -15,7 +15,17 @@ const navItems = siteConfig.navigation.main;
 ---
 
 <header data-preloader-transition-nav class="p-4 flex w-full items-center top-0 justify-between fixed z-40">
-  <Link class="text-[0.8rem] font-500 font-mono uppercase" href="/" title="Julian Peter Gerona @ jp-gerona.github.io">{siteConfig.title}</Link>
+  <Link
+    data-navbar-hover-target
+    class="text-[0.8rem] font-500 font-mono uppercase"
+    href="/"
+    title="Julian Peter Gerona @ jp-gerona.github.io"
+  >
+    <span aria-hidden="true" class="leading-none align-middle inline-flex h-[1em] items-center relative overflow-hidden">
+      <span data-split-hover-current class="leading-none inline-block">{siteConfig.title}</span>
+      <span data-split-hover-next class="leading-none inline-block left-0 top-0 absolute">{siteConfig.title}</span>
+    </span>
+  </Link>
   <nav aria-label="Primary">
     <ul class="text-[0.6rem] text-white font-500 font-mono p-0.75 list-none rounded-md bg-black/80 flex uppercase items-center justify-center backdrop-blur-md">
       {
@@ -27,6 +37,7 @@ const navItems = siteConfig.navigation.main;
             <li>
               <Link
                 data-navbar-link
+                data-navbar-hover-target
                 class={linkClass}
                 href={item.href}
                 title={item.title ?? item.label}
@@ -34,7 +45,10 @@ const navItems = siteConfig.navigation.main;
                 rel={item.rel}
                 aria-current={isCurrent ? "page" : undefined}
               >
-                {item.label}
+                <span aria-hidden="true" class="leading-none align-middle inline-flex h-[1em] items-center relative overflow-hidden">
+                  <span data-split-hover-current class="leading-none inline-block">{item.label}</span>
+                  <span data-split-hover-next class="leading-none inline-block left-0 top-0 absolute">{item.label}</span>
+                </span>
               </Link>
             </li>
           );
@@ -43,3 +57,19 @@ const navItems = siteConfig.navigation.main;
     </ul>
   </nav>
 </header>
+
+<script>
+  import { setupSplitTextHoverSwap } from "@/utils/gsapHelpers";
+
+  function setupNavBarHover() {
+    setupSplitTextHoverSwap("[data-navbar-hover-target]", {
+      duration: 0.4,
+      ease: "power3.inOut",
+      stagger: 0,
+      type: "lines",
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupNavBarHover);
+  setupNavBarHover();
+</script>
