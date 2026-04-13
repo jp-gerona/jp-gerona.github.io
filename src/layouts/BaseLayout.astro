@@ -3,6 +3,7 @@ import Footer from "@/components/base/Footer.astro";
 import Head from "@/components/base/Head.astro";
 import PageProgress from "@/components/base/PageProgress.astro";
 import NavBar from "@/components/nav/NavBar.astro";
+import DirBar from "@/components/widgets/DirBar.astro";
 import { siteConfig } from "@/site.config";
 import "@/styles/main.css";
 
@@ -27,6 +28,7 @@ const { title, description, ogImage } = Astro.props;
     <main id="main-content">
       <slot />
     </main>
+    <DirBar />
     <Footer />
 
     <script>

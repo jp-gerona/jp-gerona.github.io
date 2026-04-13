@@ -1,24 +1,13 @@
 export type Url = `http://${string}` | `https://${string}`;
 
-export type SiteNavItem
-  = {
-    kind?: "text";
-    label: string;
-    href: string;
-    title?: string;
-    external?: boolean;
-    rel?: string;
-  }
-  | {
-    kind: "icon";
-    label: string;
-    href: string;
-    icon: string;
-    iconClass?: string;
-    title?: string;
-    external?: boolean;
-    rel?: string;
-  };
+export interface SiteNavItem {
+  label: string;
+  href: string;
+  title?: string;
+  external?: boolean;
+  rel?: string;
+  className?: string;
+}
 
 export interface SiteNavigation {
   main: SiteNavItem[];
