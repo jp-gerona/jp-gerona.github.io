@@ -1,46 +1,45 @@
 ---
 import Link from "@/components/base/Link.astro";
-import NavItem from "@/components/nav/NavItem.astro";
-import NavSwitch from "@/components/nav/NavSwitch.astro";
 import { siteConfig } from "@/site.config";
 
-const currentPathname = Astro.url.pathname;
+function normalizePath(pathname: string): string {
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+
+  return pathname;
+}
+
+const currentPathname = normalizePath(Astro.url.pathname);
 const navItems = siteConfig.navigation.main;
-const textItems = navItems.filter(item => item.kind !== "icon");
-const iconItems = navItems.filter(item => item.kind === "icon");
 ---
 
-<header class="px-4 py-3 flex gap-4 items-center top-0 sticky z-40 md:px-8 md:py-6 md:gap-6">
-  <Link
-    href="/"
-    title="Julian Peter Gerona @ jp-gerona.github.io"
-    aria-label="Go to home page"
-    class="text-base leading-none op-60 op-transition md:text-lg hover:op-100"
-  >
-    <span class="whitespace-nowrap">{siteConfig.title}</span>
-  </Link>
-
-  <nav aria-label="Primary" class="flex gap-4 w-full items-center justify-end md:gap-5">
-    <div class="gap-4 grid-flow-col hidden items-center print:op-0 md:gap-5 md:grid">
+<header class="p-4 flex items-center top-0 justify-between sticky z-40">
+  <Link class="text-[0.8rem] font-500 font-mono uppercase" href="/" title="Julian Peter Gerona @ jp-gerona.github.io">{siteConfig.title}</Link>
+  <nav aria-label="Primary">
+    <ul class="text-[0.6rem] text-white font-500 font-mono p-0.75 list-none rounded-md bg-black/80 flex uppercase items-center justify-center backdrop-blur-md">
       {
-        textItems.map(item => (
-          <NavItem item={item} currentPathname={currentPathname} />
-        ))
-      }
+        navItems.map((item) => {
+          const isCurrent = !item.external && normalizePath(item.href) === currentPathname;
+          const linkClass = ["px-4 py-2", item.className].filter(Boolean).join(" ");
 
-      {
-        iconItems.length > 0 && (
-          <span class="bg-zinc-300/60 h-4 w-px dark:bg-zinc-700/60" aria-hidden="true" />
-        )
+          return (
+            <li>
+              <Link
+                data-navbar-link
+                class={linkClass}
+                href={item.href}
+                title={item.title ?? item.label}
+                external={item.external}
+                rel={item.rel}
+                aria-current={isCurrent ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })
       }
-
-      {
-        iconItems.map(item => (
-          <NavItem item={item} currentPathname={currentPathname} />
-        ))
-      }
-    </div>
-
-    <NavSwitch items={navItems} currentPathname={currentPathname} />
+    </ul>
   </nav>
 </header>

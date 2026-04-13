@@ -12,5 +12,3 @@ export const baseEntrySchema = z.object({
 
 export const indexSchema = baseEntrySchema;
 export const projectsSchema = baseEntrySchema;
-export const credentialsSchema = baseEntrySchema;
-export const practicumSchema = baseEntrySchema;

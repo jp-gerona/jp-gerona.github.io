@@ -66,7 +66,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
 
 <a
   class:list={[
-    "op-60 no-underline hover:op-100",
+    "no-underline inline-block",
     { "external-link-cursor": showCursor },
     className,
   ]}
@@ -85,7 +85,6 @@ const umamiEventURL = openInNewTab ? href : undefined;
         <slot />{showIcon && (
           <>
             <span
-              i-ph-arrow-up-right
               aria-hidden="true"
             />{!title && <span class="sr-only">, opens in new tab</span>}
           </>
@@ -99,7 +98,6 @@ const umamiEventURL = openInNewTab ? href : undefined;
         {showIcon && (
           <>
             <span
-              i-ph-arrow-up-right
               aria-hidden="true"
             />{!title && <span class="sr-only">, opens in new tab</span>}
           </>
