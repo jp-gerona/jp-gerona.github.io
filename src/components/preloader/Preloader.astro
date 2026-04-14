@@ -31,6 +31,7 @@ import phFlag from "@/assets/ph-flag.svg?raw";
         <span
           data-preloader-flag
           class="inline-flex h-[0.6rem] items-center overflow-hidden [&_svg]:h-[0.6rem] [&_svg]:w-auto"
+          role="img"
           aria-label="Philippine Flag"
         >
           <Fragment set:html={phFlag} />
@@ -71,11 +72,13 @@ const STORAGE_KEY = "preloader-seen";
 const COPY_LINE_SELECTOR = "[data-preloader-copy-line]";
 const SCALE_MILESTONES = [25, 50, 75, 100] as const;
 const EXIT_START_MILESTONE = 92;
+const INITIALIZED_ATTR = "preloaderInitialized";
 
 type WindowWithPreloader = Window & {
   hasClientNavigation?: boolean;
   preloaderActive?: boolean;
   preloaderDone?: boolean;
+  preloaderPageLoadBound?: boolean;
 };
 
 function setPreloaderDone(done: boolean) {
@@ -87,7 +90,7 @@ function setPreloaderActive(isActive: boolean) {
 }
 
 function hidePreloader(preloader: HTMLElement) {
-  preloader.classList.add("hidden");
+  preloader.style.display = "none";
   preloader.setAttribute("aria-hidden", "true");
 }
 
@@ -103,6 +106,10 @@ function dispatchPreloaderComplete() {
 
 function dispatchPreloaderExitStart() {
   window.dispatchEvent(new CustomEvent("preloaderExitStart"));
+}
+
+function markPreloaderSeen() {
+  sessionStorage.setItem(STORAGE_KEY, "true");
 }
 
 function shouldRunPreloader() {
@@ -130,16 +137,23 @@ function runPreloader() {
     return;
   }
 
+  if (preloader.dataset[INITIALIZED_ATTR] === "true") {
+    return;
+  }
+
+  preloader.dataset[INITIALIZED_ATTR] = "true";
+
   setPreloaderDone(false);
   setPreloaderActive(false);
 
   if (!shouldRunPreloader()) {
+    markPreloaderSeen();
     hidePreloader(preloader);
     dispatchPreloaderComplete();
     return;
   }
 
-  preloader.classList.remove("hidden");
+  preloader.style.removeProperty("display");
   preloader.removeAttribute("aria-hidden");
   setPreloaderActive(true);
   dispatchPreloaderStart();
@@ -164,7 +178,7 @@ function runPreloader() {
   let activeMilestone = 0;
 
   const finalizePreloader = () => {
-    sessionStorage.setItem(STORAGE_KEY, "true");
+    markPreloaderSeen();
     hidePreloader(preloader);
     dispatchPreloaderComplete();
   };
@@ -269,5 +283,17 @@ function runPreloader() {
   );
 }
 
-document.addEventListener("astro:page-load", runPreloader);
+function bindPreloaderPageLoad() {
+  const windowState = window as WindowWithPreloader;
+
+  if (windowState.preloaderPageLoadBound) {
+    return;
+  }
+
+  document.addEventListener("astro:page-load", runPreloader);
+  windowState.preloaderPageLoadBound = true;
+}
+
+bindPreloaderPageLoad();
+runPreloader();
 </script>

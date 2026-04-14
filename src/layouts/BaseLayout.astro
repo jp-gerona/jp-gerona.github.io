@@ -3,6 +3,7 @@ import Footer from "@/components/base/Footer.astro";
 import Head from "@/components/base/Head.astro";
 import PageProgress from "@/components/base/PageProgress.astro";
 import NavBar from "@/components/nav/NavBar.astro";
+import Preloader from "@/components/preloader/Preloader.astro";
 import DirBar from "@/components/widgets/DirBar.astro";
 import { siteConfig } from "@/site.config";
 import "@/styles/main.css";
@@ -22,6 +23,7 @@ const { title, description, ogImage } = Astro.props;
     <Head {title} {description} {ogImage} />
   </head>
   <body>
+    <Preloader />
     <PageProgress />
     <a class="sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
     <NavBar />
@@ -32,16 +34,46 @@ const { title, description, ogImage } = Astro.props;
     <Footer />
 
     <script>
+      import gsap from "gsap";
       import { initSmoothScroll } from "@/utils/smoothScroll";
+
+      const PRELOADER_EXIT_TARGETS = [
+        "[data-preloader-transition-nav]",
+        "[data-preloader-transition-dirbar]",
+        "#main-content",
+      ];
 
       type WindowWithNavigationState = Window & {
         hasClientNavigation?: boolean;
         preloaderActive?: boolean;
+        preloaderExitTransitionBound?: boolean;
       };
 
-      document.addEventListener("astro:before-preparation", () => {
-        const windowState = window as WindowWithNavigationState;
+      function playPreloaderExitTransition() {
+        const targets = gsap.utils.toArray<HTMLElement>(PRELOADER_EXIT_TARGETS.join(","));
 
+        if (!targets.length) {
+          return;
+        }
+
+        gsap.killTweensOf(targets);
+        gsap.set(targets, { y: "35svh" });
+        gsap.to(targets, {
+          y: "0%",
+          duration: 1.25,
+          ease: "power3.out",
+          overwrite: "auto",
+        });
+      }
+
+      const windowState = window as WindowWithNavigationState;
+
+      if (!windowState.preloaderExitTransitionBound) {
+        window.addEventListener("preloaderExitStart", playPreloaderExitTransition);
+        windowState.preloaderExitTransitionBound = true;
+      }
+
+      document.addEventListener("astro:before-preparation", () => {
         windowState.hasClientNavigation = true;
 
         if (windowState.preloaderActive) {
