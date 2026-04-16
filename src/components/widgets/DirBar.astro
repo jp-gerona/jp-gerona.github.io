@@ -29,73 +29,158 @@ const directoryLinks = [
 ] as const;
 ---
 
-<div data-preloader-transition-dirbar class="flex gap-4 items-center bottom-4 right-4 fixed z-40">
-  <ul class="text-[0.7rem] leading-none tracking-[-0.0125rem] font-500 font-mono list-none flex flex-row gap-4 uppercase">
-    {
-      directoryLinks.map(link => (
-        <li>
-          <Link data-dirbar-hover-line-target external={link.external} href={link.href} title={link.title}>
-            <span aria-hidden="true" class="leading-none align-middle inline-flex h-[1em] items-center relative overflow-hidden">
-              <span data-split-hover-current class="leading-none inline-block">{link.label}</span>
-              <span data-split-hover-next class="leading-none inline-block left-0 top-0 absolute">{link.label}</span>
-            </span>
-          </Link>
-        </li>
-      ))
-    }
-  </ul>
-  <button
-    data-to-top-btn
-    data-dirbar-hover-chars-target
-    class="p-1.5 rounded-sm bg-black bg-black/80 inline-flex items-center justify-center backdrop-blur-md"
-    title="Back to Top"
-    aria-label="Back to Top"
-  >
-    <span
-      aria-hidden="true"
-      class="leading-none inline-flex h-[0.8rem] w-[0.8rem] items-center justify-center relative overflow-hidden"
+<div data-dirbar-root data-preloader-transition-dirbar class="w-fit bottom-4 right-4 fixed z-40 overflow-hidden">
+  <div data-dirbar-track class="flex gap-4 items-center">
+    <ul class="text-[0.7rem] font-500 font-mono list-none flex flex-row gap-4 uppercase">
+      {
+        directoryLinks.map(link => (
+          <li>
+            <Link data-dirbar-hover-line-target external={link.external} href={link.href} title={link.title}>
+              <span aria-hidden="true" class="leading-none align-middle inline-flex h-[1em] items-center relative overflow-hidden">
+                <span data-split-hover-current class="leading-none inline-block">{link.label}</span>
+                <span data-split-hover-next class="leading-none inline-block left-0 top-0 absolute">{link.label}</span>
+              </span>
+            </Link>
+          </li>
+        ))
+      }
+    </ul>
+    <button
+      data-to-top-btn
+      data-dirbar-hover-chars-target
+      class="p-1.5 rounded-sm bg-black bg-black/80 inline-flex items-center justify-center backdrop-blur-md"
+      title="Scroll to Top"
+      aria-label="Scroll to Top"
     >
-      <span data-split-hover-current class="inline-flex h-[0.8rem] w-[0.8rem] items-center justify-center">
-        <span class="i-ri-arrow-up-line text-[0.8rem] text-white shrink-0"></span>
+      <span
+        aria-hidden="true"
+        class="leading-none inline-flex h-[0.8rem] w-[0.8rem] items-center justify-center relative overflow-hidden"
+      >
+        <span data-split-hover-current class="inline-flex h-[0.8rem] w-[0.8rem] items-center justify-center">
+          <span class="i-ri-arrow-up-line text-[0.8rem] text-white shrink-0"></span>
+        </span>
+        <span data-split-hover-next class="inline-flex h-[0.8rem] w-[0.8rem] items-center left-0 top-0 justify-center absolute">
+          <span class="i-ri-arrow-up-line text-[0.8rem] text-white shrink-0"></span>
+        </span>
       </span>
-      <span data-split-hover-next class="inline-flex h-[0.8rem] w-[0.8rem] items-center left-0 top-0 justify-center absolute">
-        <span class="i-ri-arrow-up-line text-[0.8rem] text-white shrink-0"></span>
-      </span>
-    </span>
-  </button>
+    </button>
+  </div>
 </div>
 
 <script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
   import { setupSplitTextHoverSwap } from "@/utils/gsapHelpers";
+  import { scrollToTop } from "@/utils/smoothScroll";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const DIRBAR_TRIGGER_ID = "dirbar-reveal-trigger";
+  const DIRBAR_SHOW_AFTER_SCROLL = 400;
+
+  interface DirBarState {
+    abortController: AbortController;
+    revealAnimation: gsap.core.Tween;
+    revealTrigger: ScrollTrigger;
+  }
+
+  interface DirBarWindow extends Window {
+    __dirbarWidgetState?: DirBarState | null;
+    __dirbarWidgetEventsBound?: boolean;
+  }
+
+  const dirBarWindow = window as DirBarWindow;
+
+  function cleanupDirBar() {
+    const previousState = dirBarWindow.__dirbarWidgetState;
+
+    previousState?.abortController?.abort();
+    previousState?.revealTrigger?.kill();
+    previousState?.revealAnimation?.kill();
+
+    ScrollTrigger.getById(DIRBAR_TRIGGER_ID)?.kill();
+
+    dirBarWindow.__dirbarWidgetState = null;
+  }
 
   function setupDirBar() {
+    cleanupDirBar();
+
     setupSplitTextHoverSwap("[data-dirbar-hover-line-target]", {
-      duration: 0.4,
-      ease: "power3.inOut",
+      duration: 0.2,
+      ease: "circle.inOut",
       stagger: 0,
       type: "lines",
     });
 
     setupSplitTextHoverSwap("[data-dirbar-hover-chars-target]", {
-      duration: 0.4,
-      ease: "power3.inOut",
+      duration: 0.2,
+      ease: "circle.inOut",
       stagger: 0,
       type: "chars",
     });
 
+    const track = document.querySelector("[data-dirbar-track]");
     const toTopButton = document.querySelector("[data-to-top-btn]");
 
-    if (!(toTopButton instanceof HTMLButtonElement) || toTopButton.dataset.ready === "true") {
+    if (!(track instanceof HTMLElement) || !(toTopButton instanceof HTMLButtonElement)) {
       return;
     }
 
-    toTopButton.addEventListener("click", () => {
-      window.scrollTo({ behavior: "smooth", top: 0 });
+    const getTrackGap = () => {
+      const computedGap = Number.parseFloat(window.getComputedStyle(track).columnGap || window.getComputedStyle(track).gap);
+      return Number.isFinite(computedGap) ? computedGap : 16;
+    };
+
+    const getHiddenOffset = () => toTopButton.offsetWidth + getTrackGap();
+
+    gsap.set(track, {
+      x: getHiddenOffset(),
     });
 
-    toTopButton.dataset.ready = "true";
+    const revealAnimation = gsap.to(track, {
+      x: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      overwrite: "auto",
+      paused: true,
+    });
+
+    const revealTrigger = ScrollTrigger.create({
+      id: DIRBAR_TRIGGER_ID,
+      trigger: document.documentElement,
+      start: `top+=${DIRBAR_SHOW_AFTER_SCROLL} top`,
+      toggleActions: "play none none reverse",
+      animation: revealAnimation,
+      invalidateOnRefresh: true,
+      onRefresh: () => {
+        if (revealAnimation.progress() === 0) {
+          gsap.set(track, { x: getHiddenOffset() });
+          revealAnimation.invalidate();
+        }
+      },
+    });
+
+    revealTrigger.refresh();
+
+    const abortController = new AbortController();
+
+    toTopButton.addEventListener("click", () => {
+      scrollToTop();
+    }, { signal: abortController.signal });
+
+    dirBarWindow.__dirbarWidgetState = {
+      abortController,
+      revealAnimation,
+      revealTrigger,
+    };
   }
 
-  document.addEventListener("astro:page-load", setupDirBar);
+  if (!dirBarWindow.__dirbarWidgetEventsBound) {
+    document.addEventListener("astro:before-swap", cleanupDirBar);
+    document.addEventListener("astro:page-load", setupDirBar);
+    dirBarWindow.__dirbarWidgetEventsBound = true;
+  }
+
   setupDirBar();
 </script>
