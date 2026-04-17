@@ -12,6 +12,18 @@ export default defineConfig({
       "preloader-text",
       "text-[0.8rem] text-white leading-snug tracking-[-0.0125rem] font-500 font-mono uppercase",
     ],
+    [
+      "focus-ring-core",
+      "focus-visible:(outline-dashed outline-1 outline-offset-4 rounded-none transition-none)",
+    ],
+    [
+      "focus-ring-link",
+      "focus-ring-core focus-visible:outline-current",
+    ],
+    [
+      "focus-ring-link-inner",
+      "group-focus-visible:(outline-dashed outline-1 outline-offset-4 rounded-none transition-none outline-current)",
+    ],
   ],
   presets: [
     presetAttributify(),

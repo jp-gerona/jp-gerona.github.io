@@ -48,6 +48,7 @@ const showCursor
     && externalLink.cursorType !== "pointer";
 
 const showIcon = openInNewTab || externalLink.showNewTabIcon;
+const hasPaddingClass = /\b(?:p|px|py|pt|pr|pb|pl)-/.test(className ?? "");
 
 let umamiEventName: string | undefined;
 if (umami) {
@@ -67,6 +68,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
 <a
   class:list={[
     "no-underline inline-block",
+    hasPaddingClass ? "group focus-visible:outline-none" : "focus-ring-link",
     { "external-link-cursor": showCursor },
     className,
   ]}
@@ -81,7 +83,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
 >
   {
     Astro.slots.has("default") && (
-      <>
+      <span class:list={[hasPaddingClass && "inline-block focus-ring-link-inner"]}>
         <slot />{showIcon && (
           <>
             <span
@@ -89,11 +91,15 @@ const umamiEventURL = openInNewTab ? href : undefined;
             />{!title && <span class="sr-only">, opens in new tab</span>}
           </>
         )}
-      </>
+      </span>
     )
   }{
     Astro.slots.has("title") && (
-      <span class="text-lg leading-1.3em align-middle">
+      <span class:list={[
+        "text-lg leading-1.3em align-middle",
+        hasPaddingClass && "inline-block focus-ring-link-inner",
+      ]}
+      >
         <slot name="title" />
         {showIcon && (
           <>

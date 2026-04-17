@@ -29,7 +29,7 @@ const directoryLinks = [
 ] as const;
 ---
 
-<div data-dirbar-root data-preloader-transition-dirbar class="w-fit bottom-4 right-4 fixed z-40 overflow-hidden">
+<div data-dirbar-root data-preloader-transition-dirbar class="p-2 w-fit bottom-4 right-4 fixed z-40 overflow-hidden">
   <div data-dirbar-track class="flex gap-4 items-center">
     <ul class="text-[0.7rem] font-500 font-mono list-none flex flex-row gap-4 uppercase">
       {
@@ -48,9 +48,11 @@ const directoryLinks = [
     <button
       data-to-top-btn
       data-dirbar-hover-chars-target
-      class="p-1.5 rounded-sm bg-black bg-black/80 inline-flex items-center justify-center backdrop-blur-md"
+      class="focus-ring-core p-1.5 rounded-sm bg-black bg-black/80 inline-flex items-center justify-center backdrop-blur-md focus-visible:outline-black"
       title="Scroll to Top"
       aria-label="Scroll to Top"
+      tabindex="-1"
+      aria-hidden="true"
     >
       <span
         aria-hidden="true"
@@ -146,6 +148,21 @@ const directoryLinks = [
       paused: true,
     });
 
+    const setToTopButtonFocusable = (isFocusable: boolean) => {
+      if (isFocusable) {
+        toTopButton.removeAttribute("tabindex");
+        toTopButton.removeAttribute("aria-hidden");
+        return;
+      }
+
+      if (document.activeElement === toTopButton) {
+        toTopButton.blur();
+      }
+
+      toTopButton.setAttribute("tabindex", "-1");
+      toTopButton.setAttribute("aria-hidden", "true");
+    };
+
     const revealTrigger = ScrollTrigger.create({
       id: DIRBAR_TRIGGER_ID,
       trigger: document.documentElement,
@@ -153,6 +170,12 @@ const directoryLinks = [
       toggleActions: "play none none reverse",
       animation: revealAnimation,
       invalidateOnRefresh: true,
+      onEnter: () => {
+        setToTopButtonFocusable(true);
+      },
+      onLeaveBack: () => {
+        setToTopButtonFocusable(false);
+      },
       onRefresh: () => {
         if (revealAnimation.progress() === 0) {
           gsap.set(track, { x: getHiddenOffset() });
