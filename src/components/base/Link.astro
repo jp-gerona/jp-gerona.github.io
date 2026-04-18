@@ -21,14 +21,7 @@ const {
   ...rest
 } = Astro.props as Props;
 
-// todo: put to site.config.ts as global object
-const externalLink = {
-  newTab: false,
-  cursorType: "",
-  showNewTabIcon: false,
-};
-
-const openInNewTab = external || (external && externalLink.newTab);
+const openInNewTab = external;
 const targetAttr = openInNewTab ? "_blank" : undefined;
 
 const relParts = [openInNewTab && "noopener noreferrer", rel]
@@ -42,13 +35,7 @@ const ariaLabel = openInNewTab
     : undefined
   : title || undefined;
 
-const showCursor
-  = openInNewTab
-    && externalLink.cursorType
-    && externalLink.cursorType !== "pointer";
-
-const showIcon = openInNewTab || externalLink.showNewTabIcon;
-const hasPaddingClass = /\b(?:p|px|py|pt|pr|pb|pl)-/.test(className ?? "");
+const showIcon = openInNewTab;
 
 let umamiEventName: string | undefined;
 if (umami) {
@@ -68,8 +55,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
 <a
   class:list={[
     "no-underline inline-block",
-    hasPaddingClass ? "group focus-visible:outline-none" : "focus-ring-link",
-    { "external-link-cursor": showCursor },
+    "focus-ring-link",
     className,
   ]}
   {href}
@@ -83,7 +69,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
 >
   {
     Astro.slots.has("default") && (
-      <span class:list={[hasPaddingClass && "inline-block focus-ring-link-inner"]}>
+      <span>
         <slot />{showIcon && (
           <>
             <span
@@ -95,11 +81,7 @@ const umamiEventURL = openInNewTab ? href : undefined;
     )
   }{
     Astro.slots.has("title") && (
-      <span class:list={[
-        "text-lg leading-1.3em align-middle",
-        hasPaddingClass && "inline-block focus-ring-link-inner",
-      ]}
-      >
+      <span class="text-lg leading-1.3em align-middle">
         <slot name="title" />
         {showIcon && (
           <>

@@ -12,18 +12,37 @@ export default defineConfig({
       "preloader-text",
       "text-[0.8rem] text-white leading-snug tracking-[-0.0125rem] font-500 font-mono uppercase",
     ],
-    [
-      "focus-ring-core",
-      "focus-visible:(outline-dashed outline-1 outline-offset-4 rounded-none transition-none)",
-    ],
-    [
-      "focus-ring-link",
-      "focus-ring-core focus-visible:outline-current",
-    ],
-    [
-      "focus-ring-link-inner",
-      "group-focus-visible:(outline-dashed outline-1 outline-offset-4 rounded-none transition-none outline-current)",
-    ],
+  ],
+  preflights: [
+    {
+      getCSS: () => `
+        :where(a, button, .focus-ring-core):focus-visible {
+          outline-style: dashed;
+          outline-width: 1px;
+          outline-offset: 4px;
+          border-radius: 0 !important;
+          transition: none;
+        }
+
+        :where(a, .focus-ring-link):focus-visible {
+          outline-color: currentColor;
+        }
+
+        @supports not selector(:focus-visible) {
+          :where(a, button, .focus-ring-core):focus {
+            outline-style: dashed;
+            outline-width: 1px;
+            outline-offset: 4px;
+            border-radius: 0 !important;
+            transition: none;
+          }
+
+          :where(a, .focus-ring-link):focus {
+            outline-color: currentColor;
+          }
+        }
+      `,
+    },
   ],
   presets: [
     presetAttributify(),

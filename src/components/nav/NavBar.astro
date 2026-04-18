@@ -33,7 +33,7 @@ const navItems = siteConfig.navigation.main;
           const isCurrent = !item.external && normalizePath(item.href) === currentPathname;
           const isPracticum = item.label === "Practicum";
           const linkClass = [
-            isPracticum ? "bg-accent px-4 py-2 rounded-sm" : "",
+            isPracticum ? "bg-accent px-4 py-2 rounded-sm focus-visible:!outline-accent" : "",
           ].filter(Boolean).join(" ");
 
           return (

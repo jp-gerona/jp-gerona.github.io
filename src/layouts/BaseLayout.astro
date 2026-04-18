@@ -25,7 +25,7 @@ const { title, description, ogImage } = Astro.props;
   <body>
     <Preloader />
     <PageProgress />
-    <a class="sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
+    <a class="focus-ring-link sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
     <NavBar />
     <main id="main-content">
       <slot />
