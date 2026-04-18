@@ -17,7 +17,7 @@ const navItems = siteConfig.navigation.main;
 <header data-preloader-transition-nav class="p-4 flex w-full items-center top-0 justify-between fixed z-40">
   <Link
     data-navbar-hover-target
-    class="text-[0.8rem] font-500 font-mono uppercase"
+    class="text-[0.8rem] font-500 font-mono shrink-0 uppercase"
     href="/"
     title="Julian Peter Gerona @ jp-gerona.github.io"
   >
@@ -26,15 +26,18 @@ const navItems = siteConfig.navigation.main;
       <span data-split-hover-next class="leading-none inline-block left-0 top-0 absolute">{siteConfig.title}</span>
     </span>
   </Link>
-  <nav aria-label="Primary">
-    <ul class="text-[0.6rem] text-white font-500 font-mono p-0.75 list-none rounded-md bg-black/80 flex uppercase items-center justify-center backdrop-blur-md">
+<nav aria-label="Primary">
+    <ul class="text-[0.6rem] text-white font-500 font-mono p-0.75 list-none rounded-md bg-black/80 flex gap-x-6 uppercase items-center justify-center backdrop-blur-md">
       {
         navItems.map((item) => {
           const isCurrent = !item.external && normalizePath(item.href) === currentPathname;
-          const linkClass = ["px-4 py-2", item.className].filter(Boolean).join(" ");
+          const isPracticum = item.label === "Practicum";
+          const linkClass = [
+            isPracticum ? "bg-accent px-4 py-2 rounded-sm" : "",
+          ].filter(Boolean).join(" ");
 
           return (
-            <li>
+            <li class="first:ml-4">
               <Link
                 data-navbar-link
                 data-navbar-hover-target

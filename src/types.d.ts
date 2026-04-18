@@ -6,7 +6,6 @@ export interface SiteNavItem {
   title?: string;
   external?: boolean;
   rel?: string;
-  className?: string;
 }
 
 export interface SiteNavigation {
