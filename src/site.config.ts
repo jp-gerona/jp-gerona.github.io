@@ -15,7 +15,7 @@ export const siteConfig: Site = {
       { label: "Projects", href: "/projects" },
       { label: "Certificates", href: "/certificates" },
       { label: "RSS", href: "/rss.xml" },
-      { label: "Practicum", href: "/practicum", className: "rounded-sm bg-accent" },
+      { label: "Practicum", href: "/practicum" },
     ],
   },
 };
