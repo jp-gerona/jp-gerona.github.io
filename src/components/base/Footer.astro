@@ -6,7 +6,11 @@ import Link from "./Link.astro";
 const copyright = `2026 - PRESENT © ${siteConfig.author}`;
 ---
 
-<footer class="prose dark:prose-invert">
-  <Link external href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</Link>
+<footer
+  class="section-container text-white px-6 py-20 bg-black flex items-center justify-center relative min-h-svh md:px-10"
+>
+  <div class="mx-auto text-center flex flex-col gap-4 max-w-3xl items-center justify-center">
+    <Link external href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</Link>
   <span>{copyright}</span>
+  </div>
 </footer>
