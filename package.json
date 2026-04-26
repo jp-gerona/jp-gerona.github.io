@@ -14,8 +14,8 @@
   "dependencies": {
     "@astrojs/check": "^0.9.8",
     "@astrojs/sitemap": "^3.7.2",
-    "@astrojs/svelte": "^8.0.4",
-    "astro": "^6.1.0",
+    "@astrojs/svelte": "^8.0.5",
+    "astro": "^6.1.9",
     "astro-robots-txt": "^1.0.0",
     "bits-ui": "^2.16.2",
     "gsap": "^3.14.2",
