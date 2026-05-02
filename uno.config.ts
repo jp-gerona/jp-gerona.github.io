@@ -83,8 +83,8 @@ export default defineConfig({
     presetWebFonts({
       provider: "google",
       fonts: {
-        sans: "Geist",
-        mono: "Geist Mono",
+        sans: "Figtree",
+        mono: "IBM Plex Mono",
       },
       processors: createLocalFontProcessor(),
     }),
