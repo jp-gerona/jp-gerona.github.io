@@ -4,7 +4,39 @@ import { defineConfig, presetAttributify, presetIcons, presetTypography, presetW
 export default defineConfig({
   theme: {
     colors: {
-      accent: "#fb460d",
+      // background
+      "bg0-h": "#f9f5d7",
+      "bg0": "#fbf1c7",
+      "bg0-s": "#f2e5bc",
+      "bg1": "#ebdbb2",
+      "bg2": "#d5c4a1",
+      "bg3": "#bdae93",
+      "bg4": "#a89984",
+
+      // foreground
+      "fg0": "#282828",
+      "fg1": "#3c3836",
+      "fg2": "#504945",
+      "fg3": "#665c54",
+      "fg4": "#7c6f64",
+
+      // accent
+      "red-s": "cc241d",
+      "red-h": "#9d0006",
+      "green-s": "#98971a",
+      "green-h": "#79740e",
+      "yellow-s": "#d79921",
+      "yellow-h": "#b57614",
+      "blue-s": "#458588",
+      "blue-h": "#076678",
+      "purple-s": "#b16286",
+      "purple-h": "#8f3f71",
+      "aqua-s": "#689d6a",
+      "aqua-h": "#427b58",
+      "orange-s": "#d65d0e",
+      "orange-h": "#af3a03",
+      "gray-s": "#7c6f64",
+      "gray-h": "#928374",
     },
   },
   shortcuts: [
