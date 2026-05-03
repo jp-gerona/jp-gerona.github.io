@@ -1,0 +1,143 @@
+---
+---
+
+<div class="ascii-garden-wrapper">
+  <canvas id="ascii-garden" aria-hidden="true"></canvas>
+</div>
+
+<script>
+import type { Plant } from "@/types";
+import { plants } from "@/components/garden/plants";
+
+const CHAR_W = 7.2;
+const CHAR_H = 15;
+const FONT_SIZE = 12;
+const FONT = `${FONT_SIZE}px "IBM Plex Mono", monospace`;
+const MAX_PLANTS = 40;
+
+interface PlacedPlant {
+  plant: Plant;
+  col: number;
+  row: number;
+}
+
+function pickRandomPlant(): Plant {
+  const total = plants.reduce((s, p) => s + p.weight, 0);
+  let r = Math.random() * total;
+  for (const { factory, weight } of plants) {
+    r -= weight;
+    if (r <= 0)
+      return factory();
+  }
+  return plants[0].factory();
+}
+
+function initGarden() {
+  const canvas = document.getElementById("ascii-garden") as HTMLCanvasElement;
+  if (!canvas)
+    return;
+
+  const ctx = canvas.getContext("2d")!;
+  const wrapper = canvas.parentElement!;
+
+  let placed: PlacedPlant[] = [];
+  let currentDpr = window.devicePixelRatio || 1;
+
+  function resize() {
+    currentDpr = window.devicePixelRatio || 1;
+    const rect = wrapper.getBoundingClientRect();
+    canvas.width = Math.round(rect.width * currentDpr);
+    canvas.height = Math.round(rect.height * currentDpr);
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
+    ctx.setTransform(currentDpr, 0, 0, currentDpr, 0, 0);
+    populate(rect.width, rect.height);
+  }
+
+  function populate(w: number, h: number) {
+    placed = [];
+    const gridCols = Math.floor(w / CHAR_W);
+    const gridRows = Math.floor(h / CHAR_H);
+
+    const candidates: [number, number][] = [];
+    for (let row = 1; row < gridRows - 2; row += 3) {
+      for (let col = 2; col < gridCols - 6; col += 8) {
+        const c = col + Math.floor(Math.random() * 6);
+        const r = row + Math.floor(Math.random() * 2);
+        if (c < gridCols - 4 && r < gridRows - 2)
+          candidates.push([c, r]);
+      }
+    }
+
+    for (let i = candidates.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+    }
+
+    const count = Math.min(candidates.length, MAX_PLANTS);
+    for (let i = 0; i < count; i++) {
+      placed.push({
+        plant: pickRandomPlant(),
+        col: candidates[i][0],
+        row: candidates[i][1],
+      });
+    }
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+
+  ctx.font = FONT;
+  ctx.textBaseline = "top";
+
+  function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    if (dpr !== currentDpr)
+      resize();
+
+    const rect = wrapper.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+
+    const now = Date.now();
+
+    for (const { plant, col, row } of placed) {
+      plant.update(now);
+      const lines = plant.getLines();
+      const colors = plant.getColors();
+
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillStyle = colors[i] || colors[0];
+        ctx.font = FONT;
+        ctx.fillText(lines[i], col * CHAR_W, (row + i) * CHAR_H);
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+}
+
+if (document.readyState === "complete") {
+  initGarden();
+}
+else {
+  window.addEventListener("load", initGarden);
+}
+</script>
+
+<style>
+  .ascii-garden-wrapper {
+    grid-column: 1 / -1;
+    align-self: stretch;
+    justify-self: stretch;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #ascii-garden {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

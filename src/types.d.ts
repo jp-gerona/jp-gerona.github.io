@@ -36,3 +36,9 @@ export interface Site {
   navigation: SiteNavigation;
   footer: SiteFooter;
 }
+
+export interface Plant {
+  update: (now: number) => void;
+  getLines: () => string[];
+  getColors: () => string[];
+}
