@@ -69,6 +69,11 @@ const flowerOrange = fixed(
   [gruvbox["orange-h"], gruvbox["green-h"]],
 );
 
+const flowerBlue = fixed(
+  ["  @  ", " \\|/ ", " ^^^ "],
+  [gruvbox["blue-h"], gruvbox["green-h"], gruvbox["green-h"]],
+);
+
 const flowerAqua = fixed(
   [" vvv ", "  Y  ", "^^^^^"],
   [gruvbox["aqua-h"], gruvbox["green-h"], gruvbox["green-h"], gruvbox["green-h"]],
@@ -82,12 +87,13 @@ const flowerPurple = fixed(
 // --- Registry ---
 
 export const plants: { factory: PlantFactory; weight: number }[] = [
-  { factory: flowerWhite, weight: 3 },
-  { factory: grass, weight: 4 },
+  { factory: grass, weight: 3 },
   { factory: dots, weight: 1 },
-  { factory: flowerRed, weight: 2 },
+  { factory: flowerWhite, weight: 2 },
+  { factory: flowerRed, weight: 1 },
   { factory: flowerYellow, weight: 2 },
-  { factory: flowerOrange, weight: 2 },
+  { factory: flowerOrange, weight: 1 },
+  { factory: flowerBlue, weight: 2 },
   { factory: flowerAqua, weight: 2 },
   { factory: flowerPurple, weight: 2 },
 ];

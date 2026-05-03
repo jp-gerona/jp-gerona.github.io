@@ -20,18 +20,14 @@ const footerSections = [
   ...siteConfig.footer.sections,
 ];
 
-const quoteClass = "color-gruvbox-fg0 text-[1.5rem] font-serif font-italic";
-const copyrightClass = "color-gruvbox-fg0 text-[0.7rem] font-mono uppercase";
-const sectionTitleClass = "color-gruvbox-fg1 text-[0.7rem] tracking-tight font-mono shrink-0 uppercase";
-const linkClass = "text-[0.7rem] color-fg0 leading-none tracking-tight font-mono shrink-0 uppercase";
 const currentYear = new Date().getFullYear();
 ---
 
 <footer class="px-8 pt-10 bg-gruvbox-bg0 flex flex-col h-[calc(100svh-57px)] overflow-hidden">
   <div class="flex-1 gap-x-8 gap-y-10 grid grid-rows-[auto_1fr] items-start justify-items-start md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
     <div class="flex flex-col gap-2">
-      <p class={quoteClass}>{siteConfig.footer.quote}</p>
-      <p class={copyrightClass}>
+      <p class="text-[1.5rem] color-gruvbox-fg0 font-serif font-italic">{siteConfig.footer.quote}</p>
+      <p class="text-[0.7rem] color-gruvbox-fg0 font-mono uppercase">
         {siteConfig.footer.copyright} &copy; {currentYear}
       </p>
     </div>
@@ -39,7 +35,7 @@ const currentYear = new Date().getFullYear();
       footerSections.map(section => (
         <ul class="flex flex-col gap-2">
           <li>
-            <p class={sectionTitleClass}>{section.label}</p>
+            <p class="text-[0.7rem] color-gruvbox-fg1 tracking-tight font-mono shrink-0 uppercase">{section.label}</p>
           </li>
           {section.items.map((item) => {
             const isInternal = item.href.startsWith("/");
@@ -47,7 +43,7 @@ const currentYear = new Date().getFullYear();
             return (
               <li>
                 <Link
-                  class={linkClass}
+                  class="text-[0.7rem] color-fg0 leading-none tracking-tight font-mono shrink-0 uppercase"
                   href={item.href}
                   title={item.title ?? item.label}
                   external={item.external}

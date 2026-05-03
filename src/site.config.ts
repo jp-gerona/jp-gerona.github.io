@@ -50,15 +50,15 @@ export const siteConfig: Site = {
         label: "Contact",
         items: [
           {
-            label: "Github",
-            href: `https://github.com/${user}`,
-            title: `Github @ ${user}`,
-            external: true,
-          },
-          {
             label: "Protonmail",
             href: `mailto:${email}`,
             title: `Email @ ${email}`,
+            external: true,
+          },
+          {
+            label: "Github",
+            href: `https://github.com/${user}`,
+            title: `Github @ ${user}`,
             external: true,
           },
           {

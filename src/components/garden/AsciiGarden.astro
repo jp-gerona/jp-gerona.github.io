@@ -7,13 +7,12 @@
 
 <script>
 import type { Plant } from "@/types";
-import { plants } from "@/components/garden/plants";
+import { plants } from "@/components/garden/growPlants";
 
 const CHAR_W = 7.2;
 const CHAR_H = 15;
 const FONT_SIZE = 12;
 const FONT = `${FONT_SIZE}px "IBM Plex Mono", monospace`;
-const MAX_PLANTS = 40;
 
 interface PlacedPlant {
   plant: Plant;
@@ -59,28 +58,32 @@ function initGarden() {
     const gridCols = Math.floor(w / CHAR_W);
     const gridRows = Math.floor(h / CHAR_H);
 
-    const candidates: [number, number][] = [];
-    for (let row = 1; row < gridRows - 2; row += 3) {
-      for (let col = 2; col < gridCols - 6; col += 8) {
-        const c = col + Math.floor(Math.random() * 6);
-        const r = row + Math.floor(Math.random() * 2);
-        if (c < gridCols - 4 && r < gridRows - 2)
-          candidates.push([c, r]);
+    const cellW = 14;
+    const cellH = 5;
+    const halfCell = Math.floor(cellW / 2);
+
+    let rowIndex = 0;
+    for (let row = 1; row < gridRows - 4; row += cellH) {
+      const stagger = rowIndex % 2 === 1 ? halfCell : 0;
+
+      for (let col = 2 + stagger; col < gridCols - 6; col += cellW) {
+        if (Math.random() < 0.15)
+          continue;
+
+        const jitterCol = col + Math.floor(Math.random() * 5) - 2;
+        const jitterRow = row + Math.floor(Math.random() * 3) - 1;
+
+        const c = Math.max(1, Math.min(jitterCol, gridCols - 6));
+        const r = Math.max(1, Math.min(jitterRow, gridRows - 4));
+
+        placed.push({
+          plant: pickRandomPlant(),
+          col: c,
+          row: r,
+        });
       }
-    }
 
-    for (let i = candidates.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
-    }
-
-    const count = Math.min(candidates.length, MAX_PLANTS);
-    for (let i = 0; i < count; i++) {
-      placed.push({
-        plant: pickRandomPlant(),
-        col: candidates[i][0],
-        row: candidates[i][1],
-      });
+      rowIndex++;
     }
   }
 
