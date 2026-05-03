@@ -6,7 +6,6 @@ import eslintPluginAstro from "eslint-plugin-astro";
 export default antfu(
   {
     astro: true,
-    svelte: true,
     unocss: true,
 
     stylistic: {
