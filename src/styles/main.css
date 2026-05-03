@@ -1,5 +1,10 @@
 @import "lenis/dist/lenis.css";
 
+canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
 .line {
   will-change: transform;
   transform: translateY(100%);
