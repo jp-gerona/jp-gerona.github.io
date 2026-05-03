@@ -24,10 +24,11 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer class="px-8 pt-10 bg-gruvbox-bg0 flex flex-col h-[calc(100svh-57px)] overflow-hidden">
-  <div class="flex-1 gap-x-8 gap-y-10 grid grid-rows-[auto_1fr] items-start justify-items-start md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
-    <div class="flex flex-col gap-2">
-      <p class="text-[1.5rem] color-gruvbox-fg0 font-serif font-italic">{siteConfig.footer.quote}</p>
-      <p class="text-[0.7rem] color-gruvbox-fg0 font-mono uppercase">
+  <div class="flex-1 gap-x-8 gap-y-8 grid grid-rows-[auto_auto_auto_minmax(0,1fr)] grid-cols-2 items-start justify-items-start md:gap-y-10 md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))] md:grid-rows-[auto_1fr]">
+
+    <div class="flex flex-col gap-2 col-span-2 md:col-span-1">
+      <p class="text-[1.25em] color-gruvbox-fg0 font-serif font-italic md:text-[1.5em]">{siteConfig.footer.quote}</p>
+      <p class="text-[0.7em] color-gruvbox-fg0 font-mono uppercase">
         {siteConfig.footer.copyright} &copy; {currentYear}
       </p>
     </div>
@@ -35,7 +36,7 @@ const currentYear = new Date().getFullYear();
       footerSections.map(section => (
         <ul class="flex flex-col gap-2">
           <li>
-            <p class="text-[0.7rem] color-gruvbox-fg1 tracking-tight font-mono shrink-0 uppercase">{section.label}</p>
+            <p class="text-[0.7em] color-gruvbox-fg1 leading-relaxed tracking-tight font-mono shrink-0 uppercase">{section.label}</p>
           </li>
           {section.items.map((item) => {
             const isInternal = item.href.startsWith("/");
@@ -43,7 +44,7 @@ const currentYear = new Date().getFullYear();
             return (
               <li>
                 <Link
-                  class="text-[0.7rem] color-fg0 leading-none tracking-tight font-mono shrink-0 uppercase"
+                  class="text-[0.7em] color-fg0 leading-none tracking-tight font-mono shrink-0 uppercase"
                   href={item.href}
                   title={item.title ?? item.label}
                   external={item.external}
