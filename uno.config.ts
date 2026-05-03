@@ -5,38 +5,53 @@ export default defineConfig({
   theme: {
     colors: {
       // background
-      "bg0-h": "#f9f5d7",
-      "bg0": "#fbf1c7",
-      "bg0-s": "#f2e5bc",
-      "bg1": "#ebdbb2",
-      "bg2": "#d5c4a1",
-      "bg3": "#bdae93",
-      "bg4": "#a89984",
+      bg0: "#faf9f7",
+      bg1: "#f9f8f6",
 
       // foreground
-      "fg0": "#282828",
-      "fg1": "#3c3836",
-      "fg2": "#504945",
-      "fg3": "#665c54",
-      "fg4": "#7c6f64",
+      fg0: "#666666",
+      fg1: "#969696",
+      fg2: "#bab8af",
 
-      // accent
-      "red-s": "cc241d",
-      "red-h": "#9d0006",
-      "green-s": "#98971a",
-      "green-h": "#79740e",
-      "yellow-s": "#d79921",
-      "yellow-h": "#b57614",
-      "blue-s": "#458588",
-      "blue-h": "#076678",
-      "purple-s": "#b16286",
-      "purple-h": "#8f3f71",
-      "aqua-s": "#689d6a",
-      "aqua-h": "#427b58",
-      "orange-s": "#d65d0e",
-      "orange-h": "#af3a03",
-      "gray-s": "#7c6f64",
-      "gray-h": "#928374",
+      // border
+      bd: "#e2e2e2",
+
+      // gruvbox
+      gruvbox: {
+        // background
+        "bg0-h": "#1d2021",
+        "bg0": "#191918",
+        "bg0-s": "#32302f",
+        "bg1": "#3c3836",
+        "bg2": "#504945",
+        "bg3": "#665c54",
+        "bg4": "#7c6f64",
+
+        // foreground
+        "fg0": "#fbf1c7",
+        "fg1": "#ebdbb2",
+        "fg2": "#d5c4a1",
+        "fg3": "#bdae93",
+        "fg4": "#a89984",
+
+        // accent
+        "red-s": "cc241d",
+        "red-h": "#fb4934",
+        "green-s": "#98971a",
+        "green-h": "#b8bb26",
+        "yellow-s": "#d79921",
+        "yellow-h": "#fabd2f",
+        "blue-s": "#458588",
+        "blue-h": "#83a598",
+        "purple-s": "#b16286",
+        "purple-h": "#d3869b",
+        "aqua-s": "#689d6a",
+        "aqua-h": "#8ec07c",
+        "orange-s": "#d65d0e",
+        "orange-h": "#fe8019",
+        "gray-s": "#a89984",
+        "gray-h": "#928374",
+      },
     },
   },
   shortcuts: [
@@ -85,6 +100,7 @@ export default defineConfig({
       fonts: {
         sans: "Figtree",
         mono: "IBM Plex Mono",
+        serif: "Playfair Display",
       },
       processors: createLocalFontProcessor(),
     }),

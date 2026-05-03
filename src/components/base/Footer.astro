@@ -3,14 +3,63 @@ import { siteConfig } from "@/site.config";
 
 import Link from "./Link.astro";
 
-const copyright = `2026 - PRESENT © ${siteConfig.author}`;
+function normalizePath(pathname: string): string {
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+
+  return pathname;
+}
+
+const currentPathname = normalizePath(Astro.url.pathname);
+const navItems = siteConfig.navigation.main;
+
+const footerSections = [
+  { label: "Portfolio", items: navItems },
+  ...siteConfig.footer.sections,
+];
+
+const quoteClass = "color-gruvbox-fg0 text-[1.5rem] font-serif font-italic";
+const copyrightClass = "color-gruvbox-fg0 text-[0.7rem] font-mono uppercase";
+const sectionTitleClass = "color-gruvbox-fg1 text-[0.7rem] tracking-tight font-mono shrink-0 uppercase";
+const linkClass = "text-[0.7rem] color-fg0 leading-none tracking-tight font-mono shrink-0 uppercase";
+const currentYear = new Date().getFullYear();
 ---
 
-<footer
-  class="section-container text-white px-6 py-20 bg-black flex items-center justify-center relative min-h-svh md:px-10"
->
-  <div class="mx-auto text-center flex flex-col gap-4 max-w-3xl items-center justify-center">
-    <Link external href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</Link>
-  <span>{copyright}</span>
+<footer class="px-8 pt-10 bg-gruvbox-bg0 min-h-[calc(100svh-57px)] relative">
+  <div class="gap-x-8 gap-y-10 grid items-start justify-items-start md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
+    <div class="flex flex-col gap-2">
+      <p class={quoteClass}>{siteConfig.footer.quote}</p>
+      <p class={copyrightClass}>
+        {siteConfig.footer.copyright} &copy; {currentYear}
+      </p>
+    </div>
+    {
+      footerSections.map(section => (
+        <ul class="flex flex-col gap-2">
+          <li>
+            <p class={sectionTitleClass}>{section.label}</p>
+          </li>
+          {section.items.map((item) => {
+            const isInternal = item.href.startsWith("/");
+            const isCurrent = isInternal && normalizePath(item.href) === currentPathname;
+            return (
+              <li>
+                <Link
+                  class={linkClass}
+                  href={item.href}
+                  title={item.title ?? item.label}
+                  external={item.external}
+                  rel={item.rel}
+                  aria-current={isCurrent ? "page" : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      ))
+    }
   </div>
 </footer>

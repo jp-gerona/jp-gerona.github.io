@@ -1,9 +1,9 @@
 @import "lenis/dist/lenis.css";
 
 .line {
-    will-change: transform;
-    transform: translateY(100%);
-  }
+  will-change: transform;
+  transform: translateY(100%);
+}
 
 /* NProgress */
 #nprogress {
