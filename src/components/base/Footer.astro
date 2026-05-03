@@ -1,6 +1,7 @@
 ---
-import { siteConfig } from "@/site.config";
+import AsciiGarden from "@/components/garden/AsciiGarden.astro";
 
+import { siteConfig } from "@/site.config";
 import Link from "./Link.astro";
 
 function normalizePath(pathname: string): string {
@@ -26,8 +27,8 @@ const linkClass = "text-[0.7rem] color-fg0 leading-none tracking-tight font-mono
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="px-8 pt-10 bg-gruvbox-bg0 min-h-[calc(100svh-57px)] relative">
-  <div class="gap-x-8 gap-y-10 grid items-start justify-items-start md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
+<footer class="px-8 pt-10 bg-gruvbox-bg0 flex flex-col h-[calc(100svh-57px)] overflow-hidden">
+  <div class="flex-1 gap-x-8 gap-y-10 grid grid-rows-[auto_1fr] items-start justify-items-start md:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
     <div class="flex flex-col gap-2">
       <p class={quoteClass}>{siteConfig.footer.quote}</p>
       <p class={copyrightClass}>
@@ -61,5 +62,6 @@ const currentYear = new Date().getFullYear();
         </ul>
       ))
     }
+    <AsciiGarden />
   </div>
 </footer>
