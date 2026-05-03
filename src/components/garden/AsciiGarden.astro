@@ -34,8 +34,9 @@ function pickRandomPlant(): Plant {
 
 function initGarden() {
   const canvas = document.getElementById("ascii-garden") as HTMLCanvasElement;
-  if (!canvas)
+  if (!canvas || canvas.dataset.gardenInit === "true")
     return;
+  canvas.dataset.gardenInit = "true";
 
   const ctx = canvas.getContext("2d")!;
   const wrapper = canvas.parentElement!;
@@ -95,6 +96,10 @@ function initGarden() {
   ctx.textBaseline = "top";
 
   function draw() {
+    if (!canvas.isConnected) {
+      window.removeEventListener("resize", resize);
+      return;
+    }
     const dpr = window.devicePixelRatio || 1;
     if (dpr !== currentDpr)
       resize();
@@ -128,4 +133,5 @@ if (document.readyState === "complete") {
 else {
   window.addEventListener("load", initGarden);
 }
+document.addEventListener("astro:page-load", initGarden);
 </script>
