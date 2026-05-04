@@ -1,99 +1,146 @@
 import type { Plant } from "@/types";
 import { gruvbox } from "@/utils/gruvbox";
 
-type PlantFactory = () => Plant;
+const G = gruvbox["green-h"];
 
-function animated(
-  frames: string[][],
-  colors: string[],
-  minMs: number,
-  maxMs: number,
-): PlantFactory {
-  return () => {
-    let frame = Math.floor(Math.random() * frames.length);
-    let nextTime = Date.now() + minMs + Math.random() * (maxMs - minMs);
+interface Pattern {
+  lines: string[];
+  accent: number[];
+  colors: string[];
+}
 
-    return {
-      update(now: number) {
-        if (now >= nextTime) {
-          frame = (frame + 1) % frames.length;
-          nextTime = now + minMs + Math.random() * (maxMs - minMs);
-        }
-      },
-      getLines: () => frames[frame],
-      getColors: () => colors,
-    };
+interface AnimatedPattern {
+  frames: string[][];
+  accent: number[];
+  colors: string[];
+  minMs: number;
+  maxMs: number;
+}
+
+type PatternEntry
+  = | { kind: "fixed"; pattern: Pattern; weight: number }
+    | { kind: "animated"; pattern: AnimatedPattern; weight: number };
+
+function buildColors(count: number, accent: number[], accentColor: string): string[] {
+  return Array.from({ length: count }, (_, i) =>
+    accent.includes(i) ? accentColor : G);
+}
+
+function pickColor(pool: string[]): string {
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function spawnFixed(p: Pattern): Plant {
+  const c = buildColors(p.lines.length, p.accent, pickColor(p.colors));
+  return {
+    update() {},
+    getLines: () => p.lines,
+    getColors: () => c,
   };
 }
 
-function fixed(lines: string[], colors: string[]): PlantFactory {
-  return () => ({
-    update() {},
-    getLines: () => lines,
-    getColors: () => colors,
-  });
+function spawnAnimated(p: AnimatedPattern): Plant {
+  const c = buildColors(p.frames[0].length, p.accent, pickColor(p.colors));
+  let frame = Math.floor(Math.random() * p.frames.length);
+  let nextTime = Date.now() + p.minMs + Math.random() * (p.maxMs - p.minMs);
+
+  return {
+    update(now: number) {
+      if (now >= nextTime) {
+        frame = (frame + 1) % p.frames.length;
+        nextTime = now + p.minMs + Math.random() * (p.maxMs - p.minMs);
+      }
+    },
+    getLines: () => p.frames[frame],
+    getColors: () => c,
+  };
 }
 
-// --- Animated ---
+// --- Patterns ---
 
-const flowerWhite = animated(
-  [[" (*)", ">/  "], ["(*) ", ">\\"]],
-  [gruvbox.fg1, gruvbox["green-h"]],
-  800,
-  3000,
-);
+const SWAY: AnimatedPattern = {
+  frames: [[" (*)", ">/  "], ["(*) ", ">\\"]],
+  accent: [0],
+  colors: [gruvbox.fg1, gruvbox["purple-h"]],
+  minMs: 800,
+  maxMs: 3000,
+};
 
-const grass = animated(
-  [["\\|/"], ["\\ |/"], ["\\| /"]],
-  [gruvbox["green-h"]],
-  600,
-  2400,
-);
+const WAVE: AnimatedPattern = {
+  frames: [["\\|/"], ["\\ |/"], ["\\| /"]],
+  accent: [0],
+  colors: [G],
+  minMs: 600,
+  maxMs: 2400,
+};
 
-// --- Static ---
+const BLOOM: Pattern = {
+  lines: ["(o)", "\\|/"],
+  accent: [0],
+  colors: [gruvbox["red-h"]],
+};
 
-const dots = fixed([".."], [gruvbox["purple-h"]]);
+const SPROUT: Pattern = {
+  lines: [" .", "\\|", "^^^"],
+  accent: [0],
+  colors: [gruvbox["yellow-h"], gruvbox["red-h"]],
+};
 
-const flowerRed = fixed(
-  ["(o)", "\\|/"],
-  [gruvbox["red-h"], gruvbox["green-h"]],
-);
+const SPIKE: Pattern = {
+  lines: [".", "|"],
+  accent: [0],
+  colors: [gruvbox["orange-h"], gruvbox["yellow-h"]],
+};
 
-const flowerYellow = fixed(
-  [" .", "\\|", "^^^"],
-  [gruvbox["yellow-h"], gruvbox["green-h"], gruvbox["green-h"]],
-);
+const CROWN: Pattern = {
+  lines: ["  @  ", " \\|/ ", " ^^^ "],
+  accent: [0],
+  colors: [gruvbox["blue-h"], gruvbox["aqua-h"], gruvbox["purple-h"]],
+};
 
-const flowerOrange = fixed(
-  [".", "|"],
-  [gruvbox["orange-h"], gruvbox["green-h"]],
-);
+const DROOP: Pattern = {
+  lines: [" vvv ", "  Y  ", "^^^^^"],
+  accent: [0],
+  colors: [gruvbox["aqua-h"], gruvbox["blue-h"]],
+};
 
-const flowerBlue = fixed(
-  ["  @  ", " \\|/ ", " ^^^ "],
-  [gruvbox["blue-h"], gruvbox["green-h"], gruvbox["green-h"]],
-);
+const TUFT: Pattern = {
+  lines: [",,,", "~Y~", "\\|/", "^^^"],
+  accent: [0],
+  colors: [gruvbox["purple-h"], gruvbox["yellow-h"]],
+};
 
-const flowerAqua = fixed(
-  [" vvv ", "  Y  ", "^^^^^"],
-  [gruvbox["aqua-h"], gruvbox["green-h"], gruvbox["green-h"], gruvbox["green-h"]],
-);
-
-const flowerPurple = fixed(
-  [",,,", "~Y~", "\\|/", "^^^"],
-  [gruvbox["purple-h"], gruvbox["green-h"], gruvbox["green-h"], gruvbox["green-h"]],
-);
+const DOTS: Pattern = {
+  lines: [".."],
+  accent: [0],
+  colors: [gruvbox["purple-h"]],
+};
 
 // --- Registry ---
 
-export const plants: { factory: PlantFactory; weight: number }[] = [
-  { factory: grass, weight: 3 },
-  { factory: dots, weight: 1 },
-  { factory: flowerWhite, weight: 2 },
-  { factory: flowerRed, weight: 1 },
-  { factory: flowerYellow, weight: 2 },
-  { factory: flowerOrange, weight: 1 },
-  { factory: flowerBlue, weight: 2 },
-  { factory: flowerAqua, weight: 2 },
-  { factory: flowerPurple, weight: 2 },
+const registry: PatternEntry[] = [
+  { kind: "animated", pattern: SWAY, weight: 3 },
+  { kind: "animated", pattern: WAVE, weight: 3 },
+  { kind: "fixed", pattern: BLOOM, weight: 2 },
+  { kind: "fixed", pattern: SPROUT, weight: 2 },
+  { kind: "fixed", pattern: SPIKE, weight: 1 },
+  { kind: "fixed", pattern: CROWN, weight: 2 },
+  { kind: "fixed", pattern: DROOP, weight: 2 },
+  { kind: "fixed", pattern: TUFT, weight: 2 },
+  { kind: "fixed", pattern: DOTS, weight: 1 },
 ];
+
+const totalWeight = registry.reduce((s, e) => s + e.weight, 0);
+
+export function spawn(): Plant {
+  let r = Math.random() * totalWeight;
+  for (const entry of registry) {
+    r -= entry.weight;
+    if (r <= 0) {
+      return entry.kind === "animated"
+        ? spawnAnimated(entry.pattern)
+        : spawnFixed(entry.pattern);
+    }
+  }
+  return spawnFixed(registry[0].pattern as Pattern);
+}
