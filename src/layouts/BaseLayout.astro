@@ -3,8 +3,6 @@ import Footer from "@/components/base/Footer.astro";
 import Head from "@/components/base/Head.astro";
 import PageProgress from "@/components/base/PageProgress.astro";
 import NavBar from "@/components/nav/NavBar.astro";
-import Preloader from "@/components/preloader/Preloader.astro";
-import DirBar from "@/components/widgets/DirBar.astro";
 import { siteConfig } from "@/site.config";
 import "@/styles/main.css";
 
@@ -20,17 +18,15 @@ const { title, description, ogImage } = Astro.props;
 <!doctype html>
 <html lang={siteConfig.lang}>
   <head>
-    <Head {title} {description} {ogImage} />
+    <Head title={title} description={description} ogImage={ogImage} />
   </head>
   <body>
-    <Preloader />
     <PageProgress />
     <a class="focus-ring-link sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
     <NavBar />
     <main id="main-content">
       <slot />
     </main>
-    <DirBar />
     <Footer />
 
     <script>
