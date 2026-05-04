@@ -8,7 +8,7 @@
 
 <script>
 import type { Plant } from "@/types";
-import { plants } from "@/components/garden/growPlants";
+import { spawn } from "@/components/garden/growPlants";
 
 const CHAR_W = 7.2;
 const CHAR_H = 15;
@@ -19,17 +19,6 @@ interface PlacedPlant {
   plant: Plant;
   col: number;
   row: number;
-}
-
-function pickRandomPlant(): Plant {
-  const total = plants.reduce((s, p) => s + p.weight, 0);
-  let r = Math.random() * total;
-  for (const { factory, weight } of plants) {
-    r -= weight;
-    if (r <= 0)
-      return factory();
-  }
-  return plants[0].factory();
 }
 
 function initGarden() {
@@ -79,7 +68,7 @@ function initGarden() {
         const r = Math.max(1, Math.min(jitterRow, gridRows - 4));
 
         placed.push({
-          plant: pickRandomPlant(),
+          plant: spawn(),
           col: c,
           row: r,
         });
