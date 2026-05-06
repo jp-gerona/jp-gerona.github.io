@@ -8,6 +8,7 @@ interface Props extends HTMLAttributes<"a"> {
   external?: boolean;
   class?: string;
   umami?: string;
+  [key: `data-${string}`]: any;
 }
 
 // todo: probably add bool enableNewTabWarning and add as additional flag to showCursor and showIcon
@@ -19,7 +20,7 @@ const {
   class: className,
   umami,
   ...rest
-} = Astro.props as Props;
+} = Astro.props;
 
 const openInNewTab = external;
 const targetAttr = openInNewTab ? "_blank" : undefined;

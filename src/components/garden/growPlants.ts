@@ -1,7 +1,5 @@
 import type { Plant } from "@/types";
-import { gruvbox } from "@/utils/gruvbox";
-
-const G = gruvbox["green-h"];
+import { gruvbox } from "@/themes/gruvbox";
 
 interface Pattern {
   lines: string[];
@@ -23,7 +21,7 @@ type PatternEntry
 
 function buildColors(count: number, accent: number[], accentColor: string): string[] {
   return Array.from({ length: count }, (_, i) =>
-    accent.includes(i) ? accentColor : G);
+    accent.includes(i) ? accentColor : gruvbox["green-h"]);
 }
 
 function pickColor(pool: string[]): string {
@@ -69,7 +67,7 @@ const SWAY: AnimatedPattern = {
 const WAVE: AnimatedPattern = {
   frames: [["\\|/"], ["\\ |/"], ["\\| /"]],
   accent: [0],
-  colors: [G],
+  colors: [gruvbox["green-h"]],
   minMs: 600,
   maxMs: 2400,
 };
