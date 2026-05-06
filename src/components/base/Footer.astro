@@ -49,7 +49,7 @@ const currentYear = new Date().getFullYear();
       footerSections.map(section => (
         <ul class="flex flex-col gap-2">
           <li>
-            <p class="text-[0.7em] color-gruvbox-fg1 leading-relaxed tracking-tight font-mono shrink-0 uppercase">{section.label}</p>
+            <p class="text-[0.7em] color-gruvbox-fg0 leading-relaxed tracking-tight font-mono shrink-0 uppercase">{section.label}</p>
           </li>
           {section.items.map((item) => {
             const isInternal = item.href.startsWith("/");
@@ -57,7 +57,7 @@ const currentYear = new Date().getFullYear();
             return (
               <li>
                 <Link
-                  class="text-[0.7em] color-fg0 leading-none tracking-tight font-mono shrink-0 uppercase"
+                  class="text-[0.7em] color-gruvbox-gray-h leading-none tracking-tight font-mono shrink-0 uppercase"
                   href={item.href}
                   title={item.title ?? item.label}
                   external={item.external}
