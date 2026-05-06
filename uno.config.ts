@@ -1,20 +1,13 @@
 import { createLocalFontProcessor } from "@unocss/preset-web-fonts/local";
 import { defineConfig, presetAttributify, presetIcons, presetTypography, presetWebFonts, presetWind4 } from "unocss";
 
-import { gruvbox } from "./src/utils/gruvbox";
+import { catpuccin } from "./src/themes/catpuccin";
+import { gruvbox } from "./src/themes/gruvbox";
 
 export default defineConfig({
   theme: {
     colors: {
-      // main
-      bg0: "#faf9f7",
-      bg1: "#f9f8f6",
-      fg0: "#666666",
-      fg1: "#969696",
-      fg2: "#bab8af",
-      bd: "#e2e2e2",
-
-      // gruvbox
+      catpuccin,
       gruvbox,
     },
   },
