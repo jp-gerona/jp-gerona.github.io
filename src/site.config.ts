@@ -41,7 +41,7 @@ export const siteConfig: Site = {
           },
           {
             label: "Sitemap",
-            href: "/sitemap.xml",
+            href: "/sitemap-index.xml",
             title: "Sitemap",
           },
         ],
