@@ -47,7 +47,8 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp"
+      "sharp",
+      "esbuild"
     ]
   },
   "lint-staged": {
