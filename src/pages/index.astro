@@ -1,12 +1,14 @@
 ---
 import About from "@/components/sections/home/About.astro";
+import Contact from "@/components/sections/home/Contact.astro";
 import Hero from "@/components/sections/home/Hero.astro";
 import Projects from "@/components/sections/home/Projects.astro";
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
 ---
 
-<BaseLayout>
+<PageLayout>
   <Hero />
   <Projects />
   <About />
-</BaseLayout>
+  <Contact />
+</PageLayout>
