@@ -55,8 +55,8 @@ importers:
         specifier: ^66.6.8
         version: 66.6.8
       '@unocss/preset-web-fonts':
-        specifier: ^66.6.8
-        version: 66.6.8
+        specifier: ^66.7.0
+        version: 66.7.0
       '@unocss/reset':
         specifier: ^66.6.8
         version: 66.6.8
@@ -1438,6 +1438,9 @@ packages:
   '@unocss/core@66.6.8':
     resolution: {integrity: sha512-P9IlQfgms+8/nka7fBhiiWU4SPwrTNKbTdK0z1SLnttXMHHjsB2zpG+Vi1JQDpICfY9Y1/2pWtguPE+zeOVu9Q==}
 
+  '@unocss/core@66.7.0':
+    resolution: {integrity: sha512-j6MFMx5C3iIwW4T4hVbh+30fKWgSGkmS3bCcdjlfqM88lRT+dHFBN9nkfNOBJT6e6IHN9415nexuzcQvTjJXxw==}
+
   '@unocss/eslint-plugin@66.6.8':
     resolution: {integrity: sha512-w51M8EwQZL7klOX+ZYS2zxxrj4AjfAtVenSCk+fXE+fSkC8aKNCpQpsV61Af/r9rIAy8GnbBL+QkcTOqkoKLrQ==}
     engines: {node: '>=14'}
@@ -1468,6 +1471,9 @@ packages:
 
   '@unocss/preset-web-fonts@66.6.8':
     resolution: {integrity: sha512-AgEHO8h0AkeOT57AOE9PS7dJOa5Rfr0gIyz/FxA7vJ/FwgQL70uX+bRW8kmoH81zcjo5xBP2IX3Z6A8VAOo3Vw==}
+
+  '@unocss/preset-web-fonts@66.7.0':
+    resolution: {integrity: sha512-jpNLjo/2X/J2J+G/M9W+y6VuiIhjZ9AyOnyNJHsdhmSJYCsnMuaYtP9eFn4d9+oe3Sz2lVNPV0A9RiqQ+xVAyQ==}
 
   '@unocss/preset-wind3@66.6.8':
     resolution: {integrity: sha512-WNTeDAYCatmEFjBJ4itUmz0TElBvNFqjh5i2/ianDJO/vkd+IYUb03jEPLUppVlvMhy8bN8AunP0AtW3Xf2psA==}
@@ -5505,6 +5511,8 @@ snapshots:
 
   '@unocss/core@66.6.8': {}
 
+  '@unocss/core@66.7.0': {}
+
   '@unocss/eslint-plugin@66.6.8(eslint@10.3.0(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.58.2(eslint@10.3.0(jiti@2.6.1))(typescript@5.9.3)
@@ -5563,6 +5571,11 @@ snapshots:
   '@unocss/preset-web-fonts@66.6.8':
     dependencies:
       '@unocss/core': 66.6.8
+      ofetch: 1.5.1
+
+  '@unocss/preset-web-fonts@66.7.0':
+    dependencies:
+      '@unocss/core': 66.7.0
       ofetch: 1.5.1
 
   '@unocss/preset-wind3@66.6.8':
@@ -7815,7 +7828,7 @@ snapshots:
     dependencies:
       destr: 2.0.5
       node-fetch-native: 1.6.7
-      ufo: 1.6.3
+      ufo: 1.6.4
 
   ohash@2.0.11: {}
 
