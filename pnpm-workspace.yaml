@@ -1,0 +1,7 @@
+shellEmulator: true
+
+trustPolicy: "off"
+
+allowBuilds:
+  esbuild: true
+  sharp: true
