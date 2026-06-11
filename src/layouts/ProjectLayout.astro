@@ -32,8 +32,8 @@ const dateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "l
               Updated {dateFormat.format(updatedDate)}
             </time>
           )}
-          {repo && <a class="focus-ring-link" href={repo}>Repository</a>}
-          {link && <a class="focus-ring-link" href={link}>Live</a>}
+          {repo && <a class="focus-ring-link" href={repo} target="_blank" rel="noopener noreferrer">Repository</a>}
+          {link && <a class="focus-ring-link" href={link} target="_blank" rel="noopener noreferrer">Live</a>}
         </div>
       </header>
       <div class="prose">
