@@ -63,4 +63,11 @@ export default defineConfig({
     }),
     presetIcons(),
   ],
+  // Icon classes referenced from content frontmatter (e.g. cv socials) are
+  // invisible to the extractor and must be safelisted.
+  safelist: [
+    "i-ri-github-fill",
+    "i-ri-linkedin-box-fill",
+    "i-ri:account-circle-fill",
+  ],
 });
