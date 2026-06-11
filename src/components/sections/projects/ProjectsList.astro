@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import { env } from "@/utils/env";
+
+const projects = (
+  await getCollection("projects", ({ data }) => !env.isProd || !data.draft)
+).sort(
+  (a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0),
+);
+---
+
+<section class="section-container px-6 py-20 min-h-svh md:px-10">
+  <div class="mx-auto flex flex-col gap-10 max-w-3xl">
+    <h1 class="text-3xl leading-[1.1] tracking-[-0.02em] uppercase md:text-5xl">
+      Projects
+    </h1>
+    <ul class="flex flex-col gap-6">
+      {projects.map(project => (
+        <li>
+          <a
+            href={`/projects/${project.id}/`}
+            class="focus-ring-link flex flex-col gap-2"
+          >
+            <h2 class="text-xl md:text-2xl">{project.data.title}</h2>
+            {project.data.description && <p>{project.data.description}</p>}
+            {project.data.stack.length > 0 && (
+              <ul class="text-sm flex flex-wrap gap-2">
+                {project.data.stack.map(item => <li>{item}</li>)}
+              </ul>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
