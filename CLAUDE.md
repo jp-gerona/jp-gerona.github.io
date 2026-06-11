@@ -36,9 +36,9 @@ Stack: Astro 6, UnoCSS, GSAP, Lenis. Package manager: **pnpm** (pnpm-lock.yaml).
 
 ### Layouts & page composition
 
-- `BaseLayout.astro` — full HTML shell: `Head`, `PageProgress`, skip-link, `NavBar`, `<main id="main-content">`, `Footer`, plus the global GSAP preloader-exit script and Lenis init wiring. All pages render through this.
+- `BaseLayout.astro` — full HTML shell: `Head`, `PageProgress`, skip-link, `NavBar`, `<main id="main-content">`, `Footer`, plus the Lenis/smooth-scroll init script (runs on `astro:page-load`). All pages render through this.
 - `PageLayout.astro` — thin pass-through over `BaseLayout` (title/description/ogImage props).
-- Pages live in `src/pages/`, composed from section components in `src/components/sections/<page>/`. Reusable pieces in `src/components/base|nav|widgets|preloader|garden`.
+- Pages live in `src/pages/`, composed from section components in `src/components/sections/<page>/`. Reusable pieces in `src/components/base|nav|widgets|garden`.
 - Path alias `@/*` → `src/*` (tsconfig, astro/strict).
 
 ### OG image generation (build-time)
@@ -52,9 +52,9 @@ Stack: Astro 6, UnoCSS, GSAP, Lenis. Package manager: **pnpm** (pnpm-lock.yaml).
 
 ### Smooth scroll & animation
 
-- `src/utils/smoothScroll.ts` — Lenis + GSAP ScrollTrigger integration. Singleton instance; **disabled on touch/mobile/tablet** (falls back to native scroll). Coordinates scroll lock/unlock with preloader via `preloaderStart`/`preloaderComplete` window events. Re-init on `astro:page-load` (View Transitions / `ClientRouter`). Use `scrollToTop()` / `destroySmoothScroll()` exports rather than touching Lenis directly.
+- `src/utils/smoothScroll.ts` — Lenis + GSAP ScrollTrigger integration. Singleton instance; **disabled on touch/mobile/tablet** (falls back to native scroll). Re-init on `astro:page-load` (View Transitions / `ClientRouter`). Use `scrollToTop()` / `destroySmoothScroll()` exports rather than touching Lenis directly.
 - `src/utils/gsapHelpers.ts` — SplitText helpers (`splitTextIntoLines`, `setupSplitTextHoverSwap`) and `animateCounter` (milestone-based percentage strip). Reuse these for text/counter animation instead of bespoke GSAP.
-- Preloader exit transition is wired globally in `BaseLayout.astro` via the `preloaderExitStart` event. Navigation is client-side (Astro `ClientRouter`); animation init must survive `astro:before-preparation` / `astro:page-load`.
+- Navigation is client-side (Astro `ClientRouter`); animation init must survive `astro:before-preparation` / `astro:page-load`.
 
 ### Styling
 

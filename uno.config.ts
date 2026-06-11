@@ -11,12 +11,6 @@ export default defineConfig({
       gruvbox,
     },
   },
-  shortcuts: [
-    [
-      "preloader-text",
-      "text-[0.8rem] text-white leading-snug tracking-[-0.0125rem] font-500 font-mono uppercase",
-    ],
-  ],
   preflights: [
     {
       getCSS: () => `
