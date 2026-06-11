@@ -1,0 +1,322 @@
+---
+import { getEntry, render } from "astro:content";
+import Head from "@/components/base/Head.astro";
+import { siteConfig } from "@/site.config";
+import { getCvUpdatedDate } from "@/utils/cvUpdated";
+import "@/styles/main.css";
+
+const cv = await getEntry("cv", "cv");
+
+if (!cv) {
+  throw new Error("Missing CV content entry at src/content/cv/cv.md");
+}
+
+const { Content } = await render(cv);
+const {
+  title,
+  name,
+  role,
+  contact,
+  socials,
+  about,
+  projects,
+  moreProjectsHref,
+  experience,
+  skills,
+  education,
+  talks,
+  awards,
+  languages,
+} = cv.data;
+
+const updatedDate = getCvUpdatedDate();
+const updatedLabel = new Intl.DateTimeFormat(siteConfig.lang, {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit",
+}).format(updatedDate);
+const updatedISO = updatedDate.toISOString();
+---
+
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <Head title={title} description={cv.data.description} />
+  </head>
+  <body class="text-[#1a1a1a] font-sans bg-white antialiased">
+    <div class="mx-auto px-6 py-16 gap-10 grid max-w-5xl md:py-24 md:gap-14 md:grid-cols-[240px_1fr]">
+      <!-- Sidebar -->
+      <aside class="md:self-start md:top-24 md:sticky">
+        <h1 class="text-2xl tracking-tight font-700 whitespace-nowrap">{name}</h1>
+        <p class="text-sm text-[#666] mt-1">{role}</p>
+        {
+          contact.email && (
+            <a
+              href={`mailto:${contact.email}`}
+              class="focus-ring-link text-sm text-[#666] mt-3 underline underline-offset-4 decoration-dotted inline-block hover:text-[#1a1a1a]"
+            >
+              {contact.email}
+            </a>
+          )
+        }
+        {
+          socials.length > 0 && (
+            <div class="mt-4 flex gap-3">
+              {socials.map(s => (
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.label}, opens in new tab`}
+                  class="focus-ring-link text-[#999] no-underline transition-colors hover:text-[#1a1a1a]"
+                >
+                  <span class={`${s.icon} text-xl block`} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </aside>
+
+      <!-- Content -->
+      <main class="text-sm leading-relaxed min-w-0 space-y-12">
+        {
+          about && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  About
+                </span>
+              </h2>
+              <p class="text-[#333] whitespace-pre-line">{about}</p>
+            </section>
+          )
+        }
+
+        {
+          projects.length > 0 && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Projects
+                </span>
+              </h2>
+              <div class="gap-x-10 gap-y-5 grid sm:grid-cols-2">
+                {projects.map(p => (
+                  <div>
+                    <p class="font-600">
+                      {p.name}
+                      {(p.repo || p.link) && (
+                        <span class="text-[#999] ml-2 align-middle inline-flex gap-2">
+                          {p.repo && (
+                            <a href={p.repo} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} repository, opens in new tab`} class="focus-ring-link no-underline hover:text-[#1a1a1a]">
+                              <span class="i-ri-github-fill text-base block" aria-hidden="true" />
+                            </a>
+                          )}
+                          {p.link && (
+                            <a href={p.link} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} site, opens in new tab`} class="focus-ring-link no-underline hover:text-[#1a1a1a]">
+                              <span class="i-ri-external-link-line text-base block" aria-hidden="true" />
+                            </a>
+                          )}
+                        </span>
+                      )}
+                    </p>
+                    <p class="text-[#666] mt-0.5">{p.description}</p>
+                  </div>
+                ))}
+              </div>
+              {moreProjectsHref && (
+                <a href={moreProjectsHref} class="focus-ring-link text-[#666] mt-4 underline underline-offset-4 decoration-dotted inline-block hover:text-[#1a1a1a]">
+                  More Projects...
+                </a>
+              )}
+            </section>
+          )
+        }
+
+        {
+          experience.length > 0 && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Work Experience
+                </span>
+              </h2>
+              <div class="space-y-6">
+                {experience.map(job => (
+                  <div>
+                    <p>
+                      <span class="font-700">{job.organization}</span>
+                      <span class="text-[#666] ml-2">{job.role}</span>
+                    </p>
+                    <p class="text-xs text-[#999] mt-0.5">
+                      {job.period}
+                      {job.location && ` | ${job.location}`}
+                    </p>
+                    {job.note && <p class="text-[#333] mt-2">{job.note}</p>}
+                    {job.highlights.length > 0 && (
+                      <ul class="text-[#333] mt-2 space-y-1">
+                        {job.highlights.map(h => (
+                          <li class="pl-5 relative before:rounded-full before:bg-[#1a1a1a] before:size-1 before:content-[''] before:left-1 before:top-[0.55em] before:absolute">
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          skills.length > 0 && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Skills
+                </span>
+              </h2>
+              <div class="space-y-5">
+                {skills.map(group => (
+                  <div>
+                    <p class="font-700">{group.category}</p>
+                    <ul class="text-[#333] mt-1 space-y-1">
+                      {group.items.map(item => (
+                        <li class="pl-5 relative before:rounded-full before:bg-[#1a1a1a] before:size-1 before:content-[''] before:left-1 before:top-[0.55em] before:absolute">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          education.length > 0 && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Education
+                </span>
+              </h2>
+              <div class="space-y-4">
+                {education.map(ed => (
+                  <div>
+                    <p>
+                      <span class="font-700">{ed.credential}</span>
+                      <span class="text-[#666] ml-2">{ed.institution}</span>
+                    </p>
+                    <p class="text-xs text-[#999] mt-0.5">{ed.period}</p>
+                    {ed.details.length > 0 && (
+                      <ul class="text-[#666] mt-1">
+                        {ed.details.map(d => <li>{d}</li>)}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          talks.length > 0 && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Talks
+                </span>
+              </h2>
+              <div class="space-y-4">
+                {talks.map(t => (
+                  <div>
+                    <p>
+                      <span class="font-700">{t.title}</span>
+                      {t.event && <span class="text-[#666] ml-2">{t.event}</span>}
+                    </p>
+                    <p class="text-xs text-[#999] mt-0.5">
+                      {t.date}
+                      {t.link && (
+                        <>
+                          {t.date && " , "}
+                          <a href={t.link} target="_blank" rel="noopener noreferrer" class="focus-ring-link underline underline-offset-2 hover:text-[#1a1a1a]">
+                            Slides
+                          </a>
+                        </>
+                      )}
+                    </p>
+                    {t.description && <p class="text-[#333] mt-1">{t.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          awards.length > 0 && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Awards
+                </span>
+              </h2>
+              <div class="space-y-3">
+                {awards.map(a => (
+                  <div>
+                    <p>
+                      <span class="font-700">{a.title}</span>
+                      {a.organization && <span class="text-[#666] ml-2">{a.organization}</span>}
+                    </p>
+                    {a.date && <p class="text-xs text-[#999] mt-0.5">{a.date}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          languages && (
+            <section>
+              <h2 class="mb-4">
+                <span class="text-xs text-white tracking-wide font-700 px-2 py-0.5 bg-[#1a1a1a] inline-block uppercase">
+                  Languages
+                </span>
+              </h2>
+              <p class="text-[#333]">{languages}</p>
+            </section>
+          )
+        }
+
+        <div class="cv-prose text-[#333]">
+          <Content />
+        </div>
+
+        <!-- PDF link + auto timestamp -->
+        <footer class="text-xs text-[#999] pt-6 text-center border-t border-[#e5e5e5]">
+          <a
+            href="/docs/cv.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="PDF Version, opens in new tab"
+            class="focus-ring-link text-[#666] underline underline-offset-4 decoration-dotted hover:text-[#1a1a1a]"
+          >
+            PDF Version
+          </a>
+          <p class="mt-1">
+            Last updated at <time datetime={updatedISO}>{updatedLabel}</time>
+          </p>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

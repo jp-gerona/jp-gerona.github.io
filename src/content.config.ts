@@ -1,7 +1,9 @@
 import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import {
+  cvSchema,
   indexSchema,
+  practicumSchema,
   projectsSchema,
 } from "@/content/schema";
 
@@ -15,7 +17,19 @@ const projects = defineCollection({
   schema: projectsSchema,
 });
 
+const practicum = defineCollection({
+  loader: glob({ base: "./src/content/practicum", pattern: "summary.md" }),
+  schema: practicumSchema,
+});
+
+const cv = defineCollection({
+  loader: glob({ base: "./src/content/cv", pattern: "cv.md" }),
+  schema: cvSchema,
+});
+
 export const collections = {
+  cv,
   index,
+  practicum,
   projects,
 };

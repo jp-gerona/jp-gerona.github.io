@@ -31,7 +31,7 @@ export const siteConfig: Site = {
         items: [
           {
             label: "Curriculum Vitae",
-            href: "/docs/cv.pdf",
+            href: "/cv",
             title: `Curriculum Vitae @ ${author}`,
           },
           {
