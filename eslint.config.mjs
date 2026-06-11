@@ -5,6 +5,7 @@ import eslintPluginAstro from "eslint-plugin-astro";
 
 export default antfu(
   {
+    ignores: ["pnpm-workspace.yaml"],
     astro: true,
     unocss: true,
 
