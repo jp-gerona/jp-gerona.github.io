@@ -11,6 +11,10 @@ import { siteConfig } from "./src/site.config";
 // https://astro.build/config
 export default defineConfig({
   site: siteConfig.site,
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "viewport",
+  },
   markdown: {
     remarkPlugins,
   },
