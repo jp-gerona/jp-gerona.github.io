@@ -30,53 +30,7 @@ const { title, description, ogImage } = Astro.props;
     <Footer />
 
     <script>
-      import gsap from "gsap";
       import { initSmoothScroll } from "@/utils/smoothScroll";
-
-      const PRELOADER_EXIT_TARGETS = [
-        "[data-preloader-transition-nav]",
-        "[data-preloader-transition-dirbar]",
-        "#main-content",
-      ];
-
-      type WindowWithNavigationState = Window & {
-        hasClientNavigation?: boolean;
-        preloaderActive?: boolean;
-        preloaderExitTransitionBound?: boolean;
-      };
-
-      function playPreloaderExitTransition() {
-        const targets = gsap.utils.toArray<HTMLElement>(PRELOADER_EXIT_TARGETS.join(","));
-
-        if (!targets.length) {
-          return;
-        }
-
-        gsap.killTweensOf(targets);
-        gsap.set(targets, { y: "35svh" });
-        gsap.to(targets, {
-          y: "0%",
-          duration: 1.25,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
-      }
-
-      const windowState = window as WindowWithNavigationState;
-
-      if (!windowState.preloaderExitTransitionBound) {
-        window.addEventListener("preloaderExitStart", playPreloaderExitTransition);
-        windowState.preloaderExitTransitionBound = true;
-      }
-
-      document.addEventListener("astro:before-preparation", () => {
-        windowState.hasClientNavigation = true;
-
-        if (windowState.preloaderActive) {
-          windowState.preloaderActive = false;
-          window.dispatchEvent(new CustomEvent("preloaderComplete"));
-        }
-      });
 
       document.addEventListener("astro:page-load", initSmoothScroll);
     </script>
