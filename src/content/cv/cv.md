@@ -16,9 +16,6 @@ socials:
   - label: LinkedIn
     href: https://www.linkedin.com/in/jp-gerona/
     icon: i-ri-linkedin-box-fill
-  - label: Website
-    href: https://jp-gerona.github.io
-    icon: i-ri:account-circle-fill
 about: >-
   I am currently a 4th year B.S. in Information Technology student from Mapúa
   Malayan Colleges Laguna, Cabuyao City, Laguna. My background features a solid
