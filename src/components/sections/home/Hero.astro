@@ -8,9 +8,9 @@ const calendar = await fetchContributions(siteConfig.user, `${year}-01-01`, `${y
 ---
 
 <section aria-label="Introduction">
-  <div class="flex flex-col gap-5">
-    <div class="gap-5 grid lg:grid-cols-2">
-      <div class="flex flex-col gap-5 lg:pr-4">
+  <div class="flex flex-col gap-4.5">
+    <div class="gap-4.5 grid lg:grid-cols-2">
+      <div class="flex flex-col gap-4.5 lg:pr-4">
         <h1 class="text-3xl leading-tight tracking-tight font-600">
           Lorem ipsum dolor sit amet consectetur
         </h1>
@@ -32,28 +32,28 @@ const calendar = await fetchContributions(siteConfig.user, `${year}-01-01`, `${y
         </p>
       </div>
 
-      <div class="gap-5 grid grid-rows-[auto_1fr] grid-cols-2">
-        <div class="p-5 border border-portfolio-line rounded-2xl bg-portfolio-surface flex aspect-square items-center justify-center">
+      <div class="gap-4.5 grid grid-rows-[auto_1fr] grid-cols-2">
+        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex aspect-square items-center justify-center">
           <p class="text-xs color-portfolio-faint">Soon</p>
         </div>
-        <div class="p-5 border border-portfolio-line rounded-2xl bg-portfolio-surface flex aspect-square items-center justify-center">
+        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex aspect-square items-center justify-center">
           <p class="text-xs color-portfolio-faint">Soon</p>
         </div>
-        <div class="p-5 border border-portfolio-line rounded-2xl bg-portfolio-surface flex col-span-2 min-h-40 items-center justify-center">
+        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex col-span-2 min-h-40 items-center justify-center">
           <p class="text-xs color-portfolio-faint">Soon</p>
         </div>
       </div>
     </div>
 
-    <div class="p-5 border border-portfolio-line rounded-2xl bg-portfolio-surface">
+    <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface">
       {calendar
         ? <ContributionGraph calendar={calendar} year={year} />
         : <p class="text-xs color-portfolio-faint">GitHub activity unavailable right now.</p>}
     </div>
 
-    <div class="gap-5 grid md:grid-cols-[1fr_1fr_2fr]">
+    <div class="gap-4.5 grid md:grid-cols-[1fr_1fr_2fr]">
       {[1, 2, 3].map(() => (
-        <div class="p-5 border border-portfolio-line rounded-2xl bg-portfolio-surface flex h-44 items-center justify-center">
+        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex h-44 items-center justify-center">
           <p class="text-xs color-portfolio-faint">Soon</p>
         </div>
       ))}
