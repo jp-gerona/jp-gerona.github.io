@@ -13,9 +13,9 @@ function normalizePath(pathname: string): string {
 const currentPathname = normalizePath(Astro.url.pathname);
 const navItems = siteConfig.navigation.main;
 ---
-<header class="border-bd p-4 border-b border-catpuccin-overlay0 bg-catpuccin-base flex h-[57px] w-full items-center top-0 justify-between fixed z-40">
+<header class="border-bd p-4 border-b border-portfolio-black bg-portfolio-white flex h-[57px] w-full items-center top-0 justify-between fixed z-40">
   <Link
-    class="text-[0.7rem] color-catpuccin-text leading-none tracking-tight font-500 font-mono shrink-0 uppercase"
+    class="text-[0.7rem] color-portfolio-black leading-none tracking-tight font-500 font-mono shrink-0 uppercase"
     href="/"
     title={`${siteConfig.title} @ jp-gerona.github.io`}
   >
@@ -31,7 +31,7 @@ const navItems = siteConfig.navigation.main;
           return (
             <li class="align-middle flex items-center">
               <Link
-                class="text-[0.7rem] color-catpuccin-text leading-none tracking-tight font-500 font-mono shrink-0 uppercase"
+                class="text-[0.7rem] color-portfolio-black leading-none tracking-tight font-500 font-mono shrink-0 uppercase"
                 href={item.href}
                 title={item.title ?? item.label}
                 external={item.external}
