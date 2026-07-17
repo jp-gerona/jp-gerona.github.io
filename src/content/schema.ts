@@ -11,9 +11,9 @@ export const baseEntrySchema = z.object({
   ogImage: z.union([z.boolean(), z.string()]).optional(),
 });
 
-const practicumSummaryStatSchema = z.object({
+const practicumAppendixSchema = z.object({
   label: z.string(),
-  value: z.number().int().nonnegative(),
+  href: z.string(),
 });
 
 const cvSocialSchema = z.object({
@@ -90,7 +90,8 @@ export const cvSchema = baseEntrySchema.extend({
 });
 export const practicumSchema = baseEntrySchema.extend({
   title: z.string(),
-  stats: z.array(practicumSummaryStatSchema).min(1),
+  accent: z.string().optional(),
+  appendices: z.array(practicumAppendixSchema).default([]),
 });
 export function projectsSchema({ image }: SchemaContext) {
   return baseEntrySchema.extend({

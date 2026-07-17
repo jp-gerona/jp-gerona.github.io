@@ -1,17 +1,192 @@
 ---
-import { getEntry } from "astro:content";
-import Report from "@/components/sections/practicum/Report.astro";
-import Summary from "@/components/sections/practicum/Summary.astro";
+import type { MarkdownHeading } from "astro";
+import { Image } from "astro:assets";
+import { getEntry, render } from "astro:content";
+import citySeal from "@/assets/practicum/binan-city-seal.webp";
+import ictoSeal from "@/assets/practicum/binan-icto-seal.webp";
+import Link from "@/components/base/Link.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const practicumSummary = await getEntry("practicum", "summary");
+const practicum = await getEntry("practicum", "summary");
 
-if (!practicumSummary) {
-  throw new Error("Missing practicum summary content entry at src/content/practicum/summary.md");
+if (!practicum) {
+  throw new Error("Missing practicum content entry at src/content/practicum/summary.md");
 }
+
+const { title, description, ogImage, accent, appendices } = practicum.data;
+const { Content, headings } = await render(practicum);
+
+const tocHeadings: MarkdownHeading[] = appendices.length > 0
+  ? [...headings, { depth: 2, slug: "appendices", text: "Appendices" }]
+  : headings;
 ---
 
-<BaseLayout>
-  <Summary title={practicumSummary.data.title} stats={practicumSummary.data.stats} />
-  <Report />
+<BaseLayout title={title} description={description} ogImage={ogImage} headings={tocHeadings}>
+  <article class="flex flex-col gap-9" style={`--accent: ${accent ?? "#154b92"}`}>
+    <header class="flex flex-col gap-6">
+      <div class="flex gap-3.5 items-center">
+        <Image src={ictoSeal} alt="Biñan ICTO seal" class="h-20 w-20 object-contain" />
+        <Image src={citySeal} alt="City Government of Biñan seal" class="h-20 w-20 object-contain" />
+      </div>
+
+      <div class="flex flex-col gap-2.5">
+        <span class="text-[0.6875rem] color-[var(--accent)] tracking-wide font-mono uppercase">
+          ICTO · City Government of Biñan
+        </span>
+        <h1 class="text-[2rem] leading-tight font-400 font-serif">{title}</h1>
+        <p class="text-sm color-portfolio-muted">April 29 – July 25, 2026 · 486 hours completed</p>
+      </div>
+    </header>
+
+    <div class="practicum-prose flex flex-col">
+      <Content />
+    </div>
+
+    {appendices.length > 0 && (
+      <section id="appendices" class="flex flex-col gap-4 scroll-mt-12">
+        <h2 class="text-[0.6875rem] color-[var(--accent)] tracking-wide font-mono uppercase">Appendices</h2>
+        <ul class="flex flex-col gap-2">
+          {appendices.map(item => (
+            <li>
+              <Link
+                class="text-sm color-portfolio-ink px-4 py-3 border border-portfolio-line rounded-lg border-solid bg-portfolio-surface flex gap-2 items-center justify-between hover:bg-portfolio-fill"
+                href={item.href}
+                title={item.label}
+                external
+              >
+                <span class="flex gap-2.5 items-center">
+                  <span class="i-ri-file-text-line color-[var(--accent)]" aria-hidden="true" />
+                  {item.label}
+                </span>
+                <span class="i-ri-arrow-right-up-line color-portfolio-faint" aria-hidden="true" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
 </BaseLayout>
+
+<script>
+  import { resetScrollPosition } from "@/utils/smoothScroll";
+
+  document.addEventListener("astro:page-load", () => {
+    if (location.pathname.startsWith("/practicum")) {
+      resetScrollPosition();
+    }
+  });
+</script>
+
+<style is:global>
+  .practicum-prose h2 {
+    margin-block: 2.25rem 0.75rem;
+    color: var(--accent, #154b92);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .practicum-prose h3 {
+    margin-block-end: 0.75rem;
+    font-family: "Crimson Pro", serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .practicum-prose p {
+    margin-block-end: 1rem;
+    color: #6e6e73;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .practicum-prose :is(ul, ol) {
+    margin-block-end: 1rem;
+    padding-inline-start: 1.25rem;
+    color: #6e6e73;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  .practicum-prose ul {
+    list-style: disc;
+  }
+
+  .practicum-prose ol {
+    list-style: decimal;
+  }
+
+  .practicum-prose li {
+    margin-block-end: 0.375rem;
+  }
+
+  .practicum-prose li::marker {
+    color: var(--accent, #154b92);
+  }
+
+  .practicum-prose table {
+    margin-block: 1.25rem;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .practicum-prose th {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--accent, #154b92);
+    color: #1d1d1f;
+    text-align: left;
+    font-weight: 600;
+  }
+
+  .practicum-prose td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid #ececec;
+    color: #6e6e73;
+  }
+
+  .practicum-prose :is(th, td):last-child {
+    width: 6rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .practicum-prose tr:last-child td {
+    border-bottom: none;
+    color: #1d1d1f;
+  }
+
+  .practicum-prose :is(img, video) {
+    display: block;
+    margin-block: 1.5rem;
+    margin-inline: auto;
+    border-radius: 0.5rem;
+    width: auto;
+    max-width: min(100%, 34rem);
+  }
+
+  .practicum-prose p:has(img) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-block: 1.5rem;
+  }
+
+  .practicum-prose p:has(img) img {
+    margin-block: 0;
+    margin-inline: 0;
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+
+  /* Rows of 2+ images: uniform height, crop stray bars */
+  .practicum-prose p:has(img:nth-of-type(2)) img {
+    height: 12rem;
+    object-fit: cover;
+  }
+</style>
