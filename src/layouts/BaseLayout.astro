@@ -26,11 +26,13 @@ const { title, description, ogImage, headings } = Astro.props;
   <body class="color-portfolio-ink bg-portfolio-base antialiased">
     <PageProgress />
     <a class="focus-ring-link sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
-    <div class="mx-auto px-4.5 py-12 gap-4.5 max-w-6xl lg:grid lg:grid-cols-[14rem_1fr]">
-      <SideNav headings={headings} />
-      <main id="main-content" class="min-h-svh">
-        <slot />
-      </main>
+    <div class="bg-portfolio-base relative z-10">
+      <div class="mx-auto px-4.5 pb-40 pt-12 gap-4.5 max-w-6xl lg:grid lg:grid-cols-[14rem_1fr]">
+        <SideNav headings={headings} />
+        <main id="main-content" class="min-h-svh">
+          <slot />
+        </main>
+      </div>
     </div>
     <Footer />
 
