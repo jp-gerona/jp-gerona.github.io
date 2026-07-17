@@ -95,6 +95,23 @@ export function scrollToTop() {
   window.scrollTo({ behavior: "smooth", top: 0 });
 }
 
+export function scrollToElement(target: Element | null) {
+  if (typeof window === "undefined" || !target) {
+    return;
+  }
+
+  if (lenisInstance && !shouldDisableLenisForDevice) {
+    lenisInstance.scrollTo(target as HTMLElement, {
+      offset: -24,
+      duration: 0.9,
+      easing: (value: number) => 1 - (1 - value) ** 3,
+    });
+    return;
+  }
+
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function resetScrollPosition() {
   if (typeof window === "undefined") {
     return;
