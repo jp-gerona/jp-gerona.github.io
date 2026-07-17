@@ -25,7 +25,7 @@ tools:
   - Netlify
 repo: https://github.com/jgtrea/Orbit
 link: https://orbit-network.netlify.app
-draft: true
+draft: false
 ---
 
 ## The Brief
