@@ -1,6 +1,5 @@
 import antfu from "@antfu/eslint-config";
-import tsParser from "@typescript-eslint/parser";
-import astroParser from "astro-eslint-parser";
+import * as astroParser from "astro-eslint-parser";
 import eslintPluginAstro from "eslint-plugin-astro";
 
 export default antfu(
@@ -22,7 +21,7 @@ export default antfu(
     languageOptions: {
       parser: astroParser,
       parserOptions: {
-        parser: tsParser,
+        parser: "@typescript-eslint/parser",
         extraFileExtensions: [".astro"],
         sourceType: "module",
       },
