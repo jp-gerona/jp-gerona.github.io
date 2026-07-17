@@ -1,44 +1,138 @@
 ---
+import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
+import { projectMeta } from "@/utils/projectMeta";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
+  headings: MarkdownHeading[];
 }
 
-const { project } = Astro.props;
-const { title, description, stack, repo, link, pubDate, updatedDate, ogImage } = project.data;
+const { project, headings } = Astro.props;
+const { title, description, cover, accent, timeline, role, team, stack, tools, repo, link, ogImage } = project.data;
 
-const dateFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long" });
+const meta = projectMeta(project.data);
+
+const columns = [
+  { label: "Timeline", items: timeline ? [timeline] : [] },
+  { label: "Role", items: role ? [role] : [] },
+  { label: "Team", items: team },
+  { label: "Stack", items: stack },
+  { label: "Tools", items: tools },
+].filter(column => column.items.length > 0);
+
+const links = [
+  repo && { label: "Repository", href: repo },
+  link && { label: "Live", href: link },
+].filter(Boolean) as { label: string; href: string }[];
 ---
 
-<BaseLayout title={title} description={description} ogImage={ogImage}>
-  <article class="section-container px-6 py-20 md:px-10">
-    <div class="mx-auto flex flex-col gap-10 max-w-3xl">
-      <header class="flex flex-col gap-4">
-        <h1 class="text-3xl leading-[1.1] tracking-[-0.02em] uppercase md:text-5xl">
-          {title}
-        </h1>
-        {description && <p class="text-lg">{description}</p>}
-        {stack.length > 0 && (
-          <ul class="text-sm flex flex-wrap gap-2">
-            {stack.map(item => <li>{item}</li>)}
-          </ul>
-        )}
-        <div class="text-sm flex flex-wrap gap-4">
-          {pubDate && <time datetime={pubDate.toISOString()}>{dateFormat.format(pubDate)}</time>}
-          {updatedDate && (
-            <time datetime={updatedDate.toISOString()}>
-              Updated {dateFormat.format(updatedDate)}
-            </time>
-          )}
-          {repo && <a class="focus-ring-link" href={repo} target="_blank" rel="noopener noreferrer">Repository</a>}
-          {link && <a class="focus-ring-link" href={link} target="_blank" rel="noopener noreferrer">Live</a>}
-        </div>
-      </header>
-      <div class="prose">
-        <slot />
+<BaseLayout title={title} description={description} ogImage={ogImage} headings={headings}>
+  <article class="flex flex-col gap-9" style={`--accent: ${accent ?? "#a3a3a3"}`}>
+    {cover
+      ? <img src={cover} alt="" class="rounded-lg w-full aspect-16/9 object-cover" />
+      : <div class="rounded-lg bg-portfolio-fill w-full aspect-16/9" />}
+
+    <header class="flex flex-col gap-6">
+      <div class="flex flex-col gap-1">
+        {meta && <p class="text-[0.8125rem] color-portfolio-faint font-mono uppercase">{meta}</p>}
+        <h1 class="text-[2rem] leading-tight font-400 font-serif">{title}</h1>
       </div>
+
+      {columns.length > 0 && (
+        <dl class="gap-x-4.5 gap-y-6 grid grid-cols-2 lg:grid-cols-5 sm:grid-cols-3">
+          {columns.map(column => (
+            <div class="flex flex-col gap-1.5">
+              <dt class="text-[0.6875rem] color-[var(--accent)] tracking-wide font-mono uppercase">{column.label}</dt>
+              <dd class="text-sm color-portfolio-muted leading-snug flex flex-col gap-0.5">
+                {column.items.map(item => <span>{item}</span>)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
+
+      {links.length > 0 && (
+        <ul class="text-[0.8125rem] font-mono flex flex-wrap gap-4.5 uppercase">
+          {links.map(item => (
+            <li>
+              <a
+                class="focus-ring-link color-portfolio-muted hover:color-portfolio-ink"
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </header>
+
+    <div class="project-prose flex flex-col">
+      <slot />
     </div>
   </article>
 </BaseLayout>
+
+<script>
+  import { resetScrollPosition } from "@/utils/smoothScroll";
+
+  document.addEventListener("astro:page-load", () => {
+    if (location.pathname.startsWith("/projects/")) {
+      resetScrollPosition();
+    }
+  });
+</script>
+
+<style is:global>
+  .project-prose h2 {
+    margin-block: 2.25rem 0.75rem;
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .project-prose h3 {
+    margin-block-end: 0.75rem;
+    font-family: "Crimson Pro", serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .project-prose p {
+    margin-block-end: 1rem;
+    max-width: 65ch;
+    color: #6e6e73;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .project-prose :is(img, video) {
+    margin-block: 1.5rem;
+    border-radius: 0.5rem;
+    width: 100%;
+  }
+
+  .project-prose ul {
+    margin-block-end: 1rem;
+    padding-inline-start: 1.125rem;
+    color: #6e6e73;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    list-style: disc;
+  }
+
+  .project-prose pre {
+    margin-block: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-size: 0.8125rem;
+  }
+</style>

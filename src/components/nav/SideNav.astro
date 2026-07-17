@@ -1,6 +1,14 @@
 ---
+import type { MarkdownHeading } from "astro";
 import Link from "@/components/base/Link.astro";
 import { siteConfig } from "@/site.config";
+
+interface Props {
+  headings?: MarkdownHeading[];
+}
+
+const { headings = [] } = Astro.props;
+const tocItems = headings.filter(heading => heading.depth === 2);
 
 function normalizePath(pathname: string): string {
   if (pathname !== "/" && pathname.endsWith("/")) {
@@ -20,7 +28,7 @@ const navItems = [
 <header>
   <div class="lg:top-12 lg:sticky">
     <Link
-      class="text-[2rem] color-portfolio-ink tracking-tight font-serif"
+      class="text-[2.5rem] color-portfolio-ink tracking-tight font-serif"
       href="/"
       title={`${siteConfig.title} @ jp-gerona.github.io`}
     >
@@ -54,5 +62,28 @@ const navItems = [
         }
       </ul>
     </nav>
+
+    {tocItems.length > 0 && (
+      <nav class="mt-4.5 pt-4.5 border-t border-portfolio-line hidden lg:block" aria-label="On this page">
+        <Link
+          class="text-sm color-portfolio-muted mb-1.5 px-3 py-2 rounded-lg flex transition-colors duration-200 hover:color-portfolio-ink"
+          href="/projects"
+        >
+          &larr; Back to projects
+        </Link>
+        <ul class="flex flex-col">
+          {tocItems.map(heading => (
+            <li>
+              <Link
+                class="text-[0.6875rem] color-portfolio-faint tracking-wide font-mono px-3 py-1.5 rounded-lg flex uppercase transition-colors duration-200 hover:color-portfolio-ink"
+                href={`#${heading.slug}`}
+              >
+                {heading.text}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
   </div>
 </header>

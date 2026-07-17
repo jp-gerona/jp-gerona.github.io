@@ -96,6 +96,11 @@ export const projectsSchema = baseEntrySchema.extend({
   repo: z.string().optional(),
   link: z.string().optional(),
   stack: z.array(z.string()).default([]),
+  tools: z.array(z.string()).default([]),
+  team: z.array(z.string()).default([]),
+  timeline: z.string().optional(),
+  role: z.string().optional(),
   category: z.string().optional(),
   cover: z.string().optional(),
+  accent: z.string().optional(),
 });
