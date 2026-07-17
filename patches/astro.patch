@@ -1,0 +1,14 @@
+diff --git a/dist/content/mutable-data-store.js b/dist/content/mutable-data-store.js
+index 6a86c3ee2b8eb485f9724c9d075decf7d75b1455..1cd1b5ba60b721f279eb9b08cdb793d176cf1623 100644
+--- a/dist/content/mutable-data-store.js
++++ b/dist/content/mutable-data-store.js
+@@ -96,8 +96,7 @@ class MutableDataStore extends ImmutableDataStore {
+       } catch (err) {
+         throw new AstroError(AstroErrorData.UnknownFilesystemError, { cause: err });
+       }
+-    }
+-    if (!this.#assetsDirty && existsSync(filePath)) {
++      this.#assetsDirty = false;
+       return;
+     }
+     const imports = [];

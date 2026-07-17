@@ -5,3 +5,9 @@ trustPolicy: "off"
 allowBuilds:
   esbuild: true
   sharp: true
+
+patchedDependencies:
+  astro: patches/astro.patch
+
+minimumReleaseAgeExclude:
+  - astro@7.1.1
