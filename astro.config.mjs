@@ -1,3 +1,4 @@
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 // @ts-check
@@ -15,8 +16,9 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "viewport",
   },
+  compressHTML: true,
   markdown: {
-    remarkPlugins,
+    processor: unified({ remarkPlugins }),
   },
   vite: {
     plugins: [
