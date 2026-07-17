@@ -1,3 +1,4 @@
+import type { SchemaContext } from "astro:content";
 import { z } from "astro/zod";
 
 export const baseEntrySchema = z.object({
@@ -91,16 +92,18 @@ export const practicumSchema = baseEntrySchema.extend({
   title: z.string(),
   stats: z.array(practicumSummaryStatSchema).min(1),
 });
-export const projectsSchema = baseEntrySchema.extend({
-  title: z.string(),
-  repo: z.string().optional(),
-  link: z.string().optional(),
-  stack: z.array(z.string()).default([]),
-  tools: z.array(z.string()).default([]),
-  team: z.array(z.string()).default([]),
-  timeline: z.string().optional(),
-  role: z.string().optional(),
-  category: z.string().optional(),
-  cover: z.string().optional(),
-  accent: z.string().optional(),
-});
+export function projectsSchema({ image }: SchemaContext) {
+  return baseEntrySchema.extend({
+    title: z.string(),
+    repo: z.string().optional(),
+    link: z.string().optional(),
+    stack: z.array(z.string()).default([]),
+    tools: z.array(z.string()).default([]),
+    team: z.array(z.string()).default([]),
+    timeline: z.string().optional(),
+    role: z.string().optional(),
+    category: z.string().optional(),
+    cover: image().optional(),
+    accent: z.string().optional(),
+  });
+}
