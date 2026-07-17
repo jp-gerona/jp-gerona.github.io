@@ -2,6 +2,7 @@ import { createLocalFontProcessor } from "@unocss/preset-web-fonts/local";
 import { defineConfig, presetAttributify, presetIcons, presetTypography, presetWebFonts, presetWind4 } from "unocss";
 
 import { catpuccin } from "./src/themes/catpuccin";
+import { catpuccinMocha } from "./src/themes/catpuccinMocha";
 import { gruvbox } from "./src/themes/gruvbox";
 import { portfolio } from "./src/themes/portfolio";
 
@@ -10,6 +11,7 @@ export default defineConfig({
     colors: {
       portfolio,
       catpuccin,
+      mocha: catpuccinMocha,
       gruvbox,
     },
   },
