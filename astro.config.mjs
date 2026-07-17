@@ -19,6 +19,9 @@ export default defineConfig({
   compressHTML: true,
   markdown: {
     processor: unified({ remarkPlugins }),
+    shikiConfig: {
+      theme: "github-light",
+    },
   },
   vite: {
     plugins: [
