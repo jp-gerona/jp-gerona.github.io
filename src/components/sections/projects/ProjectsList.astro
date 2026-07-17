@@ -7,30 +7,51 @@ const projects = (
 ).sort(
   (a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0),
 );
+
+const aspects = ["aspect-4/3", "aspect-square", "aspect-3/4"];
 ---
 
-<section class="section-container px-6 py-20 min-h-svh md:px-10">
-  <div class="mx-auto flex flex-col gap-10 max-w-3xl">
-    <h1 class="text-3xl leading-[1.1] tracking-[-0.02em] uppercase md:text-5xl">
+<section class="min-h-svh">
+  <div class="flex flex-col gap-4.5">
+    <h1 class="text-3xl leading-tight tracking-tight font-600">
       Projects
     </h1>
-    <ul class="flex flex-col gap-6">
-      {projects.map(project => (
-        <li>
-          <a
-            href={`/projects/${project.id}/`}
-            class="focus-ring-link flex flex-col gap-2"
-          >
-            <h2 class="text-xl md:text-2xl">{project.data.title}</h2>
-            {project.data.description && <p>{project.data.description}</p>}
-            {project.data.stack.length > 0 && (
-              <ul class="text-sm flex flex-wrap gap-2">
-                {project.data.stack.map(item => <li>{item}</li>)}
-              </ul>
-            )}
-          </a>
-        </li>
-      ))}
+    <ul class="gap-4.5 columns-1 sm:columns-2">
+      {projects.map((project, i) => {
+        const monthYear = project.data.pubDate?.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+        const meta = [project.data.category, monthYear].filter(Boolean).join(" - ");
+
+        return (
+          <li class="mb-4.5 break-inside-avoid">
+            <a
+              href={`/projects/${project.id}/`}
+              class="focus-ring-link group flex flex-col gap-1.5"
+            >
+              {project.data.cover
+                ? (
+                    <img
+                      src={project.data.cover}
+                      alt=""
+                      class={`rounded-lg w-full object-cover ${aspects[i % aspects.length]}`}
+                      loading="lazy"
+                    />
+                  )
+                : (
+                    <div class={`rounded-lg bg-portfolio-fill w-full ${aspects[i % aspects.length]}`} />
+                  )}
+              <div class="flex flex-col gap-1.5">
+                {meta && (
+                  <p class="text-sm color-portfolio-faint tracking-wider font-mono uppercase">{meta}</p>
+                )}
+                <h2 class="text-[1.375rem] leading-tight font-400 font-serif group-hover:underline group-hover:underline-offset-4">{project.data.title}</h2>
+                {project.data.description && (
+                  <p class="text-base color-portfolio-muted leading-snug">{project.data.description}</p>
+                )}
+              </div>
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </div>
 </section>

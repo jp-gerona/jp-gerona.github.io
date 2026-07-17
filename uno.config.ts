@@ -3,10 +3,12 @@ import { defineConfig, presetAttributify, presetIcons, presetTypography, presetW
 
 import { catpuccin } from "./src/themes/catpuccin";
 import { gruvbox } from "./src/themes/gruvbox";
+import { portfolio } from "./src/themes/portfolio";
 
 export default defineConfig({
   theme: {
     colors: {
+      portfolio,
       catpuccin,
       gruvbox,
     },
@@ -49,9 +51,12 @@ export default defineConfig({
     presetWebFonts({
       provider: "google",
       fonts: {
-        sans: "Figtree",
+        sans: "Plus Jakarta Sans",
         mono: "IBM Plex Mono",
-        serif: "Playfair Display",
+        serif: {
+          name: "Crimson Pro",
+          italic: true,
+        },
       },
       processors: createLocalFontProcessor(),
     }),

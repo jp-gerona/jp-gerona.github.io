@@ -1,0 +1,58 @@
+---
+import Link from "@/components/base/Link.astro";
+import { siteConfig } from "@/site.config";
+
+function normalizePath(pathname: string): string {
+  if (pathname !== "/" && pathname.endsWith("/")) {
+    return pathname.slice(0, -1);
+  }
+
+  return pathname;
+}
+
+const currentPathname = normalizePath(Astro.url.pathname);
+const navItems = [
+  { label: "Home", href: "/" },
+  ...siteConfig.navigation.main,
+];
+---
+
+<header>
+  <div class="lg:top-12 lg:sticky">
+    <Link
+      class="text-[2rem] color-portfolio-ink tracking-tight font-serif"
+      href="/"
+      title={`${siteConfig.title} @ jp-gerona.github.io`}
+    >
+      jp-gerona
+    </Link>
+
+    <nav class="mt-4.5 lg:mt-12" aria-label="Main">
+      <ul class="flex flex-wrap gap-1 lg:flex-col lg:items-stretch">
+        {
+          navItems.map((item) => {
+            const isCurrent = normalizePath(item.href) === currentPathname;
+
+            return (
+              <li>
+                <Link
+                  class:list={[
+                    "text-sm rounded-lg flex px-3 py-2 transition-colors duration-200",
+                    isCurrent
+                      ? "color-portfolio-ink bg-portfolio-fill"
+                      : "color-portfolio-muted hover:color-portfolio-ink",
+                  ]}
+                  href={item.href}
+                  title={item.title ?? item.label}
+                  aria-current={isCurrent ? "page" : undefined}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
