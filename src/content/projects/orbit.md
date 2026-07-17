@@ -3,7 +3,8 @@ title: Orbit
 description: A web app that functions as a social media platform allowing users to create social orbits with friends
 category: Year 2
 pubDate: 2024-02-01
-accent: "#4b3bff"
+accent: "#000000"
+cover: ../../assets/projects/orbit/cover.jpg
 timeline: 2 week agile development
 role: Lead Developer
 team:
