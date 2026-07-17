@@ -1,0 +1,114 @@
+---
+import type { ContributionCalendar, ContributionDay } from "@/utils/githubContributions";
+
+interface Props {
+  calendar: ContributionCalendar;
+  year: string;
+}
+
+const { calendar, year } = Astro.props;
+
+const leadingPad = new Date(`${calendar.days[0].date}T00:00:00Z`).getUTCDay();
+const cells: (ContributionDay | null)[] = [
+  ...Array.from<null>({ length: leadingPad }).fill(null),
+  ...calendar.days,
+];
+
+const weeks: (ContributionDay | null)[][] = [];
+for (let i = 0; i < cells.length; i += 7) {
+  weeks.push(cells.slice(i, i + 7));
+}
+
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthLabels: { label: string; week: number }[] = [];
+let previousMonth = -1;
+
+weeks.forEach((week, i) => {
+  const firstDay = week.find(day => day !== null);
+
+  if (!firstDay) {
+    return;
+  }
+
+  const month = new Date(`${firstDay.date}T00:00:00Z`).getUTCMonth();
+
+  if (month !== previousMonth) {
+    monthLabels.push({ label: monthNames[month], week: i });
+    previousMonth = month;
+  }
+});
+---
+
+<div class="flex flex-col gap-3">
+  <p class="text-sm font-500">
+    {calendar.total.toLocaleString()} contributions in {year}
+  </p>
+
+  <div class="overflow-x-auto">
+    <div class="flex flex-col gap-1 w-max">
+      <div class="flex">
+        <div class="shrink-0 w-8"></div>
+        <div class="h-4 relative" style={`width:${weeks.length * 13}px`}>
+          {monthLabels.map(month => (
+            <span
+              class="text-[10px] color-portfolio-muted absolute"
+              style={`left:${month.week * 13}px`}
+            >
+              {month.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="shrink-0 gap-[3px] grid grid-rows-7 w-8">
+          {["", "Mon", "", "Wed", "", "Fri", ""].map(label => (
+            <span class="text-[10px] color-portfolio-muted leading-[10px] h-2.5">{label}</span>
+          ))}
+        </div>
+        <div class="gap-[3px] grid grid-flow-col grid-rows-7">
+          {cells.map(day => (
+            day
+              ? (
+                  <span
+                    class={`day level-${day.level} rounded-[2px] size-2.5`}
+                    title={day.date}
+                  />
+                )
+              : <span class="rounded-[2px] size-2.5" />
+          ))}
+        </div>
+      </div>
+
+      <div class="text-[10px] color-portfolio-muted flex gap-[3px] items-center justify-end">
+        <span class="mr-1">Less</span>
+        {[0, 1, 2, 3, 4].map(level => (
+          <span class={`day level-${level} rounded-[2px] size-2.5`} />
+        ))}
+        <span class="ml-1">More</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .day.level-0 {
+    background: #ebedf0;
+  }
+
+  .day.level-1 {
+    background: #9be9a8;
+  }
+
+  .day.level-2 {
+    background: #40c463;
+  }
+
+  .day.level-3 {
+    background: #30a14e;
+  }
+
+  .day.level-4 {
+    background: #216e39;
+  }
+</style>
