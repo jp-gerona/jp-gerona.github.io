@@ -1,0 +1,209 @@
+---
+interface SummaryStat {
+  label: string;
+  value: number;
+}
+
+interface Props {
+  title: string;
+  stats: SummaryStat[];
+}
+
+const { title, stats } = Astro.props;
+const firstRowCount = Math.ceil(stats.length / 2);
+const firstRowStats = stats.slice(0, firstRowCount);
+const secondRowStats = stats.slice(firstRowCount);
+---
+
+<section
+  data-practicum-summary
+  class="section-container px-6 py-20 flex items-center justify-center relative min-h-svh md:px-10"
+>
+  <div class="font-sans mx-auto text-center flex flex-col gap-12 max-w-3xl items-center justify-center">
+    <h1 class="text-4xl leading-[1.1] tracking-tight font-bold md:text-5xl">
+      {title}
+    </h1>
+
+    <div class="flex flex-col gap-10 w-full">
+      <div class="flex flex-wrap gap-12 justify-center md:gap-24">
+        {firstRowStats.map(stat => (
+          <div class="flex flex-col gap-1 items-center">
+            <span
+              data-summary-count-value
+              data-summary-count-target={String(stat.value)}
+              class="text-3xl font-bold tabular-nums"
+            >
+              {stat.value.toLocaleString()}
+            </span>
+            <span class="text-base font-mono uppercase">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {
+        secondRowStats.length > 0 && (
+          <div class="flex flex-wrap gap-16 justify-center md:gap-28">
+            {secondRowStats.map(stat => (
+              <div class="flex flex-col gap-1 items-center">
+                <span
+                  data-summary-count-value
+                  data-summary-count-target={String(stat.value)}
+                  class="text-3xl font-bold tabular-nums"
+                >
+                  {stat.value.toLocaleString()}
+                </span>
+                <span class="text-base font-mono uppercase">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+
+  const SUMMARY_SECTION_SELECTOR = "[data-practicum-summary]";
+  const SUMMARY_COUNTER_SELECTOR = "[data-summary-count-value]";
+  const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+  const COUNTER_DURATION_SECONDS = 1.8;
+
+  type WindowWithPracticumSummaryFlag = Window & {
+    practicumSummaryBound?: boolean;
+  };
+
+  function formatCounterValue(value: number) {
+    return value.toLocaleString();
+  }
+
+  function getCounterTarget(counter: HTMLElement) {
+    const targetValue = Number(counter.dataset.summaryCountTarget);
+
+    if (!Number.isFinite(targetValue)) {
+      return null;
+    }
+
+    return targetValue;
+  }
+
+  function setCountersToFinalValues(counters: HTMLElement[]) {
+    counters.forEach((counter) => {
+      const targetValue = getCounterTarget(counter);
+
+      if (targetValue === null) {
+        return;
+      }
+
+      counter.textContent = formatCounterValue(targetValue);
+    });
+  }
+
+  function animateCounters(section: HTMLElement) {
+    if (section.dataset.summaryAnimated === "true") {
+      return;
+    }
+
+    const counters = [...section.querySelectorAll<HTMLElement>(SUMMARY_COUNTER_SELECTOR)];
+
+    if (!counters.length) {
+      return;
+    }
+
+    section.dataset.summaryAnimated = "true";
+
+    if (window.matchMedia(REDUCED_MOTION_QUERY).matches) {
+      setCountersToFinalValues(counters);
+      return;
+    }
+
+    const timeline = gsap.timeline({
+      defaults: {
+        duration: COUNTER_DURATION_SECONDS,
+        ease: "power4.out",
+      },
+    });
+
+    let hasAnimatedCounter = false;
+
+    counters.forEach((counter) => {
+      const targetValue = getCounterTarget(counter);
+
+      if (targetValue === null) {
+        return;
+      }
+
+      hasAnimatedCounter = true;
+      counter.textContent = formatCounterValue(0);
+
+      const proxy = { value: 0 };
+
+      timeline.to(proxy, {
+        value: targetValue,
+        onUpdate: () => {
+          counter.textContent = formatCounterValue(Math.round(proxy.value));
+        },
+        onComplete: () => {
+          counter.textContent = formatCounterValue(targetValue);
+        },
+      }, 0);
+    });
+
+    if (!hasAnimatedCounter) {
+      setCountersToFinalValues(counters);
+    }
+  }
+
+  function observeAndAnimate(section: HTMLElement) {
+    if (section.dataset.summaryObserverBound === "true") {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      animateCounters(section);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      const isIntersecting = entries.some(entry => entry.isIntersecting);
+
+      if (!isIntersecting) {
+        return;
+      }
+
+      animateCounters(section);
+      observer.disconnect();
+    }, {
+      threshold: 0.4,
+    });
+
+    observer.observe(section);
+    section.dataset.summaryObserverBound = "true";
+  }
+
+  function initPracticumSummaryCounters() {
+    const sections = [...document.querySelectorAll<HTMLElement>(SUMMARY_SECTION_SELECTOR)];
+
+    if (!sections.length) {
+      return;
+    }
+
+    sections.forEach((section) => {
+      if (section.dataset.summaryAnimated === "true") {
+        return;
+      }
+
+      observeAndAnimate(section);
+    });
+  }
+
+  const windowState = window as WindowWithPracticumSummaryFlag;
+
+  if (!windowState.practicumSummaryBound) {
+    document.addEventListener("astro:page-load", initPracticumSummaryCounters);
+    windowState.practicumSummaryBound = true;
+  }
+
+  initPracticumSummaryCounters();
+</script>

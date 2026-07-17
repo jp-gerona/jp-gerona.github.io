@@ -1,8 +1,17 @@
 ---
-import Placeholder from "@/components/sections/practicum/Placeholder.astro";
+import { getEntry } from "astro:content";
+import Report from "@/components/sections/practicum/Report.astro";
+import Summary from "@/components/sections/practicum/Summary.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const practicumSummary = await getEntry("practicum", "summary");
+
+if (!practicumSummary) {
+  throw new Error("Missing practicum summary content entry at src/content/practicum/summary.md");
+}
 ---
 
 <BaseLayout>
-  <Placeholder />
+  <Summary title={practicumSummary.data.title} stats={practicumSummary.data.stats} />
+  <Report />
 </BaseLayout>
