@@ -50,6 +50,10 @@ function setupLenisInstance() {
     smoothWheel: true,
     wheelMultiplier: 1,
     touchMultiplier: 1,
+    anchors: {
+      duration: 0.9,
+      easing: (value: number) => 1 - (1 - value) ** 3,
+    },
   });
 
   removeScrollListener = lenisInstance.on("scroll", ScrollTrigger.update);
@@ -89,6 +93,15 @@ export function scrollToTop() {
   }
 
   window.scrollTo({ behavior: "smooth", top: 0 });
+}
+
+export function resetScrollPosition() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  lenisInstance?.scrollTo(0, { immediate: true, force: true });
+  window.scrollTo(0, 0);
 }
 
 export function initSmoothScroll() {

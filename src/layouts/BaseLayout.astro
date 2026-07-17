@@ -1,18 +1,21 @@
 ---
+import type { MarkdownHeading } from "astro";
 import Footer from "@/components/base/Footer.astro";
 import Head from "@/components/base/Head.astro";
 import PageProgress from "@/components/base/PageProgress.astro";
 import SideNav from "@/components/nav/SideNav.astro";
 import { siteConfig } from "@/site.config";
+
 import "@/styles/main.css";
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string | boolean;
+  headings?: MarkdownHeading[];
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, headings } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,7 +27,7 @@ const { title, description, ogImage } = Astro.props;
     <PageProgress />
     <a class="focus-ring-link sr-only focus:not-sr-only" href="#main-content">Skip to main content</a>
     <div class="mx-auto px-4.5 py-12 gap-4.5 max-w-6xl lg:grid lg:grid-cols-[14rem_1fr]">
-      <SideNav />
+      <SideNav headings={headings} />
       <main id="main-content" class="min-h-svh">
         <slot />
       </main>
