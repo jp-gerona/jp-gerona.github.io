@@ -4,7 +4,7 @@ import eslintPluginAstro from "eslint-plugin-astro";
 
 export default antfu(
   {
-    ignores: ["pnpm-workspace.yaml"],
+    ignores: ["pnpm-workspace.yaml", "draft/**"],
     astro: true,
     unocss: true,
 
@@ -12,6 +12,13 @@ export default antfu(
       indent: 2,
       semi: true,
       quotes: "double",
+    },
+  },
+  {
+    // Parse YAML frontmatter so its comments aren't misread as H1 headings.
+    files: ["**/*.md"],
+    languageOptions: {
+      frontmatter: "yaml",
     },
   },
   ...eslintPluginAstro.configs["flat/recommended"],
