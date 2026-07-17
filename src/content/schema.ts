@@ -96,4 +96,6 @@ export const projectsSchema = baseEntrySchema.extend({
   repo: z.string().optional(),
   link: z.string().optional(),
   stack: z.array(z.string()).default([]),
+  category: z.string().optional(),
+  cover: z.string().optional(),
 });
