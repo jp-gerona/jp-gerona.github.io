@@ -6,6 +6,7 @@ pubDate: 2023-06-01
 accent: "#192752"
 cover: ../../assets/projects/onemcl-redefined/cover.webp
 timeline: 8 weeks
+role: Product Designer
 team:
   - Vaughn Erik Dungo
   - Julian Peter Gerona
@@ -13,7 +14,7 @@ team:
   - Christian Kerby Salandanan
   - Emmanuel Joseph Sibayan
   - Romel Andres Tibay
-tools:
+stack:
   - Figma
 draft: false
 ---
