@@ -4,14 +4,13 @@ import Link from "@/components/base/Link.astro";
 import ContributionGraph from "@/components/widgets/ContributionGraph.astro";
 import { certificates } from "@/data/certificates";
 import { siteConfig } from "@/site.config";
-import { env } from "@/utils/env";
 import { fetchContributions } from "@/utils/githubContributions";
 
 const year = "2026";
 const calendar = await fetchContributions(siteConfig.user, `${year}-01-01`, `${year}-12-31`);
 
 const recentProjects = (
-  await getCollection("projects", ({ data }) => !env.isProd || !data.draft)
+  await getCollection("projects", ({ data }) => !data.draft)
 )
   .sort((a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0))
   .slice(0, 3);
