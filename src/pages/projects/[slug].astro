@@ -5,7 +5,7 @@ import ProjectLayout from "@/layouts/ProjectLayout.astro";
 import { env } from "@/utils/env";
 
 export const getStaticPaths = (async () => {
-  const projects = await getCollection("projects", ({ data }) => !env.isProd || !data.draft);
+  const projects = await getCollection("projects", ({ data }) => !data.locked && (!env.isProd || !data.draft));
   return projects.map(project => ({
     params: { slug: project.id },
     props: { project },

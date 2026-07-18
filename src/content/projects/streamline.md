@@ -1,7 +1,8 @@
 ---
 title: Streamline
-description: Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.
+description: A secure web app for Laguna Lake watershed and river data collection and visualization via physicochemical and geospatial parameters
 category: Capstone Project
 pubDate: 2026-07-01
-draft: true
+draft: false
+locked: true
 ---

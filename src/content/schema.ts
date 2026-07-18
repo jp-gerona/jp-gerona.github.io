@@ -98,6 +98,7 @@ export function projectsSchema({ image }: SchemaContext) {
     title: z.string(),
     repo: z.string().optional(),
     link: z.string().optional(),
+    locked: z.boolean().default(false),
     stack: z.array(z.string()).default([]),
     tools: z.array(z.string()).default([]),
     team: z.array(z.string()).default([]),
