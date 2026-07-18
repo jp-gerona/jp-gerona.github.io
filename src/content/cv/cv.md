@@ -55,7 +55,7 @@ skills:
 experience:
   - organization: Creotec Inc.
     role: Student Trainee
-    period: April 2019
+    period: April 2021
     location: Remote
     highlights:
       - Awarded with the certificate of "Best in Work Immersion" STEM strand
