@@ -71,10 +71,10 @@ const sectionLabel = "text-[0.6875rem] color-portfolio-faint tracking-wide font-
         <li>
           {project.data.locked
             ? (
-                <div class="flex flex-col gap-0.5">
+                <div class="flex flex-col gap-0.5 cursor-not-allowed">
                   <span class="text-[1.125rem] leading-tight font-serif">
                     {project.data.title}
-                    <span class="i-ri-git-repository-private-line text-sm color-portfolio-faint ml-1.5 align-middle inline-block" aria-hidden="true" />
+                    <span class="text-[0.6875rem] color-portfolio-faint tracking-wide font-mono ml-1 align-middle uppercase">Locked</span>
                   </span>
                   <span class="text-sm color-portfolio-muted leading-snug">
                     {project.data.description}
