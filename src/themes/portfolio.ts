@@ -8,6 +8,6 @@ export const portfolio = {
   "faint": "#a3a3a3",
   "line": "#ececec",
   "fill": "#f0f0f0",
-  "accent": "#0153d3",
-  "accent-soft": "#daf0ff",
+  "accent": "#113edc",
+  "accent-soft": "#d6f0ff",
 } as const;
