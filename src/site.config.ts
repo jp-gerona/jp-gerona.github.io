@@ -22,6 +22,18 @@ export const siteConfig: Site = {
       { label: "Practicum", href: "/practicum" },
     ],
   },
+  socials: [
+    {
+      label: "GitHub",
+      href: `https://github.com/${user}`,
+      icon: "i-ri-github-fill",
+    },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/jp-gerona/",
+      icon: "i-ri-linkedin-box-fill",
+    },
+  ],
   footer: {
     quote: "To plant a garden, is to believe in the future.",
     copyright: "Content licensed under CC BY-NC-SA 4.0",

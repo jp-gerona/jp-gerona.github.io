@@ -23,6 +23,12 @@ export interface SiteFooter {
   sections: SiteFooterSection[];
 }
 
+export interface SiteSocial {
+  label: string;
+  href: Url;
+  icon: string;
+}
+
 export interface Site {
   site: Url;
   title: string;
@@ -34,6 +40,7 @@ export interface Site {
   ogLocale: string;
   imageDomains: string[];
   navigation: SiteNavigation;
+  socials: SiteSocial[];
   footer: SiteFooter;
 }
 

@@ -35,6 +35,26 @@ const navItems = [
       jp-gerona
     </Link>
 
+    <div class="mt-3 flex gap-3 items-center">
+      {siteConfig.socials.map(social => (
+        <Link
+          class="color-portfolio-muted flex transition-colors duration-200 hover:color-portfolio-ink"
+          href={social.href}
+          title={`${social.label} @ ${siteConfig.user}`}
+          external
+        >
+          <span class={`${social.icon} text-xl block`} aria-hidden="true" />
+        </Link>
+      ))}
+      <Link
+        class="text-sm color-portfolio-muted underline underline-offset-4 decoration-dotted transition-colors duration-200 hover:color-portfolio-ink"
+        href="/cv"
+        title="Curriculum Vitae"
+      >
+        View CV
+      </Link>
+    </div>
+
     <nav class="mt-4.5 lg:mt-12" aria-label="Main">
       <ul class="flex flex-wrap gap-1 lg:flex-col lg:items-stretch">
         {
