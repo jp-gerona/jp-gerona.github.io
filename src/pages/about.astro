@@ -1,10 +1,45 @@
 ---
 import Fastfetch from "@/components/sections/about/Fastfetch.astro";
+import SkillsGrid from "@/components/sections/about/SkillsGrid.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout>
-  <section class="section-container px-6 py-20 md:px-10">
-    <Fastfetch />
+<BaseLayout title="About">
+  <section class="flex flex-col gap-16 min-h-svh" aria-label="About">
+    <div class="flex flex-col gap-4.5">
+      <h1 class="text-3xl leading-tight tracking-tight font-600">About</h1>
+      <p class="color-portfolio-muted leading-relaxed max-w-prose">
+        I'm Julian Peter Gerona, JP. I'm a 4th year Information Technology
+        student at Mapúa Malayan Colleges Laguna, specializing in
+        cybersecurity, graduating in 2026. I build web and mobile software:
+        interfaces in React and Astro, APIs in Express and Django, native
+        Android in Kotlin with Jetpack Compose.
+      </p>
+      <p class="color-portfolio-muted leading-relaxed max-w-prose">
+        I use AI heavily when I build, and I don't pretend otherwise. What
+        keeps the output worth shipping is the software engineering behind it:
+        I decide the architecture, review every line the way I review my own,
+        and throw away what doesn't hold up.
+      </p>
+      <p class="color-portfolio-muted leading-relaxed max-w-prose">
+        I work by kaizen, continuous small improvements. This site is on its
+        second rebuild, and the project write-ups here record what I got wrong
+        before what worked.
+      </p>
+    </div>
+
+    <SkillsGrid />
+
+    <div class="flex flex-col gap-4.5">
+      <div class="flex flex-col gap-1.5">
+        <h2 class="text-[1.375rem] leading-tight font-400 font-serif">Setup</h2>
+        <p class="text-sm color-portfolio-muted leading-snug max-w-prose">
+          Everything here was built on a 13-inch early-2015 MacBook Air, in
+          WezTerm with JetBrains Mono. It's slow, and it keeps me honest about
+          performance.
+        </p>
+      </div>
+      <Fastfetch />
+    </div>
   </section>
 </BaseLayout>
