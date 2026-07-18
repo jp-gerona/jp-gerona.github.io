@@ -1,0 +1,30 @@
+---
+import { skillGroups } from "@/data/skills";
+---
+
+<div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-1.5">
+    <h2 class="text-[1.375rem] leading-tight font-400 font-serif">Skills</h2>
+    <p class="text-sm color-portfolio-muted leading-snug max-w-prose">
+      Technologies I'm familiar with. The list is wide because coursework and
+      projects kept pulling me into different stacks; depth varies, and the
+      projects show where.
+    </p>
+  </div>
+  {skillGroups.map(group => (
+    <div class="flex flex-col gap-3">
+      <h3 class="text-[0.6875rem] color-portfolio-faint tracking-wide font-mono uppercase">{group.label}</h3>
+      <ul class="gap-3 grid lg:grid-cols-3 sm:grid-cols-2">
+        {group.items.map(skill => (
+          <li class="p-3 border border-portfolio-line rounded-lg bg-portfolio-surface flex gap-3 items-center">
+            <img src={skill.logo} alt="" width="28" height="28" class="shrink-0 size-7" loading="lazy" />
+            <div class="flex flex-col">
+              <span class="text-sm font-500">{skill.name}</span>
+              <span class="text-xs color-portfolio-muted">{skill.blurb}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
