@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import Link from "@/components/base/Link.astro";
 import ContributionGraph from "@/components/widgets/ContributionGraph.astro";
 import { certificates } from "@/data/certificates";
-import { skillGroups } from "@/data/skills";
 import { siteConfig } from "@/site.config";
 import { env } from "@/utils/env";
 import { fetchContributions } from "@/utils/githubContributions";
@@ -18,7 +17,6 @@ const recentProjects = (
   .slice(0, 3);
 
 const recentCertificates = certificates.slice(0, 3);
-const skills = skillGroups.flatMap(group => group.items);
 
 const sectionLabel = "text-[0.6875rem] color-portfolio-faint tracking-wide font-mono uppercase";
 ---
@@ -40,14 +38,34 @@ const sectionLabel = "text-[0.6875rem] color-portfolio-faint tracking-wide font-
   </div>
 
   <div>
-    <h2 class={sectionLabel}>Skills</h2>
-    <ul class="mt-4.5 flex flex-wrap gap-x-5 gap-y-3">
-      {skills.map(skill => (
-        <li class="flex gap-2 items-center">
-          <img src={skill.logo} alt="" width="18" height="18" class="size-4.5" loading="lazy" />
-          <span class="text-sm">{skill.name}</span>
-        </li>
-      ))}
+    <h2 class={sectionLabel}>Work experience</h2>
+    <ul class="mt-4.5 flex flex-col gap-6">
+      <li class="flex gap-3.5 items-start">
+        <img src="/assets/logos/binan.png" alt="Seal of the City of Biñan" width="40" height="40" class="shrink-0 size-10 object-contain" loading="lazy" />
+        <div class="flex flex-col gap-0.5">
+          <Link class="text-[1.125rem] leading-tight font-serif underline-offset-4 hover:underline" href="/practicum" title="IT Practicum">
+            City Government of Biñan
+          </Link>
+          <span class="text-sm color-portfolio-muted leading-snug">
+            IT Practicum, ICTO Software Development and Creative Support team · April to July 2026
+          </span>
+          <span class="text-sm color-portfolio-muted leading-snug">
+            Lead developer of the Biñan Access Card MIS; proposed and built Eskwelabs.
+          </span>
+        </div>
+      </li>
+      <li class="flex gap-3.5 items-start">
+        <img src="/assets/logos/creotec.png" alt="Creotec Philippines, Inc. logo" width="161" height="30" class="mt-1 shrink-0 h-7.5 w-auto object-contain" loading="lazy" />
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[1.125rem] leading-tight font-serif">Creotec Philippines, Inc.</span>
+          <span class="text-sm color-portfolio-muted leading-snug">
+            Student Trainee, work immersion · April 2019
+          </span>
+          <span class="text-sm color-portfolio-muted leading-snug">
+            80 hours of mobile application development; awarded Best in Work Immersion for the STEM strand.
+          </span>
+        </div>
+      </li>
     </ul>
   </div>
 
