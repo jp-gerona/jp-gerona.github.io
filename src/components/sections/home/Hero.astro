@@ -1,62 +1,117 @@
 ---
+import { getCollection } from "astro:content";
+import Link from "@/components/base/Link.astro";
 import ContributionGraph from "@/components/widgets/ContributionGraph.astro";
+import { certificates } from "@/data/certificates";
+import { skillGroups } from "@/data/skills";
 import { siteConfig } from "@/site.config";
+import { env } from "@/utils/env";
 import { fetchContributions } from "@/utils/githubContributions";
 
 const year = "2026";
 const calendar = await fetchContributions(siteConfig.user, `${year}-01-01`, `${year}-12-31`);
+
+const recentProjects = (
+  await getCollection("projects", ({ data }) => !env.isProd || !data.draft)
+)
+  .sort((a, b) => (b.data.pubDate?.valueOf() ?? 0) - (a.data.pubDate?.valueOf() ?? 0))
+  .slice(0, 3);
+
+const recentCertificates = certificates.slice(0, 3);
+const skills = skillGroups.flatMap(group => group.items);
+
+const sectionLabel = "text-[0.6875rem] color-portfolio-faint tracking-wide font-mono uppercase";
 ---
 
-<section aria-label="Introduction">
+<section aria-label="Introduction" class="flex flex-col gap-16">
   <div class="flex flex-col gap-4.5">
-    <div class="gap-4.5 grid lg:grid-cols-2">
-      <div class="flex flex-col gap-4.5 lg:pr-4">
-        <h1 class="text-3xl leading-tight tracking-tight font-600">
-          Lorem ipsum dolor sit amet consectetur
-        </h1>
-        <p class="color-portfolio-muted leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
-        <p class="color-portfolio-muted leading-relaxed">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-          cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum.
-        </p>
-        <p class="color-portfolio-muted leading-relaxed">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam.
-        </p>
-      </div>
+    <h1 class="text-4xl leading-tight font-400 font-serif md:text-[2.75rem]">
+      I engineer <mark class="color-portfolio-accent px-1 rounded bg-portfolio-accent-soft">solutions</mark>, with AI as the tool and <em>craft</em> as the standard.
+    </h1>
+    <p class="color-portfolio-muted leading-relaxed max-w-prose">
+      I'm JP, a 4th year Information Technology student at Mapúa Malayan
+      Colleges Laguna. I design, architect, and ship web and mobile software,
+      and I use AI in the workflow with my engineering judgment guiding it.
+    </p>
+    <p class="color-portfolio-muted leading-relaxed max-w-prose">
+      Quality is the one thing I don't trade. Kaizen keeps the rest moving:
+      small, continuous improvements to my skills and to the things I ship.
+    </p>
+  </div>
 
-      <div class="gap-4.5 grid grid-rows-[auto_1fr] grid-cols-2">
-        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex aspect-square items-center justify-center">
-          <p class="text-xs color-portfolio-faint">Soon</p>
-        </div>
-        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex aspect-square items-center justify-center">
-          <p class="text-xs color-portfolio-faint">Soon</p>
-        </div>
-        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex col-span-2 min-h-40 items-center justify-center">
-          <p class="text-xs color-portfolio-faint">Soon</p>
-        </div>
-      </div>
+  <div>
+    <h2 class={sectionLabel}>Skills</h2>
+    <ul class="mt-4.5 flex flex-wrap gap-x-5 gap-y-3">
+      {skills.map(skill => (
+        <li class="flex gap-2 items-center">
+          <img src={skill.logo} alt="" width="18" height="18" class="size-4.5" loading="lazy" />
+          <span class="text-sm">{skill.name}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div>
+    <h2 class={sectionLabel}>Recent projects</h2>
+    <ul class="mt-4.5 flex flex-col gap-4.5">
+      {recentProjects.map(project => (
+        <li>
+          <Link class="group flex flex-col gap-0.5" href={`/projects/${project.id}/`} title={project.data.title}>
+            <span class="text-[1.125rem] leading-tight font-serif underline-offset-4 group-hover:underline">
+              {project.data.title}
+            </span>
+            <span class="text-sm color-portfolio-muted leading-snug">
+              {project.data.description}
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+    <Link class="text-sm color-portfolio-muted mt-4.5 transition-colors duration-200 hover:color-portfolio-ink" href="/projects">
+      All projects →
+    </Link>
+  </div>
+
+  <div>
+    <h2 class={sectionLabel}>Recent certificates</h2>
+    <ul class="mt-4.5 flex flex-col gap-4.5">
+      {recentCertificates.map(cert => (
+        <li class="flex flex-col gap-0.5">
+          {cert.verifyUrl
+            ? (
+                <Link class="text-[1.125rem] leading-tight font-serif underline-offset-4 hover:underline" href={cert.verifyUrl} title={`Verify ${cert.title}`} external>
+                  {cert.title}
+                </Link>
+              )
+            : <span class="text-[1.125rem] leading-tight font-serif">{cert.title}</span>}
+          <span class="text-sm color-portfolio-muted leading-snug">{`${cert.issuer}, ${cert.date}`}</span>
+        </li>
+      ))}
+    </ul>
+    <Link class="text-sm color-portfolio-muted mt-4.5 transition-colors duration-200 hover:color-portfolio-ink" href="/certificates">
+      All certificates →
+    </Link>
+  </div>
+
+  <div>
+    <h2 class={sectionLabel}>Education</h2>
+    <div class="mt-4.5 flex flex-col gap-0.5">
+      <p class="text-[1.125rem] leading-tight font-serif">Mapúa Malayan Colleges Laguna</p>
+      <p class="text-sm color-portfolio-muted leading-snug">
+        B.S. Information Technology, specializing in Cybersecurity · 2022–2026
+      </p>
+      <p class="text-sm color-portfolio-muted leading-snug">
+        4th year, graduating. Dean's Lister all four years, President's Lister for one.
+      </p>
     </div>
+  </div>
 
-    <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface">
+  <div>
+    <h2 class={sectionLabel}>GitHub activity</h2>
+    <div class="mt-4.5">
       {calendar
         ? <ContributionGraph calendar={calendar} year={year} />
         : <p class="text-xs color-portfolio-faint">GitHub activity unavailable right now.</p>}
-    </div>
-
-    <div class="gap-4.5 grid md:grid-cols-[1fr_1fr_2fr]">
-      {[1, 2, 3].map(() => (
-        <div class="p-5 border border-portfolio-line rounded-lg bg-portfolio-surface flex h-44 items-center justify-center">
-          <p class="text-xs color-portfolio-faint">Soon</p>
-        </div>
-      ))}
     </div>
   </div>
 </section>
