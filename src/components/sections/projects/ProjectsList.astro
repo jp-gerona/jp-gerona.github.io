@@ -52,9 +52,6 @@ const aspects = ["aspect-4/3", "aspect-square", "aspect-3/4"];
                 )}
                 <h2 class="text-[1.5rem] leading-tight font-400 font-serif group-hover:underline group-hover:underline-offset-4">
                   {project.data.title}
-                  {project.data.locked && (
-                    <span class="i-ri-git-repository-private-line text-[1.125rem] color-portfolio-faint ml-1.5 align-middle inline-block" aria-hidden="true" />
-                  )}
                 </h2>
                 {project.data.description && (
                   <p class="text-sm color-portfolio-muted leading-snug">{project.data.description}</p>
