@@ -69,14 +69,28 @@ const sectionLabel = "text-[0.6875rem] color-portfolio-faint tracking-wide font-
     <ul class="mt-4.5 flex flex-col gap-4.5">
       {recentProjects.map(project => (
         <li>
-          <Link class="group flex flex-col gap-0.5" href={`/projects/${project.id}/`} title={project.data.title}>
-            <span class="text-[1.125rem] leading-tight font-serif underline-offset-4 group-hover:underline">
-              {project.data.title}
-            </span>
-            <span class="text-sm color-portfolio-muted leading-snug">
-              {project.data.description}
-            </span>
-          </Link>
+          {project.data.locked
+            ? (
+                <div class="flex flex-col gap-0.5">
+                  <span class="text-[1.125rem] leading-tight font-serif">
+                    {project.data.title}
+                    <span class="i-ri-git-repository-private-line text-sm color-portfolio-faint ml-1.5 align-middle inline-block" aria-hidden="true" />
+                  </span>
+                  <span class="text-sm color-portfolio-muted leading-snug">
+                    {project.data.description}
+                  </span>
+                </div>
+              )
+            : (
+                <Link class="group flex flex-col gap-0.5" href={`/projects/${project.id}/`} title={project.data.title}>
+                  <span class="text-[1.125rem] leading-tight font-serif underline-offset-4 group-hover:underline">
+                    {project.data.title}
+                  </span>
+                  <span class="text-sm color-portfolio-muted leading-snug">
+                    {project.data.description}
+                  </span>
+                </Link>
+              )}
         </li>
       ))}
     </ul>

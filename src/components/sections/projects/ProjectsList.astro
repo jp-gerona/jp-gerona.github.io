@@ -23,37 +23,55 @@ const aspects = ["aspect-4/3", "aspect-square", "aspect-3/4"];
         {projects.map((project, i) => {
           const meta = projectMeta(project.data);
 
+          const card = (
+            <>
+              {project.data.cover
+                ? (
+                    <Image
+                      src={project.data.cover}
+                      alt=""
+                      class="rounded-lg h-auto w-full"
+                      loading="lazy"
+                      widths={[480, 800, 1200]}
+                      sizes="(min-width: 640px) 50vw, 100vw"
+                      data-pixel-glitch
+                    />
+                  )
+                : (
+                    <div class={`rounded-lg bg-portfolio-fill w-full ${aspects[i % aspects.length]}`} />
+                  )}
+              <div class="flex flex-col gap-1">
+                {meta && (
+                  <p class="text-[0.8125rem] color-portfolio-faint font-mono uppercase">{meta}</p>
+                )}
+                <h2 class="text-[1.5rem] leading-tight font-400 font-serif group-hover:underline group-hover:underline-offset-4">
+                  {project.data.title}
+                  {project.data.locked && (
+                    <span class="i-ri-git-repository-private-line text-[1.125rem] color-portfolio-faint ml-1.5 align-middle inline-block" aria-hidden="true" />
+                  )}
+                </h2>
+                {project.data.description && (
+                  <p class="text-sm color-portfolio-muted leading-snug">{project.data.description}</p>
+                )}
+                {project.data.locked && (
+                  <p class="text-[0.8125rem] color-portfolio-faint font-mono uppercase">Private repository</p>
+                )}
+              </div>
+            </>
+          );
+
           return (
             <li data-masonry-item={i}>
-              <a
-                href={`/projects/${project.id}/`}
-                class="focus-ring-link group flex flex-col gap-1"
-              >
-                {project.data.cover
-                  ? (
-                      <Image
-                        src={project.data.cover}
-                        alt=""
-                        class="rounded-lg h-auto w-full"
-                        loading="lazy"
-                        widths={[480, 800, 1200]}
-                        sizes="(min-width: 640px) 50vw, 100vw"
-                        data-pixel-glitch
-                      />
-                    )
-                  : (
-                      <div class={`rounded-lg bg-portfolio-fill w-full ${aspects[i % aspects.length]}`} />
-                    )}
-                <div class="flex flex-col gap-1">
-                  {meta && (
-                    <p class="text-[0.8125rem] color-portfolio-faint font-mono uppercase">{meta}</p>
+              {project.data.locked
+                ? <div class="flex flex-col gap-1">{card}</div>
+                : (
+                    <a
+                      href={`/projects/${project.id}/`}
+                      class="focus-ring-link group flex flex-col gap-1"
+                    >
+                      {card}
+                    </a>
                   )}
-                  <h2 class="text-[1.5rem] leading-tight font-400 font-serif group-hover:underline group-hover:underline-offset-4">{project.data.title}</h2>
-                  {project.data.description && (
-                    <p class="text-sm color-portfolio-muted leading-snug">{project.data.description}</p>
-                  )}
-                </div>
-              </a>
             </li>
           );
         })}
