@@ -105,6 +105,7 @@ export function projectsSchema({ image }: SchemaContext) {
     role: z.string().optional(),
     category: z.string().optional(),
     cover: image().optional(),
+    banner: image().optional(),
     accent: z.string().optional(),
   });
 }
