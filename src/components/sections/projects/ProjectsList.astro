@@ -37,9 +37,15 @@ const aspects = ["aspect-4/3", "aspect-square", "aspect-3/4"];
                       data-pixel-glitch
                     />
                   )
-                : (
-                    <div class={`rounded-lg bg-portfolio-fill w-full ${aspects[i % aspects.length]}`} />
-                  )}
+                : project.data.locked
+                  ? (
+                      <div class="rounded-lg bg-portfolio-fill flex w-full aspect-video items-center justify-center">
+                        <span class="i-ri-lock-2-line text-3xl color-portfolio-faint" aria-hidden="true" />
+                      </div>
+                    )
+                  : (
+                      <div class={`rounded-lg bg-portfolio-fill w-full ${aspects[i % aspects.length]}`} />
+                    )}
               <div class="flex flex-col gap-1">
                 {meta && (
                   <p class="text-[0.8125rem] color-portfolio-faint font-mono uppercase">{meta}</p>
@@ -63,7 +69,7 @@ const aspects = ["aspect-4/3", "aspect-square", "aspect-3/4"];
           return (
             <li data-masonry-item={i}>
               {project.data.locked
-                ? <div class="flex flex-col gap-1">{card}</div>
+                ? <div class="flex flex-col gap-1 cursor-not-allowed">{card}</div>
                 : (
                     <a
                       href={`/projects/${project.id}/`}
