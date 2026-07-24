@@ -7,7 +7,7 @@ export const remarkPlugins: RemarkPlugins = [
   [
     remarkGenerateOgImage,
     {
-      authorOrBrand: siteConfig.title,
+      authorOrBrand: siteConfig.user,
       fallbackTitle: siteConfig.description,
     },
   ],
