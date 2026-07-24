@@ -110,8 +110,9 @@ export function initPixelGlitch(selector: string): void {
           const reach = Math.min(cols, rows) * REACH_FACTOR * eased;
           if (sample && reach > 0) {
             const step = Math.floor(ts / STEP_MS);
-            const bw = rect.width / cols;
-            const bh = rect.height / rows;
+            const left = Math.round(rect.left);
+            const top = Math.round(rect.top);
+            const s = BL - 1;
             const maxD = Math.sqrt(((cols - 1) / 2) ** 2 + ((rows - 1) / 2) ** 2);
             for (let j = 0; j < rows; j++) {
               for (let i = 0; i < cols; i++) {
@@ -137,11 +138,7 @@ export function initPixelGlitch(selector: string): void {
                   k = (rj * cols + ri) * 4;
                 }
                 ctx!.fillStyle = `rgb(${sample.data[k]},${sample.data[k + 1]},${sample.data[k + 2]})`;
-                const x0 = Math.round(rect.left + i * bw);
-                const y0 = Math.round(rect.top + j * bh);
-                const x1 = Math.round(rect.left + (i + 1) * bw);
-                const y1 = Math.round(rect.top + (j + 1) * bh);
-                ctx!.fillRect(x0, y0, x1 - x0 - 1, y1 - y0 - 1);
+                ctx!.fillRect(left + i * BL, top + j * BL, s, s);
               }
             }
           }
