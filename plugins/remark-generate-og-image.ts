@@ -17,17 +17,24 @@ interface OgImageOptions {
   fallbackTitle: string;
 }
 
-const Geist = readFileSync(join(process.cwd(), "plugins/og-template/Geist-Regular.ttf"));
+const CrimsonPro = readFileSync(join(process.cwd(), "plugins/og-template/CrimsonPro-Regular.ttf"));
+const IBMPlexMono = readFileSync(join(process.cwd(), "plugins/og-template/IBMPlexMono-Regular.ttf"));
 
 const satoriOptions: SatoriOptions = {
   width: 1200,
   height: 630,
   fonts: [
     {
-      name: "Geist",
+      name: "Crimson Pro",
       weight: 400,
       style: "normal",
-      data: Geist,
+      data: CrimsonPro,
+    },
+    {
+      name: "IBM Plex Mono",
+      weight: 400,
+      style: "normal",
+      data: IBMPlexMono,
     },
   ],
 };
