@@ -6,7 +6,7 @@ import { certificates } from "@/data/certificates";
 import { siteConfig } from "@/site.config";
 import { fetchContributions } from "@/utils/githubContributions";
 
-const year = "2026";
+const year = String(new Date().getUTCFullYear());
 const calendar = await fetchContributions(siteConfig.user, `${year}-01-01`, `${year}-12-31`);
 
 const recentProjects = (

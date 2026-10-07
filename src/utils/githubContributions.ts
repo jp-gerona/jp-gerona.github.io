@@ -1,6 +1,7 @@
 export interface ContributionDay {
   date: string;
   level: number;
+  count: number;
 }
 
 export interface ContributionCalendar {
@@ -24,13 +25,23 @@ export async function fetchContributions(
 
     const html = await response.text();
     const days: ContributionDay[] = [];
+    const counts = new Map(
+      [...html.matchAll(/<tool-tip\b[^>]+\bfor="([^"]+)"[^>]*>([\d,]+|No) contributions? on [^<]*<\/tool-tip>/g)]
+        .map(match => [match[1], match[2] === "No" ? 0 : Number(match[2].replaceAll(",", ""))]),
+    );
 
     for (const tag of html.match(/<td[^>]*ContributionCalendar-day[^>]*>/g) ?? []) {
       const date = tag.match(/data-date="([^"]+)"/)?.[1];
       const level = tag.match(/data-level="(\d)"/)?.[1];
+      const id = tag.match(/\bid="([^"]+)"/)?.[1];
+      const count = id ? counts.get(id) : undefined;
 
       if (date && level) {
-        days.push({ date, level: Number(level) });
+        if (count === undefined) {
+          return null;
+        }
+
+        days.push({ date, level: Number(level), count });
       }
     }
 
@@ -40,10 +51,7 @@ export async function fetchContributions(
 
     days.sort((a, b) => a.date.localeCompare(b.date));
 
-    const total = [...html.matchAll(/>([\d,]+) contributions? on /g)].reduce(
-      (sum, match) => sum + Number(match[1].replaceAll(",", "")),
-      0,
-    );
+    const total = days.reduce((sum, day) => sum + day.count, 0);
 
     return { days, total };
   }
