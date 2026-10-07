@@ -8,6 +8,16 @@ interface Props {
 
 const { calendar, year } = Astro.props;
 
+function dayLabel(day: ContributionDay): string {
+  const date = new Date(`${day.date}T00:00:00Z`);
+  const number = date.getUTCDate();
+  const suffix = number >= 11 && number <= 13 ? "th" : ["th", "st", "nd", "rd"][number % 10] ?? "th";
+  const month = date.toLocaleDateString("en-US", { month: "long", timeZone: "UTC" });
+  const count = day.count === 0 ? "No contributions" : `${day.count.toLocaleString("en-US")} contribution${day.count === 1 ? "" : "s"}`;
+
+  return `${count} on ${month} ${number}${suffix}.`;
+}
+
 const leadingPad = new Date(`${calendar.days[0].date}T00:00:00Z`).getUTCDay();
 const cells: (ContributionDay | null)[] = [
   ...Array.from<null>({ length: leadingPad }).fill(null),
@@ -39,7 +49,7 @@ weeks.forEach((week, i) => {
 });
 ---
 
-<div class="flex flex-col gap-3">
+<contribution-graph class="flex flex-col gap-3">
   <p class="text-sm font-500 flex gap-2 items-center">
     <span class="i-ri-github-fill text-lg" aria-hidden="true" />
     {calendar.total.toLocaleString()} contributions in {year}
@@ -71,9 +81,11 @@ weeks.forEach((week, i) => {
           {cells.map(day => (
             day
               ? (
-                  <span
+                  <button
+                    type="button"
                     class={`day level-${day.level} rounded-[2px] size-2.5`}
-                    title={day.date}
+                    data-date={day.date}
+                    aria-label={dayLabel(day)}
                   />
                 )
               : <span class="rounded-[2px] size-2.5" />
@@ -90,9 +102,87 @@ weeks.forEach((week, i) => {
       </div>
     </div>
   </div>
-</div>
+  <span class="contribution-tooltip" role="tooltip" hidden></span>
+</contribution-graph>
+
+<script>
+  class ContributionGraph extends HTMLElement {
+    private controller?: AbortController;
+
+    connectedCallback() {
+      const tooltip = this.querySelector<HTMLElement>(".contribution-tooltip");
+      if (!tooltip) {
+        return;
+      }
+
+      this.controller = new AbortController();
+      const { signal } = this.controller;
+      const hide = () => {
+        tooltip.hidden = true;
+      };
+      const show = (target: EventTarget | null) => {
+        const day = target instanceof HTMLElement ? target.closest<HTMLElement>("[data-date]") : null;
+        if (!day) {
+          return;
+        }
+
+        tooltip.textContent = day.getAttribute("aria-label");
+        tooltip.hidden = false;
+        const cell = day.getBoundingClientRect();
+        const bounds = tooltip.getBoundingClientRect();
+        const left = Math.max(8, Math.min(cell.left + cell.width / 2 - bounds.width / 2, window.innerWidth - bounds.width - 8));
+        const top = cell.top >= bounds.height + 8 ? cell.top - bounds.height - 8 : cell.bottom + 8;
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+      };
+
+      this.addEventListener("pointerover", event => show(event.target), { signal });
+      this.addEventListener("pointerout", hide, { signal });
+      this.addEventListener("focusin", event => show(event.target), { signal });
+      this.addEventListener("focusout", hide, { signal });
+      this.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          hide();
+        }
+      }, { signal });
+      document.addEventListener("scroll", () => {
+        if (!tooltip.hidden && this.contains(document.activeElement)) {
+          show(document.activeElement);
+        }
+        else {
+          hide();
+        }
+      }, { capture: true, passive: true, signal });
+      window.addEventListener("resize", hide, { signal });
+    }
+
+    disconnectedCallback() {
+      this.controller?.abort();
+    }
+  }
+
+  if (!customElements.get("contribution-graph")) {
+    customElements.define("contribution-graph", ContributionGraph);
+  }
+</script>
 
 <style>
+  .contribution-tooltip {
+    position: fixed;
+    z-index: 50;
+    width: max-content;
+    max-width: calc(100vw - 16px);
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #25292e;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    pointer-events: none;
+  }
+
   .day.level-0 {
     background: #ebedf0;
   }
