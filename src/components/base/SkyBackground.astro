@@ -1,0 +1,86 @@
+<div data-sky-background class="bg-[#205a96] pointer-events-none inset-0 absolute z-0 overflow-hidden after:bg-black/12 after:content-[''] after:inset-0 after:absolute" aria-hidden="true">
+  <img src="/assets/sky.webp" alt="" width="960" height="720" loading="lazy" decoding="async" class="h-full w-full inset-0 absolute object-cover" />
+  <canvas class="opacity-0 h-full w-full inset-0 absolute object-cover"></canvas>
+</div>
+
+<script>
+  const cleanups = new Map<HTMLElement, () => void>();
+
+  function initializeSkies() {
+    document.querySelectorAll<HTMLElement>("[data-sky-background]").forEach((host) => {
+      if (cleanups.has(host))
+        return;
+
+      const controller = new AbortController();
+      const options = { signal: controller.signal };
+      const staticQuery = matchMedia("(max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce)");
+      const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+      let renderer: Awaited<ReturnType<typeof import("./skyRenderer").createSkyRenderer>>;
+      let loading = false;
+      let failed = false;
+      let destroyed = false;
+
+      function update() {
+        if (destroyed)
+          return;
+        if (staticQuery.matches || connection?.saveData) {
+          renderer?.destroy();
+          renderer = undefined;
+          return;
+        }
+
+        // Sticky backgrounds can intersect the viewport while another section covers them.
+        const bounds = host.getBoundingClientRect();
+        const top = Math.max(0, bounds.top);
+        const bottom = Math.min(innerHeight, bounds.bottom);
+        const scope = host.parentElement;
+        const exposed = bottom > top && [0.2, 0.5, 0.8].some((fraction) => {
+          const hit = document.elementFromPoint(bounds.left + bounds.width * fraction, bottom - 2);
+          return hit !== null && scope?.contains(hit);
+        });
+        const visible = exposed && !document.hidden;
+        renderer?.setVisible(visible);
+
+        if (visible && !renderer && !loading && !failed) {
+          loading = true;
+          void import("./skyRenderer").then(({ createSkyRenderer }) => {
+            loading = false;
+            if (destroyed || staticQuery.matches || connection?.saveData)
+              return;
+            renderer = createSkyRenderer(host);
+            failed = !renderer;
+            update();
+          }).catch(() => {
+            loading = false;
+            failed = true;
+          });
+        }
+      }
+
+      window.addEventListener("scroll", update, { ...options, passive: true });
+      window.addEventListener("resize", update, options);
+      document.addEventListener("visibilitychange", update, options);
+      staticQuery.addEventListener("change", update, options);
+      const observer = new IntersectionObserver(update);
+      observer.observe(host);
+      cleanups.set(host, () => {
+        destroyed = true;
+        controller.abort();
+        observer.disconnect();
+        renderer?.destroy();
+      });
+      update();
+    });
+  }
+
+  function destroySkies() {
+    cleanups.forEach(cleanup => cleanup());
+    cleanups.clear();
+  }
+
+  initializeSkies();
+  document.addEventListener("astro:page-load", initializeSkies);
+  document.addEventListener("astro:before-swap", destroySkies);
+  window.addEventListener("pagehide", destroySkies);
+  window.addEventListener("pageshow", initializeSkies);
+</script>
