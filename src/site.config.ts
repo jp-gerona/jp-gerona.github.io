@@ -35,6 +35,7 @@ export const siteConfig: Site = {
     },
   ],
   footer: {
+    theme: "sky",
     copyright: "Content licensed under CC BY-NC-SA 4.0",
     sections: [
       {

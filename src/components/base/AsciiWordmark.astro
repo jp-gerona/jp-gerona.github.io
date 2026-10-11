@@ -1,8 +1,14 @@
 ---
 import { siteConfig } from "@/site.config";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "color-gruvbox-fg0" } = Astro.props;
 ---
 
-<div data-ascii-wordmark data-wordmark-text={siteConfig.user} class="ascii-wordmark color-gruvbox-fg0">
+<div data-ascii-wordmark data-wordmark-text={siteConfig.user} class:list={["ascii-wordmark", className]}>
   <button
     type="button"
     class="ascii-wordmark-button focus-ring-core"
