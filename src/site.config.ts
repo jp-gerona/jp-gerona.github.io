@@ -42,9 +42,9 @@ export const siteConfig: Site = {
         label: "Info",
         items: [
           {
-            label: "Curriculum Vitae",
-            href: "/cv",
-            title: `Curriculum Vitae @ ${author}`,
+            label: "Resume",
+            href: "/resume",
+            title: `Resume @ ${author}`,
           },
           {
             label: "RSS Feed",

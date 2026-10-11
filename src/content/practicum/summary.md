@@ -3,8 +3,8 @@ title: IT Practicum Final Report
 description: A condensed account of my IT199F practicum at the Information and Communications Technology Office of the City Government of Biñan.
 accent: "#154b92"
 appendices:
-  - label: Competency-based CV
-    href: /docs/cv.pdf
+  - label: Resume
+    href: /docs/resume.pdf
   - label: Endorsement Letter
     href: /docs/endorsement-letter.pdf
   - label: Acceptance Form

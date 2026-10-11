@@ -16,77 +16,53 @@ const practicumAppendixSchema = z.object({
   href: z.string(),
 });
 
-const cvSocialSchema = z.object({
-  label: z.string(),
-  href: z.string(),
-  icon: z.string(),
-});
-
-const cvProjectSchema = z.object({
+const resumeProjectSchema = z.object({
   name: z.string(),
-  description: z.string(),
-  repo: z.string().optional(),
-  link: z.string().optional(),
+  year: z.string(),
+  highlights: z.array(z.string()).min(1),
 });
 
-const cvExperienceSchema = z.object({
+const resumeExperienceSchema = z.object({
   organization: z.string(),
   role: z.string(),
   period: z.string(),
-  location: z.string().optional(),
-  url: z.string().optional(),
-  note: z.string().optional(),
-  highlights: z.array(z.string()).default([]),
+  location: z.string(),
+  highlights: z.array(z.string()).min(1),
 });
 
-const cvEducationSchema = z.object({
+const resumeEducationSchema = z.object({
   credential: z.string(),
   institution: z.string(),
+  location: z.string(),
   period: z.string(),
-  details: z.array(z.string()).default([]),
+  details: z.array(z.string()).min(1),
 });
 
-const cvSkillGroupSchema = z.object({
+const resumeSkillGroupSchema = z.object({
   category: z.string(),
-  items: z.array(z.string()).min(1),
+  text: z.string(),
 });
 
-const cvTalkSchema = z.object({
-  title: z.string(),
-  event: z.string().optional(),
-  date: z.string().optional(),
-  link: z.string().optional(),
-  description: z.string().optional(),
-});
-
-const cvAwardSchema = z.object({
-  title: z.string(),
-  organization: z.string().optional(),
-  date: z.string().optional(),
+const resumeAffiliationSchema = z.object({
+  organization: z.string(),
+  period: z.string(),
+  highlights: z.array(z.string()).min(1),
 });
 
 export const indexSchema = baseEntrySchema;
-export const cvSchema = baseEntrySchema.extend({
+export const resumeSchema = baseEntrySchema.extend({
   title: z.string(),
   name: z.string(),
   role: z.string(),
-  contact: z.object({
-    location: z.string().optional(),
-    email: z.string().optional(),
-    phone: z.string().optional(),
-    linkedin: z.string().optional(),
-    github: z.string().optional(),
-  }),
-  socials: z.array(cvSocialSchema).default([]),
-  about: z.string().optional(),
-  projects: z.array(cvProjectSchema).default([]),
-  moreProjectsHref: z.string().optional(),
-  experience: z.array(cvExperienceSchema).default([]),
-  skills: z.array(cvSkillGroupSchema).default([]),
-  education: z.array(cvEducationSchema).default([]),
-  talks: z.array(cvTalkSchema).default([]),
-  awards: z.array(cvAwardSchema).default([]),
-  languages: z.string().optional(),
+  contact: z.array(z.object({
+    text: z.string(),
+    href: z.url().optional(),
+  })).min(1),
+  education: z.array(resumeEducationSchema).min(1),
+  experience: z.array(resumeExperienceSchema).min(1),
+  projects: z.array(resumeProjectSchema).min(1),
+  affiliations: z.array(resumeAffiliationSchema).min(1),
+  skills: z.array(resumeSkillGroupSchema).min(1),
 });
 export const practicumSchema = baseEntrySchema.extend({
   title: z.string(),
