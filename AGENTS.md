@@ -62,6 +62,21 @@ Stack: Astro 6, UnoCSS, GSAP, Lenis. Package manager: pnpm.
 - `husky` + `lint-staged` run `eslint --fix` on staged files pre-commit.
 - Search: use `rg`. This ripgrep build lacks PCRE2 — no lookahead/lookbehind regex.
 
+### Browser verification on this machine
+
+The shared Playwright package is version 1.61.1 at `/Users/JP/.nvm/versions/node/v24.12.0/lib/node_modules/playwright`. Node runs as `darwin` / `x64`. The documented `~/Library/Caches/ms-playwright/chromium-1228` browser is absent on this machine, so the default Chromium launch fails.
+
+Use the existing Chrome for Testing installation with an explicit `executablePath`:
+
+```js
+const browser = await chromium.launch({
+  executablePath: "/Users/JP/.cache/puppeteer/chrome/mac-148.0.7778.97/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+  headless: true,
+});
+```
+
+This browser launches and handles Playwright interactions outside the Codex sandbox. A sandboxed launch aborts with `SIGABRT`; request execution outside the sandbox for browser checks. Check that the executable still exists before using it. Keep its cache intact, and obtain explicit approval before downloading browsers or changing packages.
+
 ## Architecture
 
 ### Config-driven content
