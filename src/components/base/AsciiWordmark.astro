@@ -9,10 +9,12 @@ import { siteConfig } from "@/site.config";
     aria-label={`ASCII wordmark: ${siteConfig.user}`}
     disabled
   >
-    <span class="ascii-wordmark-fallback" aria-hidden="true">
-      <span class="hidden md:inline">{siteConfig.user}</span>
-      <span class="md:hidden">jp</span>
-    </span>
+    <noscript>
+      <span class="ascii-wordmark-fallback" aria-hidden="true">
+        <span class="hidden md:inline">{siteConfig.user}</span>
+        <span class="md:hidden">jp</span>
+      </span>
+    </noscript>
     <canvas class="ascii-wordmark-canvas" aria-hidden="true"></canvas>
   </button>
 </div>
