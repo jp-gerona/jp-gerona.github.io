@@ -1,4 +1,4 @@
-import { skyFragmentShader, skyVertexShader } from "./skyShaders.js";
+import { skyFragmentShader, skyVertexShader } from "./skyShaders";
 
 // Keep the starting sky consistent through navigation, but vary it on a full reload.
 const skySeed = new Float32Array([Math.random() * 64, Math.random() * 64]);
