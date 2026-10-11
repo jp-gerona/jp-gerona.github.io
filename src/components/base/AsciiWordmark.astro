@@ -1,8 +1,14 @@
 ---
 import { siteConfig } from "@/site.config";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "color-gruvbox-fg0" } = Astro.props;
 ---
 
-<div data-ascii-wordmark data-wordmark-text={siteConfig.user} class="relative flex flex-1 flex-col min-h-[clamp(18rem,48svh,36rem)] color-gruvbox-fg0">
+<div data-ascii-wordmark data-wordmark-text={siteConfig.user} class:list={["relative flex flex-1 flex-col min-h-[clamp(18rem,48svh,36rem)]", className]}>
   <button
     type="button"
     class="focus-ring-core color-inherit p-0 border-0 rounded-0 bg-transparent flex-1 min-h-0 w-full cursor-pointer relative touch-pan-y touch-pinch-zoom disabled:cursor-default"

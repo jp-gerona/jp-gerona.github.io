@@ -18,6 +18,7 @@ export interface SiteFooterSection {
 }
 
 export interface SiteFooter {
+  theme: "sky" | "gruvbox";
   copyright: string;
   sections: SiteFooterSection[];
 }
