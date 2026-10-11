@@ -35,7 +35,6 @@ export const siteConfig: Site = {
     },
   ],
   footer: {
-    quote: "To plant a garden, is to believe in the future.",
     copyright: "Content licensed under CC BY-NC-SA 4.0",
     sections: [
       {
