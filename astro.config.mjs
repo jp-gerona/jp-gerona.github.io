@@ -6,6 +6,7 @@ import { defineConfig } from "astro/config";
 
 import UnoCSS from "unocss/astro";
 import { remarkPlugins } from "./plugins/index.ts";
+import { buildResume } from "./scripts/build-resume.mjs";
 
 import { siteConfig } from "./src/site.config";
 
@@ -34,6 +35,12 @@ export default defineConfig({
     ],
   },
   integrations: [
+    {
+      name: "resume-pdf",
+      hooks: {
+        "astro:build:start": () => buildResume(),
+      },
+    },
     UnoCSS({
       injectReset: true,
     }),

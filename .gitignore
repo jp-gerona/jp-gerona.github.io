@@ -29,3 +29,6 @@ draft/
 
 # playwright mcp artifacts
 .playwright-mcp/
+
+# local Typst compiler and generated resume
+.tools/

@@ -59,12 +59,17 @@ export default defineConfig({
           name: "Crimson Pro",
           italic: true,
         },
+        resume: {
+          name: "EB Garamond",
+          weights: [400, 700],
+          italic: true,
+        },
       },
       processors: createLocalFontProcessor(),
     }),
     presetIcons(),
   ],
-  // Icon classes referenced from content frontmatter (e.g. cv socials) are
+  // Icon classes referenced from site configuration are
   // invisible to the extractor and must be safelisted.
   safelist: [
     "i-ri-github-fill",
