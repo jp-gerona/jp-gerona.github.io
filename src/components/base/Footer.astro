@@ -1,7 +1,7 @@
 ---
-import AsciiGarden from "@/components/garden/AsciiGarden.astro";
-
 import { siteConfig } from "@/site.config";
+
+import AsciiWordmark from "./AsciiWordmark.astro";
 import Link from "./Link.astro";
 
 function normalizePath(pathname: string): string {
@@ -27,24 +27,9 @@ const footerSections = [
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="px-8 pt-10 bg-gruvbox-bg0 flex flex-col h-[calc(100svh-57px)] bottom-0 sticky z-0 overflow-hidden">
-  <div class="flex-1 gap-x-4 gap-y-8 grid grid-cols-[auto_1fr] grid-rows-[auto_auto_auto_minmax(0,1fr)] items-start justify-items-start md:gap-y-10 md:grid-cols-[auto_repeat(3,auto)] md:grid-rows-[auto_1fr]">
-
-    <div class="flex flex-col gap-2 col-span-2 md:col-span-1">
-      <p class="text-[1.25em] color-gruvbox-fg0 font-serif font-italic md:text-[1.5em]">{siteConfig.footer.quote}</p>
-      <p class="text-[0.7em] color-gruvbox-fg0 font-mono uppercase">
-        {copyrightPrefix}
-        <Link
-          class="decoration-current underline-offset-4 underline! decoration-dashed!"
-          href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-          title="Creative Commons BY-NC-SA 4.0 License"
-          external
-        >
-          {licenseText}
-        </Link>
-        {copyrightSuffix} — {currentYear}
-      </p>
-    </div>
+<footer class="px-6 pb-6 pt-10 bg-gruvbox-bg0 flex flex-col gap-10 min-h-[calc(100svh-57px)] bottom-0 sticky z-0 md:px-8">
+  <AsciiWordmark />
+  <div class="gap-x-4 gap-y-8 grid grid-cols-2 items-start md:grid-cols-3">
     {
       footerSections.map(section => (
         <ul class="flex flex-col gap-2">
@@ -72,6 +57,17 @@ const currentYear = new Date().getFullYear();
         </ul>
       ))
     }
-    <AsciiGarden />
   </div>
+  <p class="text-[0.7em] color-gruvbox-fg0 font-mono uppercase">
+    {copyrightPrefix}
+    <Link
+      class="decoration-current underline-offset-4 underline! decoration-dashed!"
+      href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+      title="Creative Commons BY-NC-SA 4.0 License"
+      external
+    >
+      {licenseText}
+    </Link>
+    {copyrightSuffix} · {currentYear}
+  </p>
 </footer>

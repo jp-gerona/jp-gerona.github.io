@@ -18,7 +18,6 @@ export interface SiteFooterSection {
 }
 
 export interface SiteFooter {
-  quote: string;
   copyright: string;
   sections: SiteFooterSection[];
 }
