@@ -13,7 +13,7 @@ interface Props {
 
 const { title, description, ogImage } = Astro.props;
 
-const siteName = new URL(siteConfig.site).hostname;
+const siteName = siteConfig.hostname;
 
 const pageTitle = title && title !== siteConfig.title ? `${title} - ${siteConfig.title}` : siteConfig.title;
 

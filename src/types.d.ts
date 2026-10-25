@@ -31,6 +31,7 @@ export interface SiteSocial {
 
 export interface Site {
   site: Url;
+  hostname: string;
   title: string;
   description: string;
   author: string;

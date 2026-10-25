@@ -49,7 +49,7 @@ Discuss changes tersely (caveman style) to reduce token usage. Code, commits, an
 
 ## Project
 
-Personal portfolio for Julian Peter Gerona. Static site on GitHub Pages at https://jp-gerona.github.io. Goal: Lighthouse ~100 across Performance, Accessibility, Best Practices, SEO.
+Personal portfolio for Julian Peter Gerona. Static site on GitHub Pages at https://jp-gerona.me. Goal: Lighthouse ~100 across Performance, Accessibility, Best Practices, SEO.
 
 Stack: Astro 6, UnoCSS, GSAP, Lenis. Package manager: pnpm.
 

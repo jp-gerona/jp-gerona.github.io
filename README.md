@@ -1,4 +1,4 @@
-**[jp-gerona.github.io/](https://jp-gerona.github.io/)**
+**[jp-gerona.me/](https://jp-gerona.me/)**
 
 my website portfolio
 

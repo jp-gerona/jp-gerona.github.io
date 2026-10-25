@@ -3,9 +3,12 @@ import type { Site } from "./types";
 const author = "Julian Peter Gerona";
 const email = "jp-gerona@protonmail.com";
 const user = "jp-gerona";
+const site = "https://jp-gerona.me";
+const hostname = new URL(site).hostname;
 
 export const siteConfig: Site = {
-  site: "https://jp-gerona.github.io",
+  site,
+  hostname,
   title: author,
   description: `${author}'s Portfolio`,
   author,
@@ -13,7 +16,7 @@ export const siteConfig: Site = {
   user,
   lang: "en",
   ogLocale: "en_PH",
-  imageDomains: ["jp-gerona.github.io"],
+  imageDomains: [hostname],
   navigation: {
     main: [
       { label: "About", href: "/about" },
