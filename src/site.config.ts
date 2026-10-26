@@ -46,7 +46,7 @@ export const siteConfig: Site = {
         items: [
           {
             label: "Resume",
-            href: "/resume",
+            href: "https://resume.jp-gerona.me",
             title: `Resume @ ${author}`,
           },
           {

@@ -16,54 +16,7 @@ const practicumAppendixSchema = z.object({
   href: z.string(),
 });
 
-const resumeProjectSchema = z.object({
-  name: z.string(),
-  year: z.string(),
-  highlights: z.array(z.string()).min(1),
-});
-
-const resumeExperienceSchema = z.object({
-  organization: z.string(),
-  role: z.string(),
-  period: z.string(),
-  location: z.string(),
-  highlights: z.array(z.string()).min(1),
-});
-
-const resumeEducationSchema = z.object({
-  credential: z.string(),
-  institution: z.string(),
-  location: z.string(),
-  period: z.string(),
-  details: z.array(z.string()).min(1),
-});
-
-const resumeSkillGroupSchema = z.object({
-  category: z.string(),
-  text: z.string(),
-});
-
-const resumeAffiliationSchema = z.object({
-  organization: z.string(),
-  period: z.string(),
-  highlights: z.array(z.string()).min(1),
-});
-
 export const indexSchema = baseEntrySchema;
-export const resumeSchema = baseEntrySchema.extend({
-  title: z.string(),
-  name: z.string(),
-  role: z.string(),
-  contact: z.array(z.object({
-    text: z.string(),
-    href: z.url().optional(),
-  })).min(1),
-  education: z.array(resumeEducationSchema).min(1),
-  experience: z.array(resumeExperienceSchema).min(1),
-  projects: z.array(resumeProjectSchema).min(1),
-  affiliations: z.array(resumeAffiliationSchema).min(1),
-  skills: z.array(resumeSkillGroupSchema).min(1),
-});
 export const practicumSchema = baseEntrySchema.extend({
   title: z.string(),
   accent: z.string().optional(),

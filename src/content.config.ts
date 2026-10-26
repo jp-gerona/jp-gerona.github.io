@@ -4,7 +4,6 @@ import {
   indexSchema,
   practicumSchema,
   projectsSchema,
-  resumeSchema,
 } from "@/content/schema";
 
 const index = defineCollection({
@@ -22,13 +21,7 @@ const practicum = defineCollection({
   schema: practicumSchema,
 });
 
-const resume = defineCollection({
-  loader: glob({ base: "./src/content/resume", pattern: "resume.yaml" }),
-  schema: resumeSchema,
-});
-
 export const collections = {
-  resume,
   index,
   practicum,
   projects,

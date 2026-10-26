@@ -59,11 +59,6 @@ export default defineConfig({
           name: "Crimson Pro",
           italic: true,
         },
-        resume: {
-          name: "EB Garamond",
-          weights: [400, 700],
-          italic: true,
-        },
       },
       processors: createLocalFontProcessor(),
     }),

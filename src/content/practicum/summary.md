@@ -4,7 +4,7 @@ description: A condensed account of my IT199F practicum at the Information and C
 accent: "#154b92"
 appendices:
   - label: Resume
-    href: /docs/resume.pdf
+    href: https://resume.jp-gerona.me/resume.pdf
   - label: Endorsement Letter
     href: /docs/endorsement-letter.pdf
   - label: Acceptance Form
