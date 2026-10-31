@@ -63,9 +63,6 @@ importers:
       '@unocss/preset-icons':
         specifier: ^66.7.5
         version: 66.7.5
-      '@unocss/preset-web-fonts':
-        specifier: ^66.7.5
-        version: 66.7.5
       '@unocss/reset':
         specifier: ^66.7.5
         version: 66.7.5

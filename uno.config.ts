@@ -1,5 +1,4 @@
-import { createLocalFontProcessor } from "@unocss/preset-web-fonts/local";
-import { defineConfig, presetAttributify, presetIcons, presetTypography, presetWebFonts, presetWind4 } from "unocss";
+import { defineConfig, presetAttributify, presetIcons, presetTypography, presetWind4 } from "unocss";
 
 import { catpuccin } from "./src/themes/catpuccin";
 import { catpuccinMocha } from "./src/themes/catpuccinMocha";
@@ -8,6 +7,11 @@ import { portfolio } from "./src/themes/portfolio";
 
 export default defineConfig({
   theme: {
+    font: {
+      sans: "system-ui, sans-serif",
+      serif: "\"Libron\", serif",
+      mono: "\"Departure Mono\", ui-monospace, monospace",
+    },
     colors: {
       portfolio,
       catpuccin,
@@ -50,18 +54,6 @@ export default defineConfig({
     presetAttributify(),
     presetTypography(),
     presetWind4(),
-    presetWebFonts({
-      provider: "google",
-      fonts: {
-        sans: "Plus Jakarta Sans",
-        mono: "IBM Plex Mono",
-        serif: {
-          name: "Crimson Pro",
-          italic: true,
-        },
-      },
-      processors: createLocalFontProcessor(),
-    }),
     presetIcons(),
   ],
   // Icon classes referenced from site configuration are

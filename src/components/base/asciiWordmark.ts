@@ -87,18 +87,18 @@ function initializeWordmark(container: HTMLElement): (() => void) | undefined {
     sampler.width = canvasWidth;
     sampler.height = canvasHeight;
     const samplerContext = sampler.getContext("2d")!;
-    samplerContext.font = "800 100px 'Plus Jakarta Sans', sans-serif";
+    samplerContext.font = "800 100px system-ui, sans-serif";
     const measuredText = samplerContext.measureText(wordmarkText);
     const textHeight = measuredText.actualBoundingBoxAscent + measuredText.actualBoundingBoxDescent;
     const maskFontSize = 100 * Math.min(canvasWidth * 0.88 / measuredText.width, canvasHeight * 0.7 / textHeight);
-    samplerContext.font = `800 ${maskFontSize}px 'Plus Jakarta Sans', sans-serif`;
+    samplerContext.font = `800 ${maskFontSize}px system-ui, sans-serif`;
     const fittedText = samplerContext.measureText(wordmarkText);
     const textPositionX = (canvasWidth - fittedText.width) / 2;
     const textPositionY = (canvasHeight + fittedText.actualBoundingBoxAscent - fittedText.actualBoundingBoxDescent) / 2;
     samplerContext.fillText(wordmarkText, textPositionX, textPositionY);
     const maskPixels = samplerContext.getImageData(0, 0, canvasWidth, canvasHeight).data;
-    const gridSpacing = Math.max(mobileQuery.matches ? 10 : 7, Math.ceil(Math.sqrt(fittedText.width * (fittedText.actualBoundingBoxAscent + fittedText.actualBoundingBoxDescent) / MAXIMUM_PARTICLES)));
-    characterSize = gridSpacing * 0.8;
+    const gridSpacing = Math.max(11, Math.ceil(Math.sqrt(fittedText.width * (fittedText.actualBoundingBoxAscent + fittedText.actualBoundingBoxDescent) / MAXIMUM_PARTICLES)));
+    characterSize = 11;
     particles = [];
 
     for (let positionY = gridSpacing; positionY < canvasHeight - gridSpacing; positionY += gridSpacing) {
@@ -143,7 +143,7 @@ function initializeWordmark(container: HTMLElement): (() => void) | undefined {
   function drawParticles() {
     context!.clearRect(0, 0, canvasWidth, canvasHeight);
     context!.fillStyle = characterColor;
-    context!.font = `${characterSize}px 'IBM Plex Mono', monospace`;
+    context!.font = `${characterSize}px 'Departure Mono', monospace`;
     context!.textAlign = "center";
     context!.textBaseline = "middle";
     for (const particle of particles)

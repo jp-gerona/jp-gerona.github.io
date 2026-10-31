@@ -10,7 +10,7 @@ export function ogImageMarkup(authorOrBrand: string, title: string) {
       justify-content: center;
       align-items: center;
       background: #fbfbfb;
-      font-family: 'Crimson Pro';
+      font-family: 'Libron';
       padding: 72px;
     "
   >
@@ -29,7 +29,7 @@ export function ogImageMarkup(authorOrBrand: string, title: string) {
       style="
         display: flex;
         margin-top: 26px;
-        font-family: 'IBM Plex Mono';
+        font-family: 'Departure Mono';
         font-size: 22px;
         color: #6e6e73;
         letter-spacing: 4px;

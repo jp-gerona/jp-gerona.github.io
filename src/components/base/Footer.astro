@@ -39,7 +39,7 @@ const linkColor = skyTheme ? "color-white" : "color-gruvbox-gray-h";
       footerSections.map(section => (
         <ul class="flex flex-col gap-2">
           <li>
-            <p class:list={["text-[0.7em] leading-relaxed tracking-tight font-mono shrink-0 uppercase", textColor]}>{section.label}</p>
+            <p class:list={["text-[0.6875rem] leading-relaxed tracking-tight font-mono shrink-0 uppercase", textColor]}>{section.label}</p>
           </li>
           {section.items.map((item) => {
             const isInternal = item.href.startsWith("/");
@@ -47,7 +47,7 @@ const linkColor = skyTheme ? "color-white" : "color-gruvbox-gray-h";
             return (
               <li>
                 <Link
-                  class:list={["text-[0.7em] leading-none tracking-tight font-mono shrink-0 uppercase", linkColor]}
+                  class:list={["text-[0.6875rem] leading-none tracking-tight font-mono shrink-0 uppercase", linkColor]}
                   href={item.href}
                   title={item.title ?? item.label}
                   external={item.external}
@@ -63,7 +63,7 @@ const linkColor = skyTheme ? "color-white" : "color-gruvbox-gray-h";
       ))
     }
   </div>
-  <p class:list={["text-[0.7em] font-mono uppercase", textColor, skyTheme && "relative z-1"]}>
+  <p class:list={["text-[0.6875rem] font-mono uppercase", textColor, skyTheme && "relative z-1"]}>
     {copyrightPrefix}
     <Link
       class="decoration-current underline-offset-4 underline! decoration-dashed!"

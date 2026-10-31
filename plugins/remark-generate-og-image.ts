@@ -17,24 +17,24 @@ interface OgImageOptions {
   fallbackTitle: string;
 }
 
-const CrimsonPro = readFileSync(join(process.cwd(), "plugins/og-template/CrimsonPro-Regular.ttf"));
-const IBMPlexMono = readFileSync(join(process.cwd(), "plugins/og-template/IBMPlexMono-Regular.ttf"));
+const Libron = readFileSync(join(process.cwd(), "plugins/og-template/Libron-Regular.ttf"));
+const DepartureMono = readFileSync(join(process.cwd(), "plugins/og-template/DepartureMono-Regular.otf"));
 
 const satoriOptions: SatoriOptions = {
   width: 1200,
   height: 630,
   fonts: [
     {
-      name: "Crimson Pro",
+      name: "Libron",
       weight: 400,
       style: "normal",
-      data: CrimsonPro,
+      data: Libron,
     },
     {
-      name: "IBM Plex Mono",
+      name: "Departure Mono",
       weight: 400,
       style: "normal",
-      data: IBMPlexMono,
+      data: DepartureMono,
     },
   ],
 };

@@ -100,7 +100,7 @@ Stack: Astro 6, UnoCSS, GSAP, Lenis. Package manager: pnpm.
 
 ### Styling
 
-- UnoCSS (`uno.config.ts`): presetWind4 + attributify + typography + icons (`ri` set) + web fonts (Plus Jakarta Sans/Crimson Pro/IBM Plex Mono, locally processed into `public/assets/fonts/`).
+- UnoCSS (`uno.config.ts`): presetWind4 + attributify + typography + icons (`ri` set). Font families use system UI for sans, Libron for serif, and Departure Mono for mono. Custom fonts are self-hosted under `public/assets/fonts/` and declared in `src/styles/main.css`; small mono labels use 11px at the default root size for crisp pixel rendering.
 - Theme colors `catpuccin` and `gruvbox` from `src/themes/`, used as `*-catpuccin-*` / `*-gruvbox-*` tokens (e.g. `bg-catpuccin-base`).
 - Focus-visible rings in uno `preflights` (`.focus-ring-core` / `.focus-ring-link`) — reuse for accessible focus styling.
 - `env` helper (`src/utils/env.ts`) gates prod-only code (e.g. analytics in `Head.astro`).
