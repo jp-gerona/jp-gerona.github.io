@@ -49,6 +49,15 @@ Discuss changes tersely (caveman style) to reduce token usage. Code, commits, an
 
 ## Project
 
+### Portfolio writing skill
+
+For writing or revising portfolio content, including homepage and About copy,
+project descriptions, blog drafts, and UI microcopy, read
+`.claude/skills/portfolio-writing/SKILL.md`. Its references distinguish voice
+preferences, factual evidence, and approved samples. Existing portfolio copy is
+not a positive voice reference and its claims require verification. The skill
+also appears through `.agents/skills/portfolio-writing` for compatible agents.
+
 Personal portfolio for Julian Peter Gerona. Static site on GitHub Pages at https://jp-gerona.me. Goal: Lighthouse ~100 across Performance, Accessibility, Best Practices, SEO.
 
 Stack: Astro 6, UnoCSS, GSAP, Lenis. Package manager: pnpm.
